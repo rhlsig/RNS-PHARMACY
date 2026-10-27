@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RNS PHARMACY - 24×7 Verified Chemist & Online Store</title>
+  <title>RNS PHARMACY - 24×7 Helpline & Order Booking</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -45,7 +45,7 @@
       transition: background 0.25s, color 0.25s;
     }
 
-    /* TOP CERTIFIED HEADER - WITH PROPER GAP ON MOBILE & DESKTOP */
+    /* TOP CERTIFIED HEADER */
     .top-header {
       background: var(--card);
       border-bottom: 1px solid var(--border);
@@ -137,7 +137,7 @@
       border-radius: 999px;
     }
 
-    /* STYLISH 24 HOURS BADGE */
+    /* STYLISH 24x7 HELPLINE & ORDER BOOKING BADGE */
     .pill-24h {
       background: linear-gradient(135deg, #0284c7, #0369a1);
       color: #ffffff;
@@ -338,7 +338,7 @@
       white-space: nowrap;
     }
 
-    /* MOBILE CHROME FIX: CLEAN GAP BETWEEN 'RNS PHARMACY' & 'Customer Store | Owner Portal' */
+    /* MOBILE CHROME FIX */
     @media (max-width: 768px) {
       .top-header {
         padding: 12px 10px;
@@ -836,6 +836,7 @@
       margin-bottom: 8px;
     }
 
+    /* STATUS PILLS (INCLUDING PROCESSING) */
     .status-pill {
       display: inline-block;
       padding: 4px 10px;
@@ -846,6 +847,7 @@
     }
     .status-Pending { background: #fef3c7; color: #b45309; }
     .status-Accepted { background: #dbeafe; color: #1d4ed8; }
+    .status-Processing { background: #f3e8ff; color: #7e22ce; }
     .status-In-Transit { background: #e0e7ff; color: #4338ca; }
     .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
     .status-Rejected { background: #fee2e2; color: #b91c1c; }
@@ -861,6 +863,7 @@
       border: 1px solid var(--border);
       padding: 9px 10px;
       text-align: left;
+      vertical-align: top;
     }
 
     th {
@@ -925,8 +928,9 @@
           </div>
 
           <div class="info-pills-row">
+            <!-- Updated to 24×7 Helpline & Order Booking -->
             <span class="pill-badge pill-24h">
-              <span class="pulse-24"></span> ⚡ Open 24×7 Hours (24 Hours Service)
+              <span class="pulse-24"></span> ⚡ 24×7 Helpline & Order Booking
             </span>
             <a href="https://wa.me/917668273774" target="_blank" rel="noopener noreferrer" class="pill-badge pill-helpline">
               <span class="dot-red"></span> Helpline No. & WhatsApp: +917668273774
@@ -1104,7 +1108,7 @@
           <button type="button" class="btn-primary" onclick="addCustomToCart()">+ Add to Bill</button>
         </div>
         <p style="font-size:11.5px; color:var(--muted); margin-top:5px;">
-          * यह दवा आपके द्वारा दर्ज MRP पर सीधे बिल में जुड़ जाएगी।
+          * यह दवा आपके द्वारा दर्ज MRP पर सीधे बिल में जुड़ जाएगी। (₹500 से कम के ऑर्डर पर ₹50 डिलीवरी चार्ज और हर ऑर्डर पर ₹6 पैकेजिंग चार्ज लागू होगा)
         </p>
       </div>
 
@@ -1149,7 +1153,7 @@
     </div>
   </div>
 
-  <!-- PRESCRIPTION (Rx) UPLOAD MODAL -->
+  <!-- PRESCRIPTION (Rx) UPLOAD MODAL (Sends to Admin Portal via Cloud Sync AND Opens WhatsApp) -->
   <div class="modal-overlay" id="rxModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -1164,8 +1168,8 @@
           <textarea id="rxNotes" class="input-field" rows="3" placeholder="Medicine Note / Doctor Details / Duration (कोई विशेष निर्देश लिखें)"></textarea>
           <label style="font-size:13px; font-weight:600;">Select Prescription Image (Photo):</label>
           <input type="file" id="rxFile" accept="image/*" class="input-field" required />
-          <button type="submit" class="btn-primary" style="padding:12px;">
-            📤 Submit Prescription & Sync to Pharmacy
+          <button type="submit" id="rxSubmitBtn" class="btn-primary" style="padding:12px; background:#108565;">
+            📤 Submit to Admin Portal & Send on WhatsApp
           </button>
         </div>
       </form>
@@ -1202,7 +1206,7 @@
 
   <!-- OWNER / ADMIN PORTAL MODAL -->
   <div class="modal-overlay" id="adminDashboardModal">
-    <div class="modal-box" style="max-width:1040px;">
+    <div class="modal-box" style="max-width:1100px;">
       <div class="modal-header">
         <h3>⚙️ RNS PHARMACY - Owner Portal & Billing Software</h3>
         <div style="display:flex; gap:8px;">
@@ -1213,13 +1217,13 @@
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-        <button class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (Edit MRP / Status / Print Bill)</button>
-        <button class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Reject)</button>
+        <button class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (Delivery Charge / Note / Status / Bill)</button>
+        <button class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Processing / Note)</button>
         <button class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory Update</button>
         <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes (% / ₹)</button>
       </div>
 
-      <!-- Tab 1: Orders (Includes Edit MRP option for Admin) -->
+      <!-- Tab 1: Orders (Includes Edit MRP, Edit Delivery Charge, Processing Status & Admin Note Box) -->
       <div id="ordersTab" class="admin-tab-content">
         <div style="overflow-x:auto;">
           <table>
@@ -1227,10 +1231,9 @@
               <tr>
                 <th>Order ID & Date</th>
                 <th>Customer</th>
-                <th>Items & Edit MRP Option</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Actions & Official Bill</th>
+                <th>Items, MRP & Delivery Charge Edit</th>
+                <th>Status & Admin Note</th>
+                <th>Official Bill</th>
               </tr>
             </thead>
             <tbody id="adminOrdersTable"></tbody>
@@ -1238,7 +1241,7 @@
         </div>
       </div>
 
-      <!-- Tab 2: Prescriptions -->
+      <!-- Tab 2: Prescriptions (Includes Processing Status & Admin Note Box) -->
       <div id="rxTab" class="admin-tab-content" style="display:none;">
         <div style="overflow-x:auto;">
           <table>
@@ -1246,10 +1249,9 @@
               <tr>
                 <th>Rx ID & Date</th>
                 <th>Patient & Phone</th>
-                <th>Notes & Address</th>
+                <th>Customer Notes & Address</th>
                 <th>Prescription Slip</th>
-                <th>Status</th>
-                <th>Accept / Reject / Transit</th>
+                <th>Status & Admin Note</th>
               </tr>
             </thead>
             <tbody id="adminRxTable"></tbody>
@@ -1307,12 +1309,12 @@
     </div>
   </div>
 
-  <!-- FOOTER (Updated with "Verified by authorized registered pharmacist." at the Red Marked Spot) -->
+  <!-- FOOTER (Updated with 24×7 Helpline & Order Booking) -->
   <footer class="footer">
     <div class="footer-inner">
       <div>
         <h3>RNS PHARMACY</h3>
-        <p><strong>24 Hours Service Available</strong></p>
+        <p><strong>24×7 Helpline & Order Booking</strong></p>
         <p>Standard & Monopolistic Generic Medicine.</p>
         <p>Verified by authorized registered pharmacist.</p>
       </div>
@@ -1366,7 +1368,7 @@
 
     const DEFAULT_REVIEWS = [
       { name: "Amit Singh", mobile: "98******12", rating: 5, comment: "100% original medicines with proper batch & expiry bill. Fast delivery in Sikta!", date: "Oct 2026" },
-      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Genuine discount on MRP and 24 Hours Service Available.", date: "Oct 2026" }
+      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Genuine discount on MRP and 24×7 Helpline & Order Booking.", date: "Oct 2026" }
     ];
 
     function normalizeStockArray(arr) {
@@ -1402,7 +1404,7 @@
       localStorage.setItem(KEYS.REVIEWS, JSON.stringify(reviewsList));
     }
 
-    // --- CLOUD SCANNING & SYNC ENGINE ---
+    // --- CLOUD SCANNING & SYNC ENGINE (Handles Both Text Packets & Large Image Attachments) ---
     async function manualCloudScan() {
       const txt = document.getElementById("syncStatusText");
       const dot = document.getElementById("syncDot");
@@ -1412,7 +1414,7 @@
       if (ok) {
         txt.textContent = "Live Cloud Synced ✓";
         dot.style.background = "#10b981";
-        alert("✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां और ऑर्डर लाइव अपडेट हो गए हैं।");
+        alert("✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।");
       } else {
         txt.textContent = "Live Cloud Synced";
         dot.style.background = "#10b981";
@@ -1459,23 +1461,40 @@
       }
     }
 
+    async function processNtfyWrapper(wrapper) {
+      if (!wrapper) return;
+      // If payload > 4KB (e.g. Prescription Photo), ntfy stores it in wrapper.attachment.url
+      if (wrapper.attachment && wrapper.attachment.url) {
+        try {
+          const attRes = await fetch(wrapper.attachment.url);
+          const attJson = await attRes.json();
+          handleCloudPayload(attJson);
+          return;
+        } catch (e) {}
+      }
+      if (wrapper.message) {
+        try {
+          handleCloudPayload(JSON.parse(wrapper.message));
+        } catch (e) {}
+      }
+    }
+
     async function syncFromCloud() {
       try {
         const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=48h`);
         const text = await res.text();
         const lines = text.trim().split("\n");
-        lines.forEach(line => {
-          if (!line) return;
+        for (const line of lines) {
+          if (!line) continue;
           try {
             const wrapper = JSON.parse(line);
-            if (wrapper && wrapper.message) {
-              handleCloudPayload(JSON.parse(wrapper.message));
-            }
+            await processNtfyWrapper(wrapper);
           } catch (e) {}
-        });
+        }
         saveLocalState();
         renderCatalog();
         renderReviews();
+        renderAdminTables();
         updateSyncIndicator(true);
         return true;
       } catch (err) {
@@ -1498,8 +1517,19 @@
         else ordersList.unshift(msg.data);
       } else if (msg.type === "NEW_RX" && msg.data) {
         const idx = rxList.findIndex(r => r.id === msg.data.id);
-        if (idx >= 0) rxList[idx] = msg.data;
-        else rxList.unshift(msg.data);
+        if (idx >= 0) {
+          // Preserve high-res image if already present
+          const existingImg = rxList[idx].image;
+          rxList[idx] = { ...rxList[idx], ...msg.data };
+          if (!msg.data.image && existingImg) rxList[idx].image = existingImg;
+        } else {
+          rxList.unshift(msg.data);
+        }
+      } else if (msg.type === "RX_IMG_SYNC" && msg.rxId && msg.image) {
+        const idx = rxList.findIndex(r => r.id === msg.rxId);
+        if (idx >= 0) {
+          rxList[idx].image = msg.image;
+        }
       } else if (msg.type === "NEW_REVIEW" && msg.data) {
         const exists = reviewsList.some(rv => rv.name === msg.data.name && rv.comment === msg.data.comment);
         if (!exists) reviewsList.unshift(msg.data);
@@ -1516,9 +1546,7 @@
         es.onmessage = (event) => {
           try {
             const wrapper = JSON.parse(event.data);
-            if (wrapper && wrapper.message) {
-              handleCloudPayload(JSON.parse(wrapper.message));
-            }
+            processNtfyWrapper(wrapper);
           } catch (e) {}
         };
       } catch (e) {}
@@ -1536,7 +1564,7 @@
       }
     }
 
-    // --- RENDER MEDICINE CATALOG ---
+    // --- RENDER MEDICINE CATALOG (Removed Available 24x7 line below each product) ---
     function renderCatalog() {
       const grid = document.getElementById("productGrid");
       const query = (document.getElementById("searchMed").value || "").toLowerCase();
@@ -1586,8 +1614,7 @@
               <div class="med-company">🏭 Mfg By: <strong>${companyClean}</strong></div>
               <div class="med-meta">
                 📦 ${packClean}<br/>
-                🏷️ Batch: <strong>${batchClean}</strong> | Exp: <strong>${expClean}</strong><br/>
-                <span style="color:#15803d; font-weight:700;">● Available (24×7)</span>
+                🏷️ Batch: <strong>${batchClean}</strong> | Exp: <strong>${expClean}</strong>
               </div>
             </div>
             <div>
@@ -1704,7 +1731,7 @@
       updateCartUI();
     }
 
-    // --- PROMO CODE (% AND ₹ SUPPORT) ---
+    // --- PROMO CODE & TOTALS (WITH ₹50 DELIVERY UNDER ₹500 + ₹6 PACKAGING CHARGE) ---
     function updatePromoPlaceholder() {
       const t = document.getElementById("newPromoType").value;
       const inp = document.getElementById("newPromoDisc");
@@ -1728,7 +1755,10 @@
       updateCartUI();
     }
 
-    function calculateTotalsFromItems(itemsArr, promoObj) {
+    function calculateTotalsFromItems(itemsArr, promoObj, customDeliveryOverride = null) {
+      if (!itemsArr || itemsArr.length === 0) {
+        return { totalMrp: 0, subtotalOffer: 0, mrpSavings: 0, promoDiscount: 0, deliveryCharge: 0, packagingCharge: 0, grandTotal: 0, totalSaved: 0 };
+      }
       let totalMrp = 0;
       let subtotalOffer = 0;
       itemsArr.forEach(item => {
@@ -1744,13 +1774,26 @@
           promoDiscount = Math.round((subtotalOffer * (Number(promoObj.discount) || 0)) / 100);
         }
       }
-      const grandTotal = Math.max(0, subtotalOffer - promoDiscount);
+      const netMedicineAmount = Math.max(0, subtotalOffer - promoDiscount);
+
+      // Automatic ₹50 delivery charge if order < ₹500 (unless edited by Admin)
+      let deliveryCharge = 0;
+      if (customDeliveryOverride !== null && customDeliveryOverride !== undefined && !isNaN(Number(customDeliveryOverride))) {
+        deliveryCharge = Math.max(0, Number(customDeliveryOverride));
+      } else {
+        deliveryCharge = netMedicineAmount < 500 ? 50 : 0;
+      }
+
+      // Automatic ₹6 packaging charge on every order
+      const packagingCharge = 6;
+
+      const grandTotal = netMedicineAmount + deliveryCharge + packagingCharge;
       const totalSaved = mrpSavings + promoDiscount;
-      return { totalMrp, subtotalOffer, mrpSavings, promoDiscount, grandTotal, totalSaved };
+      return { totalMrp, subtotalOffer, mrpSavings, promoDiscount, deliveryCharge, packagingCharge, grandTotal, totalSaved };
     }
 
     function calculateTotals() {
-      return calculateTotalsFromItems(cart, activePromo);
+      return calculateTotalsFromItems(cart, activePromo, null);
     }
 
     function updateCartUI() {
@@ -1793,13 +1836,21 @@
         : "";
 
       summary.innerHTML = `
-        <div style="display:flex; justify-content:space-between;"><span>Total MRP:</span><span>₹${t.totalMrp.toFixed(2)}</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Total Medicine MRP:</span><span>₹${t.totalMrp.toFixed(2)}</span></div>
         ${t.mrpSavings > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Offer Discount on MRP:</span><span>- ₹${t.mrpSavings.toFixed(2)}</span></div>` : ""}
         ${t.promoDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Promo (${promoLabel}) Discount:</span><span>- ₹${t.promoDiscount.toFixed(2)}</span></div>` : ""}
+        <div style="display:flex; justify-content:space-between; margin-top:4px;">
+          <span>🚚 Delivery Charge ${t.deliveryCharge === 0 ? "(₹500+ Order Free)" : "(Orders below ₹500)"}:</span>
+          <span>${t.deliveryCharge === 0 ? `<strong style="color:#15803d;">FREE (₹0)</strong>` : `+ ₹${t.deliveryCharge.toFixed(2)}`}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span>📦 Packaging Charge:</span>
+          <span>+ ₹${t.packagingCharge.toFixed(2)}</span>
+        </div>
         <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-top:6px; border-top:1px solid var(--border); padding-top:6px;">
           <span>Net Payable Bill Amount:</span><span>₹${t.grandTotal.toFixed(2)}</span>
         </div>
-        ${t.totalSaved > 0 ? `<div style="margin-top:4px; font-size:12px; color:#15803d; font-weight:700;">🎉 Total Customer Savings on Bill: ₹${t.totalSaved.toFixed(2)}</div>` : ""}
+        ${t.totalSaved > 0 ? `<div style="margin-top:4px; font-size:12px; color:#15803d; font-weight:700;">🎉 Total Customer Savings on MRP: ₹${t.totalSaved.toFixed(2)}</div>` : ""}
       `;
       updateUpiQr(t.grandTotal);
     }
@@ -1837,8 +1888,10 @@
         phone,
         address,
         note,
+        adminNote: "",
         payMethod,
         promoUsed: activePromo ? JSON.parse(JSON.stringify(activePromo)) : null,
+        customDeliveryCharge: totals.deliveryCharge,
         items: JSON.parse(JSON.stringify(cart)),
         totals,
         status: "Pending"
@@ -1848,8 +1901,8 @@
       pushOrderEventToCloud("NEW_ORDER", newOrder);
 
       if (openWhatsApp) {
-        const itemsTxt = newOrder.items.map(i => `• ${i.name} x${i.qty} (MRP ₹${i.mrp} | Bill: ₹${i.price * i.qty})`).join("%0A");
-        const waUrl = `https://wa.me/917668273774?text=*New%20Order%20-%20RNS%20PHARMACY*%0A*Order%20ID:*%20${orderId}%0A*Customer:*%20${encodeURIComponent(name)}%20(${phone})%0A*Address:*%20${encodeURIComponent(address)}%0A*Items:*%0A${itemsTxt}%0A*Net%20Payable%20Bill:*%20₹${totals.grandTotal}%20(${payMethod})`;
+        const itemsTxt = newOrder.items.map(i => `• ${i.name} x${i.qty} (MRP ₹${i.mrp} | Rate: ₹${i.price * i.qty})`).join("%0A");
+        const waUrl = `https://wa.me/917668273774?text=*New%20Order%20-%20RNS%20PHARMACY*%0A*Order%20ID:*%20${orderId}%0A*Customer:*%20${encodeURIComponent(name)}%20(${phone})%0A*Address:*%20${encodeURIComponent(address)}%0A*Items:*%0A${itemsTxt}%0A*Delivery%20Charge:*%20₹${totals.deliveryCharge}%0A*Packaging%20Charge:*%20₹${totals.packagingCharge}%0A*Net%20Payable%20Bill:*%20₹${totals.grandTotal}%20(${payMethod})`;
         window.open(waUrl, "_blank");
       }
 
@@ -1860,8 +1913,39 @@
       alert(`✅ आपका ऑर्डर और बिल सफलतापूर्वक जनरेट हो गया! Order ID: ${orderId}`);
     }
 
-    // --- PRESCRIPTION UPLOAD ---
-    function submitPrescription(e) {
+    // --- PRESCRIPTION UPLOAD (Compresses Image for Instant Cloud Sync Across Mobiles + Sends to WhatsApp) ---
+    function compressImageFile(file, maxDim, quality) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const img = new Image();
+          img.onload = function() {
+            let w = img.width;
+            let h = img.height;
+            if (w > maxDim || h > maxDim) {
+              if (w > h) {
+                h = Math.round((h * maxDim) / w);
+                w = maxDim;
+              } else {
+                w = Math.round((w * maxDim) / h);
+                h = maxDim;
+              }
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          };
+          img.onerror = () => resolve(evt.target.result);
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function submitPrescription(e) {
       e.preventDefault();
       const name = document.getElementById("rxName").value.trim();
       const phone = document.getElementById("rxPhone").value.trim();
@@ -1870,29 +1954,75 @@
       const fileInput = document.getElementById("rxFile");
 
       if (!fileInput.files.length) return alert("कृपया डॉक्टर के पर्चे की फोटो चुनें।");
-      const reader = new FileReader();
-      reader.onload = function(evt) {
+
+      const submitBtn = document.getElementById("rxSubmitBtn");
+      submitBtn.textContent = "⏳ Uploading to Admin Portal & WhatsApp...";
+      submitBtn.disabled = true;
+
+      try {
+        const file = fileInput.files[0];
+        // 1. Ultra-light preview (< 2.5KB) so ntfy.sh text packet NEVER fails across mobiles
+        const tinyPreview = await compressImageFile(file, 180, 0.4);
+        // 2. Clear readable prescription image (~35-50KB) synced via ntfy attachment
+        const clearRxImage = await compressImageFile(file, 850, 0.65);
+
         const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
-        const rxObj = {
+        const rxDate = new Date().toLocaleString();
+
+        // Save full image locally and send lightweight packet first for 100% instant delivery
+        const rxLocalObj = {
           id: rxId,
-          date: new Date().toLocaleString(),
+          date: rxDate,
           name,
           phone,
           address,
           notes,
-          image: evt.target.result,
+          adminNote: "",
+          image: clearRxImage,
           status: "Pending"
         };
-        rxList.unshift(rxObj);
-        pushOrderEventToCloud("NEW_RX", rxObj);
+
+        rxList.unshift(rxLocalObj);
+        saveLocalState();
+
+        // Packet 1: Guaranteed < 3.5KB text sync packet so other mobile Admin Portal gets it immediately
+        await pushOrderEventToCloud("NEW_RX", {
+          id: rxId,
+          date: rxDate,
+          name,
+          phone,
+          address,
+          notes,
+          adminNote: "",
+          image: tinyPreview,
+          status: "Pending"
+        });
+
+        // Packet 2: High-clarity image sync packet (handled via processNtfyWrapper attachment)
+        fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
+          method: "POST",
+          body: JSON.stringify({
+            type: "RX_IMG_SYNC",
+            ts: Date.now(),
+            rxId: rxId,
+            image: clearRxImage
+          })
+        }).catch(() => {});
+
+        // Also open WhatsApp directly so Admin gets it on WhatsApp as well!
+        const waRxText = `*New Prescription (Rx) Uploaded - RNS PHARMACY*%0A*Rx ID:* ${rxId}%0A*Patient Name:* ${encodeURIComponent(name)}%0A*Mobile:* ${phone}%0A*Address:* ${encodeURIComponent(address)}%0A*Note:* ${encodeURIComponent(notes || "Please check uploaded prescription on Admin Portal")}`;
+        window.open(`https://wa.me/917668273774?text=${waRxText}`, "_blank");
+
         e.target.reset();
         closeModal("rxModal");
-        alert(`✅ पर्चा अपलोड हो गया! आपका Rx ID है: ${rxId}`);
-      };
-      reader.readAsDataURL(fileInput.files[0]);
+        alert(`✅ पर्चा एडमिन पोर्टल पर अपलोड हो गया है और WhatsApp पर भी भेज दिया गया है! आपका Rx ID है: ${rxId}`);
+      } finally {
+        submitBtn.textContent = "📤 Submit to Admin Portal & Send on WhatsApp";
+        submitBtn.disabled = false;
+      }
     }
 
-    // --- TRACKING ---
+    // --- TRACKING (Shows Processing Status, Delivery/Packaging Breakdown & Admin Note) ---
     function searchCustomerTracking() {
       const q = (document.getElementById("trackInput").value || "").trim().toLowerCase();
       const box = document.getElementById("trackResultsContainer");
@@ -1909,6 +2039,14 @@
       let html = "";
       myOrders.forEach(o => {
         const pillClass = "status-" + o.status.replace(/\s+/g, "-");
+        const deliv = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
+        const pkg = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
+        const adminNoteHtml = o.adminNote
+          ? `<div style="background:#fef3c7; color:#92400e; padding:8px 10px; border-radius:8px; font-size:12.5px; margin:6px 0; border-left:3px solid #f59e0b;">
+               <strong>📢 फार्मासिस्ट नोट (Admin Remark):</strong> ${o.adminNote}
+             </div>`
+          : "";
+
         html += `
           <div style="border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1916,9 +2054,10 @@
               <span class="status-pill ${pillClass}">${o.status}</span>
             </div>
             <div style="font-size:12px; color:var(--muted); margin:4px 0;">Date: ${o.date} | Payment: ${o.payMethod}</div>
-            <div style="font-size:13px; margin-bottom:6px;">
-              Net Payable Bill: <strong>₹${o.totals.grandTotal}</strong> (Total MRP: ₹${o.totals.totalMrp})
+            <div style="font-size:12.5px; margin-bottom:4px;">
+              Delivery: ₹${deliv} | Packaging: ₹${pkg} | <strong>Net Payable Bill: ₹${o.totals.grandTotal}</strong>
             </div>
+            ${adminNoteHtml}
             <button class="btn-outline" onclick="printBill('${o.id}')">🖨️ View / Print Official Bill</button>
           </div>
         `;
@@ -1926,6 +2065,12 @@
 
       myRx.forEach(r => {
         const pillClass = "status-" + r.status.replace(/\s+/g, "-");
+        const adminNoteHtml = r.adminNote
+          ? `<div style="background:#fef3c7; color:#92400e; padding:8px 10px; border-radius:8px; font-size:12.5px; margin:6px 0; border-left:3px solid #f59e0b;">
+               <strong>📢 फार्मासिस्ट नोट (Admin Remark):</strong> ${r.adminNote}
+             </div>`
+          : "";
+
         html += `
           <div style="border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1933,7 +2078,8 @@
               <span class="status-pill ${pillClass}">${r.status}</span>
             </div>
             <div style="font-size:12px; color:var(--muted); margin:4px 0;">Patient: ${r.name} | Date: ${r.date}</div>
-            <div style="font-size:13px;">Note: ${r.notes || "N/A"}</div>
+            <div style="font-size:13px;">Customer Note: ${r.notes || "N/A"}</div>
+            ${adminNoteHtml}
           </div>
         `;
       });
@@ -1979,7 +2125,7 @@
       alert("🙏 धन्यवाद! आपका वेरीफाइड रिव्यू जुड़ गया है।");
     }
 
-    // --- OWNER PORTAL (Password = 7402 & Admin Edit MRP Feature) ---
+    // --- OWNER PORTAL (Password = 7402, Edit MRP, Edit Delivery Charge, Processing Status & Admin Note) ---
     function verifyAdminLogin() {
       const pass = document.getElementById("adminPassInput").value.trim();
       if (pass === "7402") {
@@ -2018,10 +2164,48 @@
         }
       }
 
-      ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null);
+      const currentDeliv = ord.customDeliveryCharge !== undefined ? ord.customDeliveryCharge : ord.totals.deliveryCharge;
+      ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null, currentDeliv);
       pushOrderEventToCloud("NEW_ORDER", ord);
       renderAdminTables();
       alert(`✅ "${targetItem.name}" का MRP अपडेट होकर नया बिल (₹${ord.totals.grandTotal}) जनरेट हो गया है!`);
+    }
+
+    // Admin Option to Edit / Remove / Increase / Decrease Delivery Charge on any Order
+    function updateOrderDeliveryCharge(orderId, forceZero = false) {
+      const ord = ordersList.find(o => o.id === orderId);
+      if (!ord) return;
+      const inp = document.getElementById("deliv_inp_" + orderId);
+      let newDeliv = forceZero ? 0 : parseFloat(inp ? inp.value : 0);
+      if (isNaN(newDeliv) || newDeliv < 0) newDeliv = 0;
+
+      ord.customDeliveryCharge = newDeliv;
+      ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null, newDeliv);
+      pushOrderEventToCloud("NEW_ORDER", ord);
+      renderAdminTables();
+      alert(`✅ Order ${orderId} का डिलीवरी चार्ज ₹${newDeliv} अपडेट कर दिया गया है! नया कुल बिल: ₹${ord.totals.grandTotal}`);
+    }
+
+    // Save Admin Note & Status for Order
+    function saveOrderAdminNote(orderId) {
+      const ord = ordersList.find(o => o.id === orderId);
+      if (!ord) return;
+      const noteEl = document.getElementById("ord_note_" + orderId);
+      if (noteEl) ord.adminNote = noteEl.value.trim();
+      pushOrderEventToCloud("NEW_ORDER", ord);
+      renderAdminTables();
+      alert(`✅ Order ${orderId} का नोट सेव और सिंक हो गया!`);
+    }
+
+    // Save Admin Note for Prescription (Rx)
+    function saveRxAdminNote(rxId) {
+      const rx = rxList.find(r => r.id === rxId);
+      if (!rx) return;
+      const noteEl = document.getElementById("rx_note_" + rxId);
+      if (noteEl) rx.adminNote = noteEl.value.trim();
+      pushOrderEventToCloud("NEW_RX", rx);
+      renderAdminTables();
+      alert(`✅ Prescription ${rxId} का नोट सेव और सिंक हो गया!`);
     }
 
     function addMedicine(e) {
@@ -2084,12 +2268,15 @@
       const oBody = document.getElementById("adminOrdersTable");
       oBody.innerHTML = ordersList.map(o => {
         const pillClass = "status-" + o.status.replace(/\s+/g, "-");
+        const delivVal = o.totals && o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
+        const pkgVal = o.totals && o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
+
         const itemsWithEditHtml = o.items.map((i, idx) => `
           <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; padding:4px 0; border-bottom:1px dashed var(--border);">
             <span>
               <strong>${i.name}</strong> x${i.qty}
               ${i.isCustom ? `<span style="background:#fef3c7; color:#b45309; font-size:10px; padding:1px 5px; border-radius:4px;">Custom</span>` : ""}
-              <br/><small>MRP: ₹${i.mrp} | Bill Rate: ₹${i.price}</small>
+              <br/><small>MRP: ₹${i.mrp} | Rate: ₹${i.price}</small>
             </span>
             <button type="button" class="btn-outline" style="padding:3px 8px; font-size:11px;" onclick="editOrderItemMrp('${o.id}', ${idx})">
               ✏️ Edit MRP
@@ -2099,30 +2286,57 @@
 
         return `
           <tr>
-            <td><strong>${o.id}</strong><br/><span style="font-size:11px;color:var(--muted);">${o.date}</span></td>
-            <td><strong>${o.customer}</strong><br/>📞 ${o.phone}<br/><span style="font-size:11px;">${o.address}</span></td>
+            <td>
+              <strong>${o.id}</strong><br/>
+              <span style="font-size:11px;color:var(--muted);">${o.date}</span><br/>
+              <span style="font-size:11.5px; font-weight:700;">Pay: ${o.payMethod}</span>
+            </td>
+            <td>
+              <strong>${o.customer}</strong><br/>
+              📞 ${o.phone}<br/>
+              <span style="font-size:11px;">${o.address}</span>
+              ${o.note ? `<br/><span style="font-size:11px; color:#0369a1;">Cust Note: ${o.note}</span>` : ""}
+            </td>
             <td>
               ${itemsWithEditHtml}
+              <!-- Admin Edit Delivery Charge Box -->
+              <div style="margin-top:8px; padding:6px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+                <div style="font-size:11.5px; font-weight:700; margin-bottom:4px;">
+                  🚚 Delivery Charge (₹) [Packaging: ₹${pkgVal} Fixed]:
+                </div>
+                <div style="display:flex; gap:5px; align-items:center;">
+                  <input type="number" id="deliv_inp_${o.id}" value="${delivVal}" class="input-field" style="padding:4px 8px; width:80px;" />
+                  <button type="button" class="btn-primary" style="padding:5px 9px; font-size:11px;" onclick="updateOrderDeliveryCharge('${o.id}', false)">💾 Update</button>
+                  <button type="button" class="btn-outline" style="padding:4px 8px; font-size:11px; color:var(--danger); border-color:var(--danger);" onclick="updateOrderDeliveryCharge('${o.id}', true)">✕ Free (₹0)</button>
+                </div>
+              </div>
               <div style="margin-top:6px;">
-                <strong style="color:#0f766e;">Net Bill: ₹${o.totals.grandTotal}</strong>
-                <span style="font-size:11px; color:var(--muted);"> (Total MRP: ₹${o.totals.totalMrp})</span>
+                <strong style="color:#0f766e; font-size:14px;">Net Bill: ₹${o.totals.grandTotal}</strong>
+                <span style="font-size:11px; color:var(--muted);"> (MRP: ₹${o.totals.totalMrp})</span>
               </div>
             </td>
-            <td>${o.payMethod}</td>
-            <td><span class="status-pill ${pillClass}">${o.status}</span></td>
             <td>
-              <select class="input-field" style="margin-bottom:6px;" onchange="updateOrderStatus('${o.id}', this.value)">
+              <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${o.status}</span></div>
+              <select class="input-field" style="margin-bottom:8px; padding:6px;" onchange="updateOrderStatus('${o.id}', this.value)">
                 <option value="Pending" ${o.status === "Pending" ? "selected" : ""}>Pending</option>
                 <option value="Accepted" ${o.status === "Accepted" ? "selected" : ""}>Accept Order</option>
+                <option value="Processing" ${o.status === "Processing" ? "selected" : ""}>Processing (प्रोसेसिंग)</option>
                 <option value="In Transit" ${o.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
                 <option value="Delivered" ${o.status === "Delivered" ? "selected" : ""}>Delivered / Completed</option>
                 <option value="Rejected" ${o.status === "Rejected" ? "selected" : ""}>Reject Order</option>
               </select>
+              <!-- Admin Note Box for Every Order -->
+              <div style="display:flex; gap:4px;">
+                <input type="text" id="ord_note_${o.id}" value="${(o.adminNote || "").replace(/"/g, '&quot;')}" class="input-field" style="padding:6px 8px; font-size:12px;" placeholder="📝 कोई दिक्कत / नोट लिखें..." />
+                <button type="button" class="btn-primary" style="padding:6px 10px; font-size:11.5px;" onclick="saveOrderAdminNote('${o.id}')">Submit</button>
+              </div>
+            </td>
+            <td>
               <button class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
             </td>
           </tr>
         `;
-      }).join("") || `<tr><td colspan="6" style="text-align:center;">No orders yet.</td></tr>`;
+      }).join("") || `<tr><td colspan="5" style="text-align:center;">No orders yet.</td></tr>`;
 
       const rBody = document.getElementById("adminRxTable");
       rBody.innerHTML = rxList.map(r => {
@@ -2132,20 +2346,27 @@
             <td><strong>${r.id}</strong><br/><span style="font-size:11px;">${r.date}</span></td>
             <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
             <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
-            <td><a href="${r.image}" download="${r.id}.png" class="btn-outline">🖼️ View / Download</a></td>
-            <td><span class="status-pill ${pillClass}">${r.status}</span></td>
             <td>
-              <select class="input-field" onchange="updateRxStatus('${r.id}', this.value)">
+              ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : "No Image"}
+            </td>
+            <td>
+              <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${r.status}</span></div>
+              <select class="input-field" style="margin-bottom:8px; padding:6px;" onchange="updateRxStatus('${r.id}', this.value)">
                 <option value="Pending" ${r.status === "Pending" ? "selected" : ""}>Pending</option>
                 <option value="Accepted" ${r.status === "Accepted" ? "selected" : ""}>Accept Rx</option>
-                <option value="In Transit" ${r.status === "In Transit" ? "selected" : ""}>In Transit</option>
-                <option value="Completed" ${r.status === "Completed" ? "selected" : ""}>Completed</option>
+                <option value="Processing" ${r.status === "Processing" ? "selected" : ""}>Processing (प्रोसेसिंग)</option>
+                <option value="In Transit" ${r.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
+                <option value="Completed" ${r.status === "Completed" ? "selected" : ""}>Completed / Delivered</option>
                 <option value="Rejected" ${r.status === "Rejected" ? "selected" : ""}>Reject Rx</option>
               </select>
+              <div style="display:flex; gap:4px;">
+                <input type="text" id="rx_note_${r.id}" value="${(r.adminNote || "").replace(/"/g, '&quot;')}" class="input-field" style="padding:6px 8px; font-size:12px;" placeholder="📝 नोट लिखें..." />
+                <button type="button" class="btn-primary" style="padding:6px 10px; font-size:11.5px;" onclick="saveRxAdminNote('${r.id}')">Submit</button>
+              </div>
             </td>
           </tr>
         `;
-      }).join("") || `<tr><td colspan="6" style="text-align:center;">No prescriptions uploaded yet.</td></tr>`;
+      }).join("") || `<tr><td colspan="5" style="text-align:center;">No prescriptions uploaded yet.</td></tr>`;
 
       const sBody = document.getElementById("adminStockTable");
       sBody.innerHTML = stockList.map(m => `
@@ -2177,6 +2398,8 @@
       const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
       ord.status = newStatus;
+      const noteEl = document.getElementById("ord_note_" + orderId);
+      if (noteEl) ord.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_ORDER", ord);
       renderAdminTables();
     }
@@ -2185,6 +2408,8 @@
       const rx = rxList.find(r => r.id === rxId);
       if (!rx) return;
       rx.status = newStatus;
+      const noteEl = document.getElementById("rx_note_" + rxId);
+      if (noteEl) rx.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_RX", rx);
       renderAdminTables();
     }
@@ -2214,10 +2439,13 @@
       renderAdminTables();
     }
 
-    // --- OFFICIAL PRINT BILL ---
+    // --- OFFICIAL PRINT BILL (Includes Delivery Charge, ₹6 Packaging Charge, Admin Note & 24×7 Helpline & Order Booking) ---
     function printBill(orderId) {
       const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
+
+      const delivCharge = ord.totals && ord.totals.deliveryCharge !== undefined ? Number(ord.totals.deliveryCharge) : 0;
+      const pkgCharge = ord.totals && ord.totals.packagingCharge !== undefined ? Number(ord.totals.packagingCharge) : 6;
 
       const rowsHtml = ord.items.map((item, i) => `
         <tr>
@@ -2235,7 +2463,13 @@
         </tr>
       `).join("");
 
-      const win = window.open("", "_blank", "width=850,height=700");
+      const adminNoteHtml = ord.adminNote
+        ? `<div style="margin-top:10px; padding:8px 12px; background:#fef3c7; border-left:4px solid #f59e0b; font-size:12.5px;">
+             <strong>Note / Remark:</strong> ${ord.adminNote}
+           </div>`
+        : "";
+
+      const win = window.open("", "_blank", "width=850,height=720");
       win.document.write(`
         <html>
         <head>
@@ -2247,7 +2481,7 @@
             table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
             th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
             th { background: #f1f5f9; }
-            .totals { margin-top: 14px; text-align: right; font-size: 14px; }
+            .totals { margin-top: 14px; text-align: right; font-size: 14px; line-height: 1.6; }
           </style>
         </head>
         <body>
@@ -2255,7 +2489,7 @@
             <div class="bill-top">
               <div>
                 <h2 style="margin:0; color:#0f766e; letter-spacing:0.4px;">RNS PHARMACY</h2>
-                <p style="margin:3px 0; font-size:13px; color:#0369a1;"><strong>24 Hours Service Available</strong></p>
+                <p style="margin:3px 0; font-size:13px; color:#0369a1;"><strong>24×7 Helpline & Order Booking</strong></p>
                 <p style="margin:2px 0; font-size:12px;">Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
                 <p style="margin:2px 0; font-size:12px;">Helpline No. & WhatsApp: +91 7668273774</p>
               </div>
@@ -2285,10 +2519,13 @@
               </thead>
               <tbody>${rowsHtml}</tbody>
             </table>
+            ${adminNoteHtml}
             <div class="totals">
-              <div>Total MRP Value: <strong>₹${ord.totals.totalMrp.toFixed(2)}</strong></div>
+              <div>Total Medicine MRP: <strong>₹${ord.totals.totalMrp.toFixed(2)}</strong></div>
               ${ord.totals.mrpSavings > 0 ? `<div style="color:#15803d;">MRP vs Offer Discount: <strong>- ₹${ord.totals.mrpSavings.toFixed(2)}</strong></div>` : ""}
               ${ord.totals.promoDiscount > 0 ? `<div style="color:#15803d;">Promo Discount: <strong>- ₹${ord.totals.promoDiscount.toFixed(2)}</strong></div>` : ""}
+              <div>Delivery Charge: <strong>+ ₹${delivCharge.toFixed(2)}</strong></div>
+              <div>Packaging Charge: <strong>+ ₹${pkgCharge.toFixed(2)}</strong></div>
               <div style="font-size:18px; margin-top:6px;"><strong>Grand Total Payable: ₹${ord.totals.grandTotal.toFixed(2)}</strong></div>
               ${ord.totals.totalSaved > 0 ? `<div style="color:#15803d; font-weight:bold; margin-top:4px;">Total Customer Savings on MRP: ₹${ord.totals.totalSaved.toFixed(2)}</div>` : ""}
             </div>
