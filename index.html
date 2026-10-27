@@ -1,411 +1,1046 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RNS PHARMACY - Complete Portal</title>
-​<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-theme: {
-extend: {
-colors: {
-medical: { blue: '#1d4ed8', green: '#059669' }
-}
-}
-}
-}
-</script>
-​<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-​<style>
-body { font-family: 'Inter', sans-serif; }
-.hero-gradient { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
-.tab-active { border-bottom: 2px solid #059669; color: #059669; font-weight: 800; }
-.tab-inactive { color: #64748b; font-weight: 600; }
-.hide-scroll::-webkit-scrollbar { display: none; }
-.hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-​.status-Pending { color: #f59e0b; background: #fef3c7; }
-.status-Accepted { color: #2563eb; background: #dbeafe; }
-.status-Processing { color: #8b5cf6; background: #ede9fe; }
-.status-In-Transit { color: #0891b2; background: #cffafe; }
-.status-Delivered { color: #059669; background: #d1fae5; }
-.status-Rejected { color: #e11d48; background: #ffe4e6; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNS PHARMACY - Sikta</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #f4f7fb; color: #1e293b; padding-bottom: 90px; }
+        
+        /* Header */
+        .header { background: #ffffff; padding: 16px; border-bottom: 1px solid #e2e8f0; }
+        .brand-title { color: #0255a5; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+        .badge-green { background: #e6f7ed; color: #0d8a47; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
+        .badge-blue { background: #e8f0fe; color: #1a56db; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
+        .address-line { font-size: 13px; color: #475569; line-height: 1.4; margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; }
+        .phone-line { font-size: 14px; font-weight: 700; color: #0d8a47; display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .phone-line a { color: #0255a5; text-decoration: none; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; border: 1px solid #cbd5e1; }
+
+        /* Container */
+        .container { max-width: 600px; margin: 0 auto; padding: 14px; }
+
+        /* Mode Switch Tabs */
+        .mode-tabs { display: flex; background: #e2e8f0; padding: 5px; border-radius: 12px; margin-bottom: 14px; }
+        .mode-tab { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 700; border-radius: 9px; cursor: pointer; border: none; background: transparent; color: #475569; transition: 0.2s; }
+        .mode-tab.active { background: #ffffff; color: #0d8a47; box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
+
+        /* Quick Action Buttons */
+        .action-row { display: flex; gap: 10px; margin-bottom: 14px; }
+        .btn-action { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+        .btn-track { background: #1d4ed8; }
+        .btn-wa { background: #22c55e; }
+
+        /* Stock Banner */
+        .stock-banner { background: linear-gradient(135deg, #0b874b, #10b981); color: #ffffff; padding: 18px; border-radius: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+        .stock-banner h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+        .stock-banner p { font-size: 13px; opacity: 0.92; margin-bottom: 14px; }
+        .delivery-box { background: rgba(0,0,0,0.15); border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+        .delivery-box div span { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85; }
+        .delivery-box div strong { font-size: 14px; color: #fde047; }
+        .delivery-box div:last-child strong { color: #ffffff; }
+
+        /* Cards */
+        .card { background: #ffffff; border-radius: 14px; padding: 16px; margin-bottom: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+        .card-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .card-title { font-size: 16px; font-weight: 800; color: #1e3a8a; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+
+        /* Inputs & Buttons */
+        input, select, textarea { width: 100%; padding: 11px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 10px; background: #ffffff; color: #1e293b; }
+        input:focus, select:focus, textarea:focus { outline: 2px solid #2563eb; border-color: transparent; }
+        .btn-primary { width: 100%; background: #1d4ed8; color: #ffffff; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+        .btn-green { width: 100%; background: #16a34a; color: #ffffff; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+        .btn-sm { padding: 7px 12px; font-size: 12px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; }
+
+        /* Medicine Grid */
+        .med-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 10px; background: #ffffff; }
+        .med-info h4 { font-size: 15px; color: #0f172a; margin-bottom: 3px; }
+        .med-meta { font-size: 12px; color: #64748b; margin-bottom: 5px; }
+        .med-price { font-size: 15px; font-weight: 800; color: #0d8a47; }
+        .med-mrp { font-size: 12px; color: #94a3b8; text-decoration: line-through; margin-right: 6px; font-weight: 400; }
+        .btn-add { background: #e6f7ed; color: #0d8a47; border: 1px solid #a7f3d0; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; }
+
+        /* Floating Cart */
+        .floating-cart { position: fixed; bottom: 20px; right: 20px; background: #0f172a; color: #ffffff; padding: 12px 20px; border-radius: 50px; font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 16px rgba(0,0,0,0.25); cursor: pointer; z-index: 900; border: none; }
+        .cart-badge { background: #22c55e; color: #ffffff; padding: 2px 8px; border-radius: 20px; font-size: 13px; }
+
+        /* Admin Sub-navigation */
+        .admin-nav { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 4px; }
+        .admin-tab-btn { flex: 1; white-space: nowrap; padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: #ffffff; font-size: 13px; font-weight: 700; cursor: pointer; color: #475569; }
+        .admin-tab-btn.active { background: #0f172a; color: #ffffff; border-color: #0f172a; }
+
+        /* Modals */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.65); z-index: 1000; align-items: center; justify-content: center; padding: 14px; }
+        .modal-box { background: #ffffff; width: 100%; max-width: 500px; border-radius: 14px; padding: 18px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; }
+        .modal-close { background: none; border: none; font-size: 22px; font-weight: 700; color: #64748b; cursor: pointer; line-height: 1; }
+
+        /* Status Badges */
+        .status-pill { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+        .st-Pending { background: #fef3c7; color: #b45309; }
+        .st-Accepted, .st-Processing, .st-InTransit { background: #dbeafe; color: #1d4ed8; }
+        .st-Delivered { background: #dcfce7; color: #15803d; }
+        .st-Rejected { background: #fee2e2; color: #b91c1c; }
+
+        /* Print Invoice Styles */
+        .invoice-box { border: 2px solid #0f172a; padding: 16px; border-radius: 8px; background: #ffffff; color: #000000; }
+        .inv-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+        .inv-table th, .inv-table td { border: 1px solid #334155; padding: 7px; text-align: left; }
+        .inv-table th { background: #f1f5f9; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #invoiceModal, #invoiceModal * { visibility: visible; }
+            #invoiceModal { position: absolute; left: 0; top: 0; width: 100%; background: #ffffff; padding: 0; }
+            .no-print { display: none !important; }
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased pb-24 max-w-md mx-auto shadow-2xl min-h-screen relative overflow-x-hidden">
-​<!-- HEADER SECTION -->
-<header class="pt-6 px-4 pb-4 bg-white border-b border-slate-200">
-<div class="flex flex-col space-y-2">
-<h1 class="text-[28px] font-black tracking-tight text-medical-blue leading-tight uppercase">RNS PHARMACY</h1>
-<div class="flex flex-wrap gap-2 pt-1">
-<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-bold"><i class="fa-solid fa-circle-check mr-1.5"></i> Verified Chemist</span>
-<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-[11px] font-bold"><i class="fa-regular fa-clock mr-1.5"></i> 24x7 Open</span>
-</div>
-<div class="flex items-start pt-2 text-xs text-slate-600 font-semibold leading-snug">
-<i class="fa-solid fa-location-dot mt-0.5 mr-2 text-medical-green"></i>
-<span>Kalimata Road, near Indian Petrol Pump, Sikta, Uttar Pradesh 274303</span>
-</div>
-</div>
-</header>
-​<!-- VIEW TOGGLE -->
-<div class="bg-white p-3 shadow-sm sticky top-0 z-40 border-b border-slate-200">
-<div class="flex rounded-lg bg-slate-100 p-1">
-<button id="btnCustomer" onclick="switchView('customer')" class="flex-1 py-2.5 text-sm font-bold rounded-md bg-white text-medical-green shadow-sm"><i class="fa-solid fa-store mr-1"></i> Store</button>
-<button id="btnOwner" onclick="openAdminLogin()" class="flex-1 py-2.5 text-sm font-bold rounded-md text-slate-500"><i class="fa-solid fa-lock mr-1"></i> Owner Portal</button>
-</div>
-</div>
-​<!-- ================= CUSTOMER VIEW ================= -->
-<div id="viewCustomer" class="px-4 pt-4 space-y-6">
-​<!-- Track & WhatsApp -->
-<div class="flex gap-2">
-<button onclick="document.getElementById('modalTrack').classList.remove('hidden')" class="flex-1 bg-medical-blue hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl shadow-sm text-[13px] relative z-10"><i class="fa-solid fa-box-open"></i> Track Order</button>
-<a href="https://wa.me/917668273774" target="_blank" class="flex-1 bg-[#25D366] text-white font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center gap-2 text-[13px] relative z-10"><i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Shop</a>
-</div>
-​<section class="hero-gradient text-white rounded-2xl p-5 shadow-lg relative">
-<h2 class="text-2xl font-black mb-2">Live Pharmacy Stock</h2>
-<p class="text-emerald-50 text-sm mb-4 font-medium">Check real-time stock & exact expiry dates.</p>
-<div class="bg-white/10 rounded-xl p-3 flex justify-between items-center border border-white/20">
-<div><p class="text-[10px] font-bold text-emerald-100 mb-1">DELIVERY</p><p class="font-black text-sm text-yellow-300">Free over ₹500</p></div>
-<div class="text-right"><p class="text-[10px] font-bold text-emerald-100 mb-1">CHARGE</p><p class="font-black text-sm text-white">₹50 below ₹500</p></div>
-</div>
-</section>
-​<!-- Prescription Upload -->
-<section class="bg-blue-50 border border-blue-200 rounded-2xl p-4 shadow-sm">
-<h3 class="text-lg font-black text-medical-blue mb-1"><i class="fa-solid fa-file-prescription"></i> Upload Prescription</h3>
-<div class="space-y-3 mt-3">
-<input type="tel" id="rxPhone" placeholder="Your Mobile Number" class="w-full px-3 py-2.5 rounded-lg border border-blue-200 text-sm font-semibold">
-<input type="file" id="rxFile" class="w-full bg-white border border-blue-200 px-3 py-2 rounded-lg text-sm">
-<button onclick="uploadRx()" class="w-full bg-medical-blue text-white font-black py-3 rounded-lg shadow">Upload & Notify</button>
-</div>
-</section>
-​<!-- Catalog -->
-<section class="space-y-3 pb-8">
-<h3 class="text-lg font-black text-slate-800">Live Catalog (<span id="medCount">0</span>)</h3>
-<input type="text" id="searchMeds" onkeyup="renderCustomerMeds()" placeholder="Search medicine..." class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold shadow-sm focus:border-medical-green outline-none">
-<div id="customerMedList" class="space-y-3"></div>
-</section>
-</div>
-​<!-- ================= OWNER VIEW ================= -->
-<div id="viewOwner" class="hidden px-0 pt-0 pb-12 bg-white min-h-screen">
-<div class="flex border-b border-slate-200 overflow-x-auto hide-scroll bg-slate-50 sticky top-[68px] z-30">
-<button onclick="switchAdminTab('meds')" id="tab-meds" class="flex-shrink-0 px-4 py-3 text-sm tab-active"><i class="fa-solid fa-pills mr-1"></i> Inventory</button>
-<button onclick="switchAdminTab('orders')" id="tab-orders" class="flex-shrink-0 px-4 py-3 text-sm tab-inactive"><i class="fa-solid fa-box mr-1"></i> Orders</button>
-<button onclick="switchAdminTab('promos')" id="tab-promos" class="flex-shrink-0 px-4 py-3 text-sm tab-inactive"><i class="fa-solid fa-ticket mr-1"></i> Promos</button>
-<button onclick="switchAdminTab('rx')" id="tab-rx" class="flex-shrink-0 px-4 py-3 text-sm tab-inactive"><i class="fa-solid fa-file-prescription mr-1"></i> Rx</button>
-</div>
-​<div class="p-4">
-<!-- ADMIN: MEDS -->
-<div id="admin-meds">
-<div class="bg-slate-50 rounded-xl p-4 border border-slate-200 mb-6">
-<h3 class="text-sm font-black mb-3 text-medical-green">Add / Edit Medicine</h3>
-<div class="space-y-3 text-sm">
-<input type="text" id="admMedName" placeholder="Medicine Name *" class="w-full px-3 py-2 rounded border border-slate-300 font-bold">
-<div class="grid grid-cols-2 gap-3">
-<input type="text" id="admMedBatch" placeholder="Batch" class="w-full px-3 py-2 rounded border border-slate-300">
-<input type="text" id="admMedExp" placeholder="Exp (MM/YY)" class="w-full px-3 py-2 rounded border border-slate-300">
-</div>
-<div class="grid grid-cols-2 gap-3">
-<input type="number" id="admMedMrp" placeholder="MRP ₹" class="w-full px-3 py-2 rounded border border-slate-300">
-<input type="number" id="admMedPrice" placeholder="Offer Price ₹ *" class="w-full px-3 py-2 rounded border border-slate-300 font-bold text-medical-green">
-</div>
-<button onclick="saveMed()" class="w-full bg-medical-green text-white font-black py-2.5 rounded shadow">Save Product</button>
-</div>
-</div>
-<h3 class="text-sm font-black mb-3">Product List</h3>
-<div id="adminMedList" class="space-y-2"></div>
-</div>
-​<!-- ADMIN: ORDERS -->
-<div id="admin-orders" class="hidden">
-<div class="flex justify-between items-center mb-3">
-<h3 class="text-sm font-black">Customer Orders</h3>
-<button onclick="clearOrders()" class="text-xs bg-rose-100 text-rose-600 px-2 py-1 rounded font-bold">Clear All</button>
-</div>
-<div id="adminOrderList" class="space-y-4"></div>
-</div>
-​<!-- ADMIN: PROMOS -->
-<div id="admin-promos" class="hidden">
-<div class="bg-indigo-50 rounded-xl p-4 border border-indigo-100 mb-6">
-<h3 class="text-sm font-black mb-3 text-indigo-700">Create Promo Code</h3>
-<div class="flex gap-2 mb-2">
-<input type="text" id="admPromoCode" placeholder="CODE (e.g. NEW10)" class="uppercase flex-1 px-3 py-2 rounded border border-indigo-200 font-bold">
-<input type="number" id="admPromoDisc" placeholder="% Off" class="w-20 px-3 py-2 rounded border border-indigo-200">
-</div>
-<button onclick="savePromo()" class="w-full bg-indigo-600 text-white font-black py-2.5 rounded shadow">Add Promo</button>
-</div>
-<h3 class="text-sm font-black mb-3">Active Promos</h3>
-<div id="adminPromoList" class="space-y-2"></div>
-</div>
-​<!-- ADMIN: RX -->
-<div id="admin-rx" class="hidden">
-<h3 class="text-sm font-black mb-3">Uploaded Prescriptions</h3>
-<div id="adminRxList" class="space-y-4"></div>
-</div>
-</div>
-</div>
-​<!-- FLOATING CART -->
-<button onclick="openCart()" id="btnCart" class="fixed bottom-6 right-4 bg-slate-800 text-white px-5 py-3.5 rounded-full shadow-2xl font-black text-sm z-50 flex items-center gap-2 border-2 border-white">
-<i class="fa-solid fa-cart-shopping"></i> Cart <span id="cartBadge" class="bg-medical-green px-2 py-0.5 rounded-full text-xs">0</span>
-</button>
-​<!-- ================= MODALS ================= -->
-<!-- Admin Login Modal -->
-<div id="modalAdminLogin" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex items-center justify-center p-4">
-<div class="bg-white rounded-2xl w-full max-w-xs p-6 relative">
-<span onclick="document.getElementById('modalAdminLogin').classList.add('hidden')" class="absolute top-4 right-4 text-xl cursor-pointer">×</span>
-<h3 class="text-center text-lg font-black mb-4"><i class="fa-solid fa-lock text-slate-400"></i> Owner Portal</h3>
-<input type="password" id="adminPwd" placeholder="Password (7402)" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg text-center font-bold text-lg outline-none mb-4">
-<button onclick="verifyAdmin()" class="w-full bg-slate-800 text-white font-black py-3 rounded-lg">Login</button>
-</div>
-</div>
-​<!-- Track Modal -->
-<div id="modalTrack" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex items-center justify-center p-4">
-<div class="bg-white rounded-2xl w-full max-w-md p-6 relative">
-<span onclick="document.getElementById('modalTrack').classList.add('hidden')" class="absolute top-4 right-4 text-xl cursor-pointer">×</span>
-<h3 class="text-lg font-black mb-4">Track Order</h3>
-<div class="flex gap-2 mb-4">
-<input type="tel" id="trackInput" placeholder="Mobile Number" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg font-bold">
-<button onclick="trackOrder()" class="bg-medical-blue text-white px-4 rounded-lg font-bold">Search</button>
-</div>
-<div id="trackResult" class="space-y-3 max-h-64 overflow-y-auto"></div>
-</div>
-</div>
-​<!-- Cart Modal -->
-<div id="modalCart" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex flex-col justify-end">
-<div class="bg-white rounded-t-2xl w-full max-w-md mx-auto p-5 pb-8 max-h-[85vh] flex flex-col">
-<div class="flex justify-between items-center mb-4">
-<h3 class="text-lg font-black"><i class="fa-solid fa-basket-shopping text-medical-green"></i> Your Cart</h3>
-<span onclick="document.getElementById('modalCart').classList.add('hidden')" class="text-2xl cursor-pointer text-slate-500">×</span>
-</div>
-<div id="cartItems" class="flex-1 overflow-y-auto space-y-3 border-b border-slate-100 pb-4 mb-4"></div>
-​<div class="space-y-2 mb-4">
-<div class="flex gap-2">
-<input type="text" id="promoInput" placeholder="Promo Code" class="uppercase flex-1 px-3 py-2 border border-slate-300 rounded font-bold text-sm">
-<button onclick="applyPromo()" class="bg-slate-800 text-white px-4 rounded font-bold text-sm">Apply</button>
-</div>
-<p id="promoMsg" class="text-xs font-bold text-center"></p>
-​<div class="flex justify-between text-sm font-semibold text-slate-600 mt-2"><span>Subtotal:</span><span id="cSub">₹0</span></div>
-<div class="flex justify-between text-sm font-semibold text-emerald-600 hidden" id="cDiscRow"><span>Discount:</span><span id="cDisc">-₹0</span></div>
-<div class="flex justify-between text-sm font-semibold text-slate-600"><span>Delivery (<span class="text-[10px] text-rose-500">₹50 if < ₹500</span>):</span><span id="cDel" class="font-bold">₹0</span></div>
-<div class="flex justify-between text-lg font-black text-slate-900 border-t pt-2 mt-1"><span>Total:</span><span id="cTotal">₹0</span></div>
-</div>
-<button onclick="openCheckout()" class="w-full bg-medical-green text-white font-black py-3.5 rounded-xl shadow-md">Proceed Details <i class="fa-solid fa-arrow-right"></i></button>
-</div>
-</div>
-​<!-- Checkout Modal -->
-<div id="modalCheckout" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex flex-col justify-end">
-<div class="bg-white rounded-t-2xl w-full max-w-md mx-auto p-5 pb-8 max-h-[90vh] overflow-y-auto">
-<div class="flex justify-between items-center mb-4">
-<h3 class="text-lg font-black">Delivery Details</h3>
-<span onclick="document.getElementById('modalCheckout').classList.add('hidden')" class="text-2xl cursor-pointer text-slate-500">×</span>
-</div>
-<div class="space-y-4 mb-6">
-<input type="text" id="chkName" placeholder="Full Name *" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-semibold">
-<input type="tel" id="chkPhone" placeholder="Mobile Number *" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-semibold">
-<textarea id="chkAddr" placeholder="Full Address *" rows="2" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-semibold"></textarea>
-​<h4 class="font-black text-sm mt-4 mb-2">Payment Method</h4>
-<select id="chkPay" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-bold outline-none">
-<option value="UPI">Pay via UPI (GPay/PhonePe)</option>
-<option value="COD">Cash on Delivery</option>
-</select>
-<p class="text-[10px] text-slate-500 font-bold text-center mt-1">UPI ID: rahul9656170@slc</p>
-</div>
-<button onclick="placeOrder()" class="w-full bg-[#25D366] text-white font-black py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-xl"></i> Confirm & Send WhatsApp</button>
-</div>
-</div>
-​<script>
-// Data State (Using LocalStorage for persistency)
-let meds = JSON.parse(localStorage.getItem('rns_meds')) || [];
-let promos = JSON.parse(localStorage.getItem('rns_promos')) || [];
-let orders = JSON.parse(localStorage.getItem('rns_orders')) || [];
-let rxs = JSON.parse(localStorage.getItem('rns_rxs')) || [];
-​let cart = [];
-let activePromo = null;
-let totals = { sub: 0, disc: 0, del: 0, fin: 0 };
-let isAdmin = false;
-​// Init Dummy Data if Empty
-if(meds.length === 0) {
-meds = [{id: 1, name: "Paracetamol 650mg", batch: "P12", exp: "12/25", mrp: 30, price: 20}];
-localStorage.setItem('rns_meds', JSON.stringify(meds));
-}
-​// ---- UI NAVIGATION ----
-function switchView(view) {
-document.getElementById('viewCustomer').classList.toggle('hidden', view !== 'customer');
-document.getElementById('viewOwner').classList.toggle('hidden', view !== 'owner');
-document.getElementById('btnCart').classList.toggle('hidden', view !== 'customer');
-​document.getElementById('btnCustomer').className = view === 'customer' ? "flex-1 py-2.5 text-sm font-bold rounded-md bg-white text-medical-green shadow-sm" : "flex-1 py-2.5 text-sm font-bold rounded-md text-slate-500";
-document.getElementById('btnOwner').className = view === 'owner' ? "flex-1 py-2.5 text-sm font-bold rounded-md bg-white text-medical-blue shadow-sm" : "flex-1 py-2.5 text-sm font-bold rounded-md text-slate-500";
-​if(view === 'customer') renderCustomerMeds();
-if(view === 'owner') switchAdminTab('meds');
-}
-​function openAdminLogin() {
-if(isAdmin) switchView('owner');
-else document.getElementById('modalAdminLogin').classList.remove('hidden');
-}
-function verifyAdmin() {
-if(document.getElementById('adminPwd').value === '7402') {
-isAdmin = true;
-document.getElementById('modalAdminLogin').classList.add('hidden');
-document.getElementById('adminPwd').value = '';
-switchView('owner');
-} else { alert("Wrong Password"); }
-}
-​function switchAdminTab(tab) {
-['meds','orders','promos','rx'].forEach(t => {
-document.getElementById(tab-${t}).className = tab === t ? "flex-shrink-0 px-4 py-3 text-sm tab-active" : "flex-shrink-0 px-4 py-3 text-sm tab-inactive";
-document.getElementById(admin-${t}).classList.toggle('hidden', tab !== t);
-});
-if(tab==='meds') renderAdminMeds();
-if(tab==='orders') renderAdminOrders();
-if(tab==='promos') renderAdminPromos();
-if(tab==='rx') renderAdminRx();
-}
-​// ---- CUSTOMER: CATALOG & CART ----
-function renderCustomerMeds() {
-let q = document.getElementById('searchMeds').value.toLowerCase();
-let filtered = meds.filter(m => m.name.toLowerCase().includes(q));
-document.getElementById('medCount').innerText = filtered.length;
-​document.getElementById('customerMedList').innerHTML = filtered.map(m => <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex justify-between items-center"> <div> <h4 class="font-black text-slate-800 text-[15px]">${m.name}</h4> <p class="text-[11px] text-slate-500 mt-1">Batch: ${m.batch} | Exp: <span class="text-medical-green font-bold">${m.exp}</span></p> <div class="mt-2"><span class="text-xs text-slate-400 line-through mr-2">₹${m.mrp}</span><span class="text-lg font-black text-slate-900">₹${m.price}</span></div> </div> <button onclick="addToCart(${m.id})" class="bg-slate-100 text-medical-green px-4 py-2 rounded-lg font-bold border border-slate-200 shadow-sm"><i class="fa-solid fa-plus"></i></button> </div>).join('') || '<p class="text-center text-slate-400 text-sm py-4">No products found</p>';
-}
-​function addToCart(id) {
-let m = meds.find(x => x.id == id);
-let exist = cart.find(c => c.id == id);
-if(exist) exist.qty++; else cart.push({...m, qty: 1});
-updateCartBadge(); alert(Added ${m.name});
-}
-function updateCartBadge() { document.getElementById('cartBadge').innerText = cart.reduce((a,b)=>a+b.qty,0); }
-​function openCart() {
-let html = ''; totals.sub = 0;
-cart.forEach((c, i) => {
-totals.sub += c.price * c.qty;
-html += <div class="flex justify-between items-center bg-slate-50 p-2 rounded border border-slate-100"> <div class="flex-1"><p class="text-xs font-bold">${c.name}</p><p class="text-[10px] text-slate-500">₹${c.price} x ${c.qty}</p></div> <div class="flex items-center gap-2"> <button onclick="modCart(${i}, -1)" class="w-6 h-6 bg-white border border-slate-200 rounded font-bold text-slate-600">-</button> <span class="text-xs font-black">${c.qty}</span> <button onclick="modCart(${i}, 1)" class="w-6 h-6 bg-white border border-slate-200 rounded font-bold text-medical-green">+</button> </div> </div>;
-});
-document.getElementById('cartItems').innerHTML = html || '<p class="text-center text-slate-400 text-sm py-4">Cart is empty</p>';
-calcTotals();
-document.getElementById('modalCart').classList.remove('hidden');
-}
-function modCart(idx, dir) {
-cart[idx].qty += dir;
-if(cart[idx].qty <= 0) cart.splice(idx, 1);
-openCart(); updateCartBadge();
-}
-​function applyPromo() {
-let code = document.getElementById('promoInput').value.toUpperCase();
-let p = promos.find(x => x.code === code);
-let msg = document.getElementById('promoMsg');
-if(p) { activePromo = p; msg.innerText = ${p.disc}% OFF Applied!; msg.className="text-xs font-bold text-center mt-1 text-emerald-600"; }
-else { activePromo = null; msg.innerText = "Invalid Code"; msg.className="text-xs font-bold text-center mt-1 text-rose-500"; }
-calcTotals();
-}
-​function calcTotals() {
-totals.disc = activePromo ? (totals.sub * activePromo.disc / 100) : 0;
-let afterDisc = totals.sub - totals.disc;
-totals.del = (totals.sub > 0 && afterDisc < 500) ? 50 : 0;
-totals.fin = afterDisc + totals.del;
-​document.getElementById('cSub').innerText = ₹${totals.sub};
-document.getElementById('cDisc').innerText = -₹${Math.round(totals.disc)};
-document.getElementById('cDiscRow').classList.toggle('hidden', totals.disc === 0);
-​let delEl = document.getElementById('cDel');
-delEl.innerText = totals.del > 0 ? +₹${totals.del} : 'FREE';
-delEl.className = totals.del > 0 ? "font-bold text-rose-500" : "font-bold text-emerald-600";
-​document.getElementById('cTotal').innerText = ₹${Math.round(totals.fin)};
-}
-​function openCheckout() {
-if(cart.length===0) return alert("Cart empty");
-document.getElementById('modalCart').classList.add('hidden');
-document.getElementById('modalCheckout').classList.remove('hidden');
-}
-​function placeOrder() {
-let n = document.getElementById('chkName').value, p = document.getElementById('chkPhone').value, a = document.getElementById('chkAddr').value, pay = document.getElementById('chkPay').value;
-if(!n || !p || !a) return alert("Fill all details");
-​let ordId = "RNS" + Date.now().toString().slice(-6);
-let order = { id: ordId, date: new Date().toLocaleString(), name: n, phone: p, addr: a, items: cart, totals: {...totals}, pay: pay, status: "Pending" };
-​orders.unshift(order); // add to top
-localStorage.setItem('rns_orders', JSON.stringify(orders));
-​let txt = *🚨 NEW ORDER (${ordId})*\n\n*Name:* ${n}\n*Phone:* ${p}\n*Address:* ${a}\n\n*ITEMS:*\n;
-cart.forEach((c,i) => txt += ${i+1}. ${c.name} (x${c.qty}) = ₹${c.qty*c.price}\n);
-txt += \n*Subtotal:* ₹${totals.sub}\n*Discount:* -₹${Math.round(totals.disc)}\n*Delivery:* +₹${totals.del}\n*TOTAL:* ₹${Math.round(totals.fin)}\n*Pay Mode:* ${pay};
-​cart = []; activePromo = null; updateCartBadge();
-document.getElementById('modalCheckout').classList.add('hidden');
-alert("Order Placed! Redirecting to WhatsApp.");
-window.location.href = https://wa.me/917668273774?text=${encodeURIComponent(txt)};
-}
-​function trackOrder() {
-let p = document.getElementById('trackInput').value;
-let res = orders.filter(o => o.phone === p);
-let div = document.getElementById('trackResult');
-if(res.length===0) div.innerHTML = "<p class='text-xs text-rose-500 text-center font-bold'>No orders found.</p>";
-else {
-div.innerHTML = res.map(o => <div class="border border-slate-200 p-3 rounded bg-slate-50 text-sm"> <div class="flex justify-between mb-1"><span class="font-bold text-slate-800">${o.id}</span> <span class="text-[10px] text-slate-500">${o.date.split(',')[0]}</span></div> <p class="text-xs mb-1">${o.items.map(i=>i.name).join(', ')}</p> <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200"> <span class="font-black text-medical-green">₹${Math.round(o.totals.fin)}</span> <span class="px-2 py-1 rounded text-[10px] font-black uppercase bg-amber-100 text-amber-700">${o.status}</span> </div> </div>).join('');
-}
-}
-​function uploadRx() {
-let p = document.getElementById('rxPhone').value;
-let f = document.getElementById('rxFile').files[0];
-if(!p || !f) return alert("Enter phone and select image");
-rxs.push({ phone: p, date: new Date().toLocaleString(), status: "Pending" });
-localStorage.setItem('rns_rxs', JSON.stringify(rxs));
-alert("Uploaded! We will contact you.");
-window.location.href = https://wa.me/917668273774?text=${encodeURIComponent('Hello, I uploaded a prescription. My number is ' + p)};
-}
-​// ---- ADMIN: CRUD & LOGIC ----
-function saveMed() {
-let n = document.getElementById('admMedName').value, b = document.getElementById('admMedBatch').value, e = document.getElementById('admMedExp').value, m = document.getElementById('admMedMrp').value, p = document.getElementById('admMedPrice').value;
-if(!n || !p) return alert("Name & Price required");
-meds.unshift({ id: Date.now(), name: n, batch: b, exp: e, mrp: m||p, price: p });
-localStorage.setItem('rns_meds', JSON.stringify(meds));
-document.querySelectorAll('#admin-meds input').forEach(i=>i.value='');
-renderAdminMeds(); alert("Product Added");
-}
-function delMed(id) { meds = meds.filter(m=>m.id!=id); localStorage.setItem('rns_meds', JSON.stringify(meds)); renderAdminMeds(); }
-​function renderAdminMeds() {
-document.getElementById('adminMedList').innerHTML = meds.map(m =>  <div class="bg-white border border-slate-200 p-3 rounded-lg flex justify-between items-center shadow-sm"> <div><p class="font-bold text-sm text-slate-800">${m.name}</p><p class="text-[10px] text-slate-500">MRP: ₹${m.mrp} | Offer: ₹${m.price}</p></div> <button onclick="delMed(${m.id})" class="text-rose-500"><i class="fa-solid fa-trash"></i></button> </div>).join('');
-}
-​function savePromo() {
-let c = document.getElementById('admPromoCode').value.toUpperCase(), d = document.getElementById('admPromoDisc').value;
-if(!c || !d) return alert("Fill fields");
-promos.push({ code: c, disc: d }); localStorage.setItem('rns_promos', JSON.stringify(promos));
-document.getElementById('admPromoCode').value=''; document.getElementById('admPromoDisc').value='';
-renderAdminPromos(); alert("Promo Added");
-}
-function delPromo(c) { promos = promos.filter(p=>p.code!=c); localStorage.setItem('rns_promos', JSON.stringify(promos)); renderAdminPromos(); }
-​function renderAdminPromos() {
-document.getElementById('adminPromoList').innerHTML = promos.map(p =>  <div class="bg-indigo-50 border border-indigo-100 p-3 rounded-lg flex justify-between items-center shadow-sm"> <div><p class="font-black text-indigo-800 text-sm">${p.code}</p><p class="text-[10px] text-indigo-600">${p.disc}% OFF</p></div> <button onclick="delPromo('${p.code}')" class="text-rose-500"><i class="fa-solid fa-trash"></i></button> </div>).join('');
-}
-​function renderAdminOrders() {
-document.getElementById('adminOrderList').innerHTML = orders.map((o, i) => `
-<div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm relative">
-<span class="absolute top-0 right-0 bg-slate-100 text-slate-600 text-[10px] px-2 py-1 font-bold rounded-bl-lg">{o.pay}</span>
-<p class="font-black text-sm text-slate-800">{o.name} <span class="text-[10px] font-normal text-slate-500">({o.phone})</span></p>
-<p class="text-[11px] text-slate-500 mb-2">{o.addr}</p>
-<div class="text-[11px] text-slate-600 mb-2 border-l-2 border-medical-green pl-2">{o.items.map(x=>x.name+' x'+x.qty).join('<br>')}</div>
-<div class="flex justify-between items-center mb-3"><span class="font-black text-medical-green">₹{Math.round(o.totals.fin)}</span></div>
-​<div class="flex gap-2">
-<select onchange="updateOrdStatus(${i}, this.value)" class="flex-1 p-2 border border-slate-300 rounded text-xs font-bold bg-slate-50">
-<option value="Pending" ${o.status=='Pending'?'selected':''}>Pending</option>
-<option value="Accepted" ${o.status=='Accepted'?'selected':''}>Accepted</option>
-<option value="Delivered" ${o.status=='Delivered'?'selected':''}>Delivered</option>
-<option value="Rejected" ${o.status=='Rejected'?'selected':''}>Rejected</option>
-</select>
-<button onclick="printBill(${i})" class="bg-slate-800 text-white px-3 py-2 rounded text-xs font-bold"><i class="fa-solid fa-print"></i> Bill</button>
-</div>
-</div>`).join('') || '<p class="text-sm text-slate-400 text-center">No orders</p>';
-}
-function updateOrdStatus(i, s) { orders[i].status = s; localStorage.setItem('rns_orders', JSON.stringify(orders)); alert("Status Updated"); }
-function clearOrders() { if(confirm("Delete all orders?")){ orders=[]; localStorage.setItem('rns_orders','[]'); renderAdminOrders(); } }
-​function renderAdminRx() {
-document.getElementById('adminRxList').innerHTML = rxs.map((r,i) =>  <div class="bg-white border border-blue-200 p-3 rounded shadow-sm flex justify-between"> <div><p class="text-sm font-bold text-slate-800">${r.phone}</p><p class="text-[10px] text-slate-400">${r.date}</p></div> <button onclick="rxs.splice(${i},1); localStorage.setItem('rns_rxs', JSON.stringify(rxs)); renderAdminRx();" class="text-rose-500"><i class="fa-solid fa-trash"></i></button> </div>).join('') || '<p class="text-sm text-slate-400 text-center">No Prescriptions</p>';
-}
-​// PRINT BILL LOGIC
-function printBill(idx) {
-let o = orders[idx];
-let itemsHtml = o.items.map((x,i) => <tr><td style="padding:8px;border-bottom:1px solid #ddd;">${i+1}</td><td style="padding:8px;border-bottom:1px solid #ddd;">${x.name}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:center;">${x.qty}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;">₹${x.price}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;font-weight:bold;">₹${x.qty*x.price}</td></tr>).join('');
-​let html = <html><head><title>Invoice - ${o.id}</title></head><body style="font-family:sans-serif; padding:20px; max-width:800px; margin:auto;" onload="window.print()"> <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;"> <h1 style="margin:0;">RNS PHARMACY</h1> <p style="margin:5px 0 0; font-size:12px;">Kalimata Road, Sikta, UP 274303 | Phone: +91 7668273774</p> <h3 style="margin:10px 0 0; border:1px solid #000; display:inline-block; padding:3px 10px;">TAX INVOICE</h3> </div> <div style="display:flex; justify-content:space-between; margin-bottom:20px;"> <div><p style="margin:0; font-size:12px; color:#666;">Billed To:</p><p style="margin:0; font-weight:bold;">${o.name}</p><p style="margin:0; font-size:12px;">${o.phone}<br>${o.addr}</p></div> <div style="text-align:right;"><p style="margin:0; font-size:12px;"><strong>Order ID:</strong> ${o.id}</p><p style="margin:0; font-size:12px;"><strong>Date:</strong> ${o.date}</p><p style="margin:0; font-size:12px;"><strong>Pay Mode:</strong> ${o.pay}</p></div> </div> <table style="width:100%; border-collapse:collapse; margin-bottom:20px;"> <tr style="background:#f3f4f6;"><th style="padding:8px;text-align:left;">#</th><th style="padding:8px;text-align:left;">Item</th><th style="padding:8px;text-align:center;">Qty</th><th style="padding:8px;text-align:right;">Rate</th><th style="padding:8px;text-align:right;">Amount</th></tr> ${itemsHtml} </table> <div style="float:right; width:300px;"> <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:14px;"><span>Subtotal:</span><span>₹${o.totals.sub}</span></div> ${o.totals.disc > 0 ? <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:14px; color:red;"><span>Discount:</span><span>-₹${Math.round(o.totals.disc)}</span></div> : ''} <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:14px;"><span>Delivery:</span><span>+₹${o.totals.del}</span></div> <div style="display:flex; justify-content:space-between; padding:10px 0; font-size:18px; font-weight:bold; border-top:2px solid #000;"><span>Total:</span><span>₹${Math.round(o.totals.fin)}</span></div> </div> <div style="clear:both; text-align:center; margin-top:50px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:10px;">Thank you for shopping with RNS Pharmacy!</div> </body></html>;
-​let win = window.open('', '_blank');
-win.document.write(html); win.document.close();
-}
-​// Init
-renderCustomerMeds();
-</script>
+<body>
+
+    <!-- HEADER (With Phone Number Restored) -->
+    <div class="header">
+        <div class="brand-title">RNS PHARMACY</div>
+        <div class="badges">
+            <span class="badge-green">✅ Verified Chemist</span>
+            <span class="badge-blue">🕒 24×7 Open</span>
+        </div>
+        <div class="address-line">
+            <span>📍</span>
+            <span>Kalimata Road, near Indian Petrol Pump, Sikta, Uttar Pradesh 274303</span>
+        </div>
+        <div class="phone-line">
+            <span>📞 Helpline & WhatsApp:</span>
+            <a href="tel:+917668273774">+91 7668273774</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- STORE / OWNER PORTAL TABS -->
+        <div class="mode-tabs">
+            <button type="button" id="tabBtnStore" class="mode-tab active" onclick="switchMainView('store')">🏪 Store</button>
+            <button type="button" id="tabBtnAdmin" class="mode-tab" onclick="switchMainView('admin')">🔒 Owner Portal</button>
+        </div>
+
+        <!-- ==================== CUSTOMER STORE VIEW ==================== -->
+        <div id="viewStore">
+            <!-- Track & WhatsApp Direct Buttons -->
+            <div class="action-row">
+                <button type="button" class="btn-action btn-track" onclick="openTrackModal()">🚚 Track Order</button>
+                <a href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy%2C%20I%20want%20to%20order%20medicines." target="_blank" rel="noopener" class="btn-action btn-wa">💬 WhatsApp Shop</a>
+            </div>
+
+            <!-- Green Stock Banner -->
+            <div class="stock-banner">
+                <h2>Live Pharmacy Stock</h2>
+                <p>Check real-time stock & exact expiry dates.</p>
+                <div class="delivery-box">
+                    <div>
+                        <span>DELIVERY</span>
+                        <strong>Free over ₹500</strong>
+                    </div>
+                    <div style="text-align:right;">
+                        <span>CHARGE</span>
+                        <strong>₹50 below ₹500</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Prescription Card -->
+            <div class="card card-blue">
+                <div class="card-title">📄 Upload Prescription</div>
+                <input type="tel" id="rxPhone" placeholder="Your Mobile Number (10 digits)">
+                <input type="text" id="rxNote" placeholder="Patient Name / Medicine Note (Optional)">
+                <input type="file" id="rxFile" accept="image/*,.pdf" style="padding:8px;">
+                <button type="button" class="btn-primary" onclick="submitPrescription()">Upload & Notify</button>
+                <div id="rxMsg" style="margin-top:8px; font-size:13px; font-weight:700; display:none;"></div>
+            </div>
+
+            <!-- Live Catalog Section -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="font-size:16px; font-weight:800;">Live Catalog (<span id="catalogCount">0</span>)</h3>
+                    <button type="button" class="btn-sm" style="background:#e0f2fe; color:#0369a1;" onclick="openCartModal()">+ Custom Order</button>
+                </div>
+                <input type="text" id="searchMed" placeholder="Search medicine..." oninput="renderCatalog()">
+                <div id="catalogList"></div>
+            </div>
+        </div>
+
+        <!-- ==================== OWNER PORTAL VIEW ==================== -->
+        <div id="viewAdmin" style="display:none;">
+            <!-- Login Box -->
+            <div id="adminLoginCard" class="card">
+                <div class="card-title">🔒 Owner Portal Login</div>
+                <p style="font-size:13px; color:#64748b; margin-bottom:10px;">एडमिन डैशबोर्ड खोलने के लिए अपना पासवर्ड डालें:</p>
+                <input type="password" id="adminPassInput" placeholder="Enter Password (7402)">
+                <button type="button" class="btn-primary" onclick="loginAdmin()">Unlock Dashboard</button>
+            </div>
+
+            <!-- Unlocked Admin Dashboard -->
+            <div id="adminDashboard" style="display:none;">
+                <div class="admin-nav">
+                    <button type="button" id="admTabInv" class="admin-tab-btn active" onclick="switchAdminTab('inv')">📦 Inventory</button>
+                    <button type="button" id="admTabOrd" class="admin-tab-btn" onclick="switchAdminTab('ord')">🛒 Orders (<span id="admOrdCount">0</span>)</button>
+                    <button type="button" id="admTabRx" class="admin-tab-btn" onclick="switchAdminTab('rx')">📄 Rx (<span id="admRxCount">0</span>)</button>
+                    <button type="button" id="admTabPromo" class="admin-tab-btn" onclick="switchAdminTab('promo')">🏷️ Promos</button>
+                </div>
+
+                <!-- 1. Inventory Tab -->
+                <div id="admSecInv" class="card">
+                    <div class="card-title">➕ Add New Medicine to Stock</div>
+                    <input type="text" id="medName" placeholder="Medicine Name (e.g. Dolo 650mg Strip)">
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="medExp" placeholder="Expiry (e.g. 12/2027)">
+                        <input type="text" id="medCat" placeholder="Rack / Company">
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <input type="number" id="medMrp" placeholder="MRP (₹)">
+                        <input type="number" id="medPrice" placeholder="Offer Price (₹)">
+                    </div>
+                    <button type="button" class="btn-green" onclick="addMedicine()">Save Medicine to Catalog</button>
+                    <hr style="margin:16px 0; border:0; border-top:1px solid #e2e8f0;">
+                    <h4 style="margin-bottom:10px;">Current Stock List</h4>
+                    <div id="adminStockList"></div>
+                </div>
+
+                <!-- 2. Orders & Billing Tab -->
+                <div id="admSecOrd" class="card" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <div class="card-title" style="margin:0;">🛒 Customer Orders & Billing</div>
+                        <button type="button" class="btn-sm" style="background:#dc2626; color:#fff;" onclick="clearAllOrders()">Clear All</button>
+                    </div>
+                    <div id="adminOrderList"></div>
+                </div>
+
+                <!-- 3. Prescriptions (Rx) Tab -->
+                <div id="admSecRx" class="card" style="display:none;">
+                    <div class="card-title">📄 Uploaded Prescriptions (Rx)</div>
+                    <div id="adminRxList"></div>
+                </div>
+
+                <!-- 4. Promo Codes Tab -->
+                <div id="admSecPromo" class="card" style="display:none;">
+                    <div class="card-title">🏷️ Create Discount Promo Code</div>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="promoCodeInput" placeholder="Code (e.g. RNS10)" style="text-transform:uppercase;">
+                        <input type="number" id="promoDiscInput" placeholder="Discount ₹ (Flat)">
+                    </div>
+                    <button type="button" class="btn-primary" onclick="addPromoCode()">Add Promo Code</button>
+                    <hr style="margin:14px 0; border:0; border-top:1px solid #e2e8f0;">
+                    <div id="adminPromoList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING CART BUTTON -->
+    <button type="button" class="floating-cart" onclick="openCartModal()">
+        <span>🛒 Cart</span>
+        <span class="cart-badge" id="cartCountBadge">0</span>
+    </button>
+
+    <!-- ==================== TRACK ORDER MODAL ==================== -->
+    <div id="trackModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 style="font-size:17px; font-weight:800;">🚚 Track Order & Rx Status</h3>
+                <button type="button" class="modal-close" onclick="closeModal('trackModal')">&times;</button>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <input type="tel" id="trackPhoneInput" placeholder="Enter 10-digit Mobile Number" style="margin-bottom:0;">
+                <button type="button" class="btn-primary" style="width:auto; padding:0 18px;" onclick="searchOrderStatus()">Search</button>
+            </div>
+            <div id="trackResultArea" style="margin-top:14px;"></div>
+        </div>
+    </div>
+
+    <!-- ==================== CART & CHECKOUT MODAL ==================== -->
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 style="font-size:17px; font-weight:800;">🛒 Your Cart & Checkout</h3>
+                <button type="button" class="modal-close" onclick="closeModal('cartModal')">&times;</button>
+            </div>
+
+            <div id="cartItemsContainer"></div>
+
+            <!-- Add Custom Medicine directly -->
+            <div style="background:#f8fafc; padding:10px; border-radius:8px; border:1px dashed #cbd5e1; margin-bottom:12px;">
+                <label style="font-size:12px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">लिस्ट में दवा नहीं मिली? यहाँ नाम और अनुमानित रकम लिखें:</label>
+                <div style="display:flex; gap:6px;">
+                    <input type="text" id="customMedName" placeholder="Medicine Name & Qty" style="margin-bottom:0;">
+                    <input type="number" id="customMedPrice" placeholder="₹ Price" style="width:100px; margin-bottom:0;">
+                    <button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="addCustomToCart()">+ Add</button>
+                </div>
+            </div>
+
+            <!-- Promo Code Apply -->
+            <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <input type="text" id="applyPromoInput" placeholder="Promo Code (e.g. RNS20)" style="margin-bottom:0; text-transform:uppercase;">
+                <button type="button" class="btn-sm" style="background:#0f172a; color:#fff; padding:0 14px;" onclick="applyPromo()">Apply</button>
+            </div>
+            <div id="promoMsg" style="font-size:12px; font-weight:700; margin-bottom:8px;"></div>
+
+            <!-- Bill Summary -->
+            <div id="cartBillSummary" style="background:#f1f5f9; padding:12px; border-radius:8px; font-size:13px; margin-bottom:12px;"></div>
+
+            <!-- Customer Details -->
+            <input type="text" id="custName" placeholder="Patient / Customer Full Name *">
+            <input type="tel" id="custPhone" placeholder="Mobile Number (10 digits) *">
+            <textarea id="custAddress" rows="2" placeholder="Full Delivery Address (Village/Ward, Landmark) *"></textarea>
+            <select id="custPayment">
+                <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+                <option value="UPI (rahul9656170@slc)">UPI Online (rahul9656170@slc)</option>
+            </select>
+
+            <button type="button" class="btn-green" onclick="placeFinalOrder()">✅ Confirm & Send Order on WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- ==================== PRINT INVOICE MODAL ==================== -->
+    <div id="invoiceModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header no-print">
+                <h3 style="font-size:16px; font-weight:800;">🧾 Official Pharmacy Invoice</h3>
+                <button type="button" class="modal-close" onclick="closeModal('invoiceModal')">&times;</button>
+            </div>
+            <div id="invoiceContent" class="invoice-box"></div>
+            <div class="no-print" style="display:flex; gap:10px; margin-top:14px;">
+                <button type="button" class="btn-primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+                <button type="button" class="btn-sm" style="background:#64748b; color:#fff; width:100%;" onclick="closeModal('invoiceModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helper: Normalize phone number to last 10 digits so 07668273774 and 7668273774 match
+        function cleanPhone(num) {
+            if (!num) return "";
+            var digits = String(num).replace(/\D/g, "");
+            if (digits.length > 10) {
+                digits = digits.slice(-10);
+            }
+            return digits;
+        }
+
+        // Default initial data so catalog is never empty on first visit
+        var defaultStock = [
+            { id: "m1", name: "Paracetamol 650mg (15 Tabs)", exp: "11/2027", cat: "Fever / Pain", mrp: 35, price: 28 },
+            { id: "m2", name: "Pantoprazole 40mg (10 Tabs)", exp: "08/2027", cat: "Gas / Acidity", mrp: 110, price: 85 },
+            { id: "m3", name: "Cough Syrup 100ml", exp: "05/2027", cat: "Cold & Cough", mrp: 125, price: 95 },
+            { id: "m4", name: "ORS Powder (1 Sachet)", exp: "10/2027", cat: "Energy / Hydration", mrp: 22, price: 20 }
+        ];
+
+        var defaultPromos = [
+            { code: "RNS20", discount: 20 },
+            { code: "FIRST50", discount: 50 }
+        ];
+
+        function getStock() {
+            var data = localStorage.getItem("rns_stock_v2");
+            if (!data) {
+                localStorage.setItem("rns_stock_v2", JSON.stringify(defaultStock));
+                return defaultStock;
+            }
+            return JSON.parse(data);
+        }
+
+        function saveStock(list) {
+            localStorage.setItem("rns_stock_v2", JSON.stringify(list));
+        }
+
+        function getOrders() {
+            return JSON.parse(localStorage.getItem("rns_orders_v2") || "[]");
+        }
+
+        function saveOrders(list) {
+            localStorage.setItem("rns_orders_v2", JSON.stringify(list));
+        }
+
+        function getRxList() {
+            return JSON.parse(localStorage.getItem("rns_rx_v2") || "[]");
+        }
+
+        function saveRxList(list) {
+            localStorage.setItem("rns_rx_v2", JSON.stringify(list));
+        }
+
+        function getPromos() {
+            var data = localStorage.getItem("rns_promos_v2");
+            if (!data) {
+                localStorage.setItem("rns_promos_v2", JSON.stringify(defaultPromos));
+                return defaultPromos;
+            }
+            return JSON.parse(data);
+        }
+
+        function savePromos(list) {
+            localStorage.setItem("rns_promos_v2", JSON.stringify(list));
+        }
+
+        var cart = [];
+        var activePromo = null;
+        var isAdminLoggedIn = false;
+
+        // Switch between Customer Store and Owner Portal
+        function switchMainView(view) {
+            var storeDiv = document.getElementById("viewStore");
+            var adminDiv = document.getElementById("viewAdmin");
+            var btnStore = document.getElementById("tabBtnStore");
+            var btnAdmin = document.getElementById("tabBtnAdmin");
+
+            if (view === "admin") {
+                storeDiv.style.display = "none";
+                adminDiv.style.display = "block";
+                btnStore.classList.remove("active");
+                btnAdmin.classList.add("active");
+                if (isAdminLoggedIn) {
+                    refreshAdminAll();
+                }
+            } else {
+                storeDiv.style.display = "block";
+                adminDiv.style.display = "none";
+                btnAdmin.classList.remove("active");
+                btnStore.classList.add("active");
+                renderCatalog();
+            }
+        }
+
+        // Owner Login
+        function loginAdmin() {
+            var pass = document.getElementById("adminPassInput").value.trim();
+            if (pass === "7402") {
+                isAdminLoggedIn = true;
+                document.getElementById("adminLoginCard").style.display = "none";
+                document.getElementById("adminDashboard").style.display = "block";
+                refreshAdminAll();
+            } else {
+                alert("गलत पासवर्ड! कृपया सही पासवर्ड (7402) डालें।");
+            }
+        }
+
+        function switchAdminTab(tab) {
+            var tabs = ["inv", "ord", "rx", "promo"];
+            var secs = { inv: "admSecInv", ord: "admSecOrd", rx: "admSecRx", promo: "admSecPromo" };
+            var btns = { inv: "admTabInv", ord: "admTabOrd", rx: "admTabRx", promo: "admTabPromo" };
+
+            for (var i = 0; i < tabs.length; i++) {
+                var t = tabs[i];
+                document.getElementById(secs[t]).style.display = (t === tab) ? "block" : "none";
+                if (t === tab) {
+                    document.getElementById(btns[t]).classList.add("active");
+                } else {
+                    document.getElementById(btns[t]).classList.remove("active");
+                }
+            }
+            refreshAdminAll();
+        }
+
+        // Render Live Catalog for Customers
+        function renderCatalog() {
+            var stock = getStock();
+            var query = (document.getElementById("searchMed").value || "").toLowerCase();
+            var filtered = stock.filter(function(item) {
+                return item.name.toLowerCase().indexOf(query) !== -1 || (item.cat && item.cat.toLowerCase().indexOf(query) !== -1);
+            });
+
+            document.getElementById("catalogCount").innerText = filtered.length;
+            var html = "";
+            if (filtered.length === 0) {
+                html = '<p style="text-align:center; color:#64748b; padding:14px; font-size:13px;">कोई दवा नहीं मिली। आप ऊपर "+ Custom Order" या Cart में जाकर सीधे दवा का नाम लिख सकते हैं।</p>';
+            } else {
+                for (var i = 0; i < filtered.length; i++) {
+                    var m = filtered[i];
+                    html += '<div class="med-item">' +
+                        '<div class="med-info">' +
+                            '<h4>' + m.name + '</h4>' +
+                            '<div class="med-meta">Exp: ' + (m.exp || "N/A") + (m.cat ? " | " + m.cat : "") + '</div>' +
+                            '<div><span class="med-mrp">₹' + m.mrp + '</span><span class="med-price">₹' + m.price + '</span></div>' +
+                        '</div>' +
+                        '<button type="button" class="btn-add" onclick="addToCart(\'' + m.id + '\')">+ Add</button>' +
+                    '</div>';
+                }
+            }
+            document.getElementById("catalogList").innerHTML = html;
+        }
+
+        // Add Item to Cart
+        function addToCart(medId) {
+            var stock = getStock();
+            var item = null;
+            for (var i = 0; i < stock.length; i++) {
+                if (stock[i].id === medId) {
+                    item = stock[i];
+                    break;
+                }
+            }
+            if (!item) return;
+
+            var existing = null;
+            for (var j = 0; j < cart.length; j++) {
+                if (cart[j].id === medId) {
+                    existing = cart[j];
+                    break;
+                }
+            }
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ id: item.id, name: item.name, price: Number(item.price), qty: 1 });
+            }
+            updateCartBadge();
+        }
+
+        function addCustomToCart() {
+            var name = document.getElementById("customMedName").value.trim();
+            var price = parseFloat(document.getElementById("customMedPrice").value) || 0;
+            if (!name) {
+                alert("कृपया दवा का नाम लिखें।");
+                return;
+            }
+            cart.push({ id: "cust_" + Date.now(), name: name, price: price, qty: 1 });
+            document.getElementById("customMedName").value = "";
+            document.getElementById("customMedPrice").value = "";
+            updateCartBadge();
+            renderCartModal();
+        }
+
+        function updateCartBadge() {
+            var count = 0;
+            for (var i = 0; i < cart.length; i++) {
+                count += cart[i].qty;
+            }
+            document.getElementById("cartCountBadge").innerText = count;
+        }
+
+        function openCartModal() {
+            renderCartModal();
+            document.getElementById("cartModal").style.display = "flex";
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartBadge();
+            renderCartModal();
+        }
+
+        function applyPromo() {
+            var code = document.getElementById("applyPromoInput").value.trim().toUpperCase();
+            var promos = getPromos();
+            var found = null;
+            for (var i = 0; i < promos.length; i++) {
+                if (promos[i].code.toUpperCase() === code) {
+                    found = promos[i];
+                    break;
+                }
+            }
+            var msgEl = document.getElementById("promoMsg");
+            if (found) {
+                activePromo = found;
+                msgEl.style.color = "#16a34a";
+                msgEl.innerText = "✅ प्रोमो कोड '" + found.code + "' लागू हो गया! (₹" + found.discount + " की छूट)";
+            } else {
+                activePromo = null;
+                msgEl.style.color = "#dc2626";
+                msgEl.innerText = "❌ अमान्य प्रोमो कोड!";
+            }
+            renderCartModal();
+        }
+
+        function renderCartModal() {
+            var container = document.getElementById("cartItemsContainer");
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b; padding:10px; font-size:13px;">आपका कार्ट खाली है। कैटलॉग से दवा चुनें या नीचे सीधे नाम लिखें।</p>';
+            } else {
+                var html = "";
+                for (var i = 0; i < cart.length; i++) {
+                    var c = cart[i];
+                    html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #e2e8f0; font-size:14px;">' +
+                        '<div><strong>' + c.name + '</strong><br><span style="color:#64748b; font-size:12px;">₹' + c.price + ' x ' + c.qty + ' = ₹' + (c.price * c.qty) + '</span></div>' +
+                        '<div style="display:flex; align-items:center; gap:6px;">' +
+                            '<button type="button" class="btn-sm" style="background:#e2e8f0;" onclick="changeQty(' + i + ', -1)">-</button>' +
+                            '<strong>' + c.qty + '</strong>' +
+                            '<button type="button" class="btn-sm" style="background:#e2e8f0;" onclick="changeQty(' + i + ', 1)">+</button>' +
+                        '</div>' +
+                    '</div>';
+                }
+                container.innerHTML = html;
+            }
+
+            var subtotal = 0;
+            for (var j = 0; j < cart.length; j++) {
+                subtotal += cart[j].price * cart[j].qty;
+            }
+            var discount = activePromo ? Number(activePromo.discount) : 0;
+            if (discount > subtotal) discount = subtotal;
+            var afterDisc = subtotal - discount;
+            var delivery = (subtotal > 0 && afterDisc < 500) ? 50 : 0;
+            var total = afterDisc + delivery;
+
+            document.getElementById("cartBillSummary").innerHTML =
+                '<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Subtotal:</span><strong>₹' + subtotal + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#16a34a;"><span>Promo Discount:</span><strong>- ₹' + discount + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Delivery Charge:</span><strong>₹' + delivery + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; font-size:16px; border-top:1px solid #cbd5e1; padding-top:6px; color:#0255a5;"><strong>Total Payable:</strong><strong>₹' + total + '</strong></div>';
+        }
+
+        // Place Final Order
+        function placeFinalOrder() {
+            if (cart.length === 0) {
+                alert("कृपया पहले कार्ट में कम से कम एक दवा जोड़ें!");
+                return;
+            }
+            var name = document.getElementById("custName").value.trim();
+            var rawPhone = document.getElementById("custPhone").value.trim();
+            var phone = cleanPhone(rawPhone);
+            var address = document.getElementById("custAddress").value.trim();
+            var payment = document.getElementById("custPayment").value;
+
+            if (!name || phone.length < 10 || !address) {
+                alert("कृपया अपना नाम, 10 अंकों का मोबाइल नंबर और पूरा पता भरें!");
+                return;
+            }
+
+            var subtotal = 0;
+            var itemNames = [];
+            for (var i = 0; i < cart.length; i++) {
+                subtotal += cart[i].price * cart[i].qty;
+                itemNames.push(cart[i].name + " (x" + cart[i].qty + ")");
+            }
+            var discount = activePromo ? Number(activePromo.discount) : 0;
+            if (discount > subtotal) discount = subtotal;
+            var afterDisc = subtotal - discount;
+            var delivery = (afterDisc < 500) ? 50 : 0;
+            var total = afterDisc + delivery;
+
+            var orderId = "RNS" + Math.floor(1000 + Math.random() * 9000);
+            var newOrder = {
+                id: orderId,
+                date: new Date().toLocaleString("en-IN"),
+                name: name,
+                phone: phone,
+                address: address,
+                itemsList: cart.slice(),
+                itemsText: itemNames.join(", "),
+                subtotal: subtotal,
+                discount: discount,
+                delivery: delivery,
+                total: total,
+                payment: payment,
+                status: "Pending",
+                note: "आपका ऑर्डर मिल गया है, जल्द कन्फर्म किया जाएगा।"
+            };
+
+            var orders = getOrders();
+            orders.push(newOrder);
+            saveOrders(orders);
+
+            var waText = "*NEW ORDER - RNS PHARMACY*\n" +
+                "Order ID: *" + orderId + "*\n" +
+                "Name: " + name + "\n" +
+                "Phone: " + phone + "\n" +
+                "Address: " + address + "\n" +
+                "Medicines: " + newOrder.itemsText + "\n" +
+                "Subtotal: ₹" + subtotal + "\n" +
+                "Discount: ₹" + discount + "\n" +
+                "Delivery: ₹" + delivery + "\n" +
+                "*Total Bill: ₹" + total + "*\n" +
+                "Payment: " + payment;
+
+            cart = [];
+            activePromo = null;
+            updateCartBadge();
+            closeModal("cartModal");
+
+            var waUrl = "https://wa.me/917668273774?text=" + encodeURIComponent(waText);
+            window.open(waUrl, "_blank");
+        }
+
+        // Upload Prescription Function
+        function submitPrescription() {
+            var rawPhone = document.getElementById("rxPhone").value.trim();
+            var phone = cleanPhone(rawPhone);
+            var note = document.getElementById("rxNote").value.trim();
+            var fileInput = document.getElementById("rxFile");
+            var msgBox = document.getElementById("rxMsg");
+
+            if (phone.length < 10) {
+                msgBox.style.display = "block";
+                msgBox.style.color = "#dc2626";
+                msgBox.innerText = "⚠️ कृपया अपना सही 10 अंकों का मोबाइल नंबर डालें!";
+                return;
+            }
+            if (!fileInput.files || fileInput.files.length === 0) {
+                msgBox.style.display = "block";
+                msgBox.style.color = "#dc2626";
+                msgBox.innerText = "⚠️ कृपया पहले पर्चे (Prescription) की फोटो या फाइल चुनें!";
+                return;
+            }
+
+            var file = fileInput.files[0];
+            var rxId = "RX" + Math.floor(1000 + Math.random() * 9000);
+
+            var saveAndNotify = function(imgDataUrl) {
+                var rxList = getRxList();
+                rxList.push({
+                    id: rxId,
+                    date: new Date().toLocaleString("en-IN"),
+                    phone: phone,
+                    note: note || "Prescription Upload",
+                    fileName: file.name,
+                    fileData: imgDataUrl || "",
+                    status: "Pending",
+                    adminReply: "पर्चा प्राप्त हो गया है। फार्मासिस्ट चेक कर रहे हैं।"
+                });
+                saveRxList(rxList);
+
+                msgBox.style.display = "block";
+                msgBox.style.color = "#16a34a";
+                msgBox.innerText = "✅ पर्चा अपलोड हो गया! (ID: " + rxId + ")। WhatsApp खुल रहा है...";
+
+                var waMsg = "*PRESCRIPTION UPLOAD - RNS PHARMACY*\n" +
+                    "Rx ID: *" + rxId + "*\n" +
+                    "Customer Mobile: " + phone + "\n" +
+                    "File: " + file.name + "\n" +
+                    "Note: " + (note || "Please check my prescription");
+
+                document.getElementById("rxPhone").value = "";
+                document.getElementById("rxNote").value = "";
+                fileInput.value = "";
+
+                window.open("https://wa.me/917668273774?text=" + encodeURIComponent(waMsg), "_blank");
+            };
+
+            if (file.type.indexOf("image/") === 0 && file.size < 1500000) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    saveAndNotify(e.target.result);
+                };
+                reader.onerror = function() {
+                    saveAndNotify("");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                saveAndNotify("");
+            }
+        }
+
+        // Track Order & Prescription Status
+        function openTrackModal() {
+            document.getElementById("trackResultArea").innerHTML = "";
+            document.getElementById("trackModal").style.display = "flex";
+        }
+
+        function searchOrderStatus() {
+            var raw = document.getElementById("trackPhoneInput").value.trim();
+            var phone = cleanPhone(raw);
+            var out = document.getElementById("trackResultArea");
+
+            if (phone.length < 10) {
+                out.innerHTML = '<div style="padding:10px; background:#fee2e2; color:#b91c1c; border-radius:8px; font-size:13px; font-weight:700;">⚠️ कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।</div>';
+                return;
+            }
+
+            var orders = getOrders().filter(function(o) { return cleanPhone(o.phone) === phone; });
+            var rxs = getRxList().filter(function(r) { return cleanPhone(r.phone) === phone; });
+
+            if (orders.length === 0 && rxs.length === 0) {
+                out.innerHTML = '<div style="padding:12px; background:#fff1f2; color:#be123c; border:1px solid #fecdd3; border-radius:8px; font-size:13px;">इस मोबाइल नंबर (<strong>' + phone + '</strong>) पर अभी कोई ऑर्डर या पर्चा दर्ज नहीं है।</div>';
+                return;
+            }
+
+            var html = "";
+            for (var i = orders.length - 1; i >= 0; i--) {
+                var o = orders[i];
+                var stClass = "st-" + o.status.replace(/\s+/g, "");
+                html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:10px; background:#f8fafc;">' +
+                    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
+                        '<strong>Order ID: ' + o.id + '</strong>' +
+                        '<span class="status-pill ' + stClass + '">' + o.status + '</span>' +
+                    '</div>' +
+                    '<div style="font-size:13px; color:#334155; margin-bottom:4px;"><strong>Items:</strong> ' + o.itemsText + '</div>' +
+                    '<div style="font-size:13px; color:#0d8a47; font-weight:700; margin-bottom:4px;">Total Bill: ₹' + o.total + ' (' + o.payment + ')</div>' +
+                    '<div style="font-size:12px; background:#fef9c3; padding:6px; border-radius:6px; color:#854d0e; margin-bottom:8px;"><strong>Pharmacy Note:</strong> ' + (o.note || "प्रोसेस किया जा रहा है") + '</div>' +
+                    '<button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="showInvoiceById(\'' + o.id + '\')">🧾 View / Print Bill</button>' +
+                '</div>';
+            }
+
+            for (var j = rxs.length - 1; j >= 0; j--) {
+                var r = rxs[j];
+                html += '<div style="border:1px solid #bfdbfe; border-radius:10px; padding:12px; margin-bottom:10px; background:#eff6ff;">' +
+                    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
+                        '<strong>Prescription ID: ' + r.id + '</strong>' +
+                        '<span class="status-pill st-Accepted">' + r.status + '</span>' +
+                    '</div>' +
+                    '<div style="font-size:12px; color:#1e3a8a; margin-bottom:4px;">File: ' + r.fileName + ' (' + r.date + ')</div>' +
+                    '<div style="font-size:12px; background:#ffffff; padding:6px; border-radius:6px; color:#1e293b;"><strong>Status Note:</strong> ' + (r.adminReply || "Checking") + '</div>' +
+                '</div>';
+            }
+
+            out.innerHTML = html;
+        }
+
+        // ==================== ADMIN FUNCTIONS ====================
+        function refreshAdminAll() {
+            renderAdminStock();
+            renderAdminOrders();
+            renderAdminRx();
+            renderAdminPromos();
+        }
+
+        function addMedicine() {
+            var name = document.getElementById("medName").value.trim();
+            var exp = document.getElementById("medExp").value.trim();
+            var cat = document.getElementById("medCat").value.trim();
+            var mrp = parseFloat(document.getElementById("medMrp").value) || 0;
+            var price = parseFloat(document.getElementById("medPrice").value) || 0;
+
+            if (!name || price <= 0) {
+                alert("कृपया दवा का नाम और Offer Price सही भरें!");
+                return;
+            }
+            if (mrp < price) mrp = price;
+
+            var stock = getStock();
+            stock.unshift({
+                id: "med_" + Date.now(),
+                name: name,
+                exp: exp || "2027",
+                cat: cat || "General",
+                mrp: mrp,
+                price: price
+            });
+            saveStock(stock);
+
+            document.getElementById("medName").value = "";
+            document.getElementById("medExp").value = "";
+            document.getElementById("medCat").value = "";
+            document.getElementById("medMrp").value = "";
+            document.getElementById("medPrice").value = "";
+
+            renderAdminStock();
+            renderCatalog();
+            alert("✅ दवा स्टॉक में जुड़ गई!");
+        }
+
+        function deleteMedicine(id) {
+            var stock = getStock().filter(function(m) { return m.id !== id; });
+            saveStock(stock);
+            renderAdminStock();
+            renderCatalog();
+        }
+
+        function renderAdminStock() {
+            var stock = getStock();
+            var html = "";
+            for (var i = 0; i < stock.length; i++) {
+                var m = stock[i];
+                html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #e2e8f0; font-size:13px;">' +
+                    '<div><strong>' + m.name + '</strong><br><span style="color:#64748b;">Exp: ' + m.exp + ' | MRP: ₹' + m.mrp + ' | <b>Sale: ₹' + m.price + '</b></span></div>' +
+                    '<button type="button" class="btn-sm" style="background:#fee2e2; color:#b91c1c;" onclick="deleteMedicine(\'' + m.id + '\')">Delete</button>' +
+                '</div>';
+            }
+            document.getElementById("adminStockList").innerHTML = html || "<p>कोई स्टॉक नहीं है।</p>";
+        }
+
+        function renderAdminOrders() {
+            var orders = getOrders();
+            document.getElementById("admOrdCount").innerText = orders.length;
+            var html = "";
+            if (orders.length === 0) {
+                html = '<p style="text-align:center; color:#64748b; padding:12px;">अभी तक कोई ऑर्डर नहीं आया है।</p>';
+            } else {
+                for (var i = orders.length - 1; i >= 0; i--) {
+                    var o = orders[i];
+                    html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:12px; background:#f8fafc;">' +
+                        '<div style="display:flex; justify-content:space-between; margin-bottom:6px;">' +
+                            '<strong>' + o.id + ' - ' + o.name + ' (' + o.phone + ')</strong>' +
+                            '<span class="status-pill st-' + o.status.replace(/\s+/g, "") + '">' + o.status + '</span>' +
+                        '</div>' +
+                        '<div style="font-size:12px; color:#475569; margin-bottom:4px;">📍 ' + o.address + ' | 🕒 ' + o.date + '</div>' +
+                        '<div style="font-size:13px; margin-bottom:6px;"><strong>Items:</strong> ' + o.itemsText + '</div>' +
+                        '<div style="font-size:14px; font-weight:800; color:#0d8a47; margin-bottom:8px;">Total: ₹' + o.total + ' (' + o.payment + ')</div>' +
+                        '<div style="display:flex; gap:6px; margin-bottom:8px;">' +
+                            '<select id="st_' + o.id + '" style="margin-bottom:0; flex:1;">' +
+                                '<option value="Pending"' + (o.status === "Pending" ? " selected" : "") + '>Pending</option>' +
+                                '<option value="Accepted"' + (o.status === "Accepted" ? " selected" : "") + '>Accepted</option>' +
+                                '<option value="Processing"' + (o.status === "Processing" ? " selected" : "") + '>Processing</option>' +
+                                '<option value="In Transit"' + (o.status === "In Transit" ? " selected" : "") + '>Out for Delivery</option>' +
+                                '<option value="Delivered"' + (o.status === "Delivered" ? " selected" : "") + '>Delivered</option>' +
+                                '<option value="Rejected"' + (o.status === "Rejected" ? " selected" : "") + '>Rejected</option>' +
+                            '</select>' +
+                            '<input type="text" id="nt_' + o.id + '" value="' + (o.note || "") + '" placeholder="Note for customer" style="margin-bottom:0; flex:1.5;">' +
+                        '</div>' +
+                        '<div style="display:flex; gap:6px; flex-wrap:wrap;">' +
+                            '<button type="button" class="btn-sm" style="background:#16a34a; color:#fff;" onclick="saveOrderUpdate(\'' + o.id + '\')">💾 Save Update</button>' +
+                            '<button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="showInvoiceById(\'' + o.id + '\')">🖨️ Print Bill</button>' +
+                            '<a href="https://wa.me/91' + o.phone + '?text=' + encodeURIComponent("नमस्कार " + o.name + ", RNS Pharmacy से आपके ऑर्डर (" + o.id + ") का स्टेटस: " + o.status + "। कुल बिल: ₹" + o.total) + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">💬 WhatsApp</a>' +
+                        '</div>' +
+                    '</div>';
+                }
+            }
+            document.getElementById("adminOrderList").innerHTML = html;
+        }
+
+        function saveOrderUpdate(orderId) {
+            var orders = getOrders();
+            var newSt = document.getElementById("st_" + orderId).value;
+            var newNt = document.getElementById("nt_" + orderId).value;
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].id === orderId) {
+                    orders[i].status = newSt;
+                    orders[i].note = newNt;
+                    break;
+                }
+            }
+            saveOrders(orders);
+            renderAdminOrders();
+            alert("✅ ऑर्डर स्टेटस और नोट अपडेट हो गया!");
+        }
+
+        function clearAllOrders() {
+            if (confirm("क्या आप वाकई सारे पुराने ऑर्डर हटाना चाहते हैं?")) {
+                localStorage.removeItem("rns_orders_v2");
+                renderAdminOrders();
+            }
+        }
+
+        function renderAdminRx() {
+            var rxs = getRxList();
+            document.getElementById("admRxCount").innerText = rxs.length;
+            var html = "";
+            if (rxs.length === 0) {
+                html = '<p style="text-align:center; color:#64748b; padding:12px;">अभी कोई प्रिस्क्रिप्शन (पर्चा) अपलोड नहीं हुआ है।</p>';
+            } else {
+                for (var i = rxs.length - 1; i >= 0; i--) {
+                    var r = rxs[i];
+                    html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:10px;">' +
+                        '<strong>' + r.id + ' - Mobile: ' + r.phone + '</strong><br>' +
+                        '<span style="font-size:12px; color:#64748b;">File: ' + r.fileName + ' | ' + r.date + '</span><br>' +
+                        '<span style="font-size:13px;">Note: ' + r.note + '</span>' +
+                        (r.fileData ? '<div style="margin:8px 0;"><img src="' + r.fileData + '" style="max-width:100%; max-height:180px; border-radius:6px; border:1px solid #cbd5e1;"></div>' : '') +
+                        '<div style="display:flex; gap:6px; margin-top:8px;">' +
+                            '<input type="text" id="rxrep_' + r.id + '" value="' + (r.adminReply || "") + '" placeholder="Reply / Bill amount" style="margin-bottom:0;">' +
+                            '<button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="updateRxReply(\'' + r.id + '\')">Save</button>' +
+                            '<a href="https://wa.me/91' + r.phone + '?text=' + encodeURIComponent("RNS Pharmacy: आपका पर्चा (" + r.id + ") चेक कर लिया गया है।") + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">WhatsApp</a>' +
+                        '</div>' +
+                    '</div>';
+                }
+            }
+            document.getElementById("adminRxList").innerHTML = html;
+        }
+
+        function updateRxReply(rxId) {
+            var rxs = getRxList();
+            var val = document.getElementById("rxrep_" + rxId).value;
+            for (var i = 0; i < rxs.length; i++) {
+                if (rxs[i].id === rxId) {
+                    rxs[i].status = "Reviewed";
+                    rxs[i].adminReply = val;
+                    break;
+                }
+            }
+            saveRxList(rxs);
+            renderAdminRx();
+            alert("✅ पर्चा रिप्लाई सेव हो गया!");
+        }
+
+        function addPromoCode() {
+            var code = document.getElementById("promoCodeInput").value.trim().toUpperCase();
+            var disc = parseFloat(document.getElementById("promoDiscInput").value) || 0;
+            if (!code || disc <= 0) {
+                alert("कृपया प्रोमो कोड का नाम और छूट की रकम (₹) सही डालें!");
+                return;
+            }
+            var promos = getPromos();
+            promos.push({ code: code, discount: disc });
+            savePromos(promos);
+            document.getElementById("promoCodeInput").value = "";
+            document.getElementById("promoDiscInput").value = "";
+            renderAdminPromos();
+        }
+
+        function deletePromo(code) {
+            var promos = getPromos().filter(function(p) { return p.code !== code; });
+            savePromos(promos);
+            renderAdminPromos();
+        }
+
+        function renderAdminPromos() {
+            var promos = getPromos();
+            var html = "";
+            for (var i = 0; i < promos.length; i++) {
+                var p = promos[i];
+                html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #e2e8f0; font-size:13px;">' +
+                    '<div><strong>' + p.code + '</strong> - Flat ₹' + p.discount + ' OFF</div>' +
+                    '<button type="button" class="btn-sm" style="background:#fee2e2; color:#b91c1c;" onclick="deletePromo(\'' + p.code + '\')">Remove</button>' +
+                '</div>';
+            }
+            document.getElementById("adminPromoList").innerHTML = html;
+        }
+
+        // Show Printable Invoice Modal (Popup-Blocker Safe)
+        function showInvoiceById(orderId) {
+            var orders = getOrders();
+            var o = null;
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].id === orderId) {
+                    o = orders[i];
+                    break;
+                }
+            }
+            if (!o) return;
+
+            var rows = "";
+            if (o.itemsList && o.itemsList.length > 0) {
+                for (var j = 0; j < o.itemsList.length; j++) {
+                    var it = o.itemsList[j];
+                    rows += '<tr><td>' + it.name + '</td><td>' + it.qty + '</td><td>₹' + it.price + '</td><td>₹' + (it.price * it.qty) + '</td></tr>';
+                }
+            } else {
+                rows = '<tr><td>' + o.itemsText + '</td><td>1</td><td>₹' + o.subtotal + '</td><td>₹' + o.subtotal + '</td></tr>';
+            }
+
+            var html = '<div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:10px;">' +
+                '<h2 style="color:#0255a5; margin:0;">RNS PHARMACY</h2>' +
+                '<p style="font-size:12px;">Kalimata Road, near Indian Petrol Pump, Sikta, UP - 274303</p>' +
+                '<p style="font-size:12px; font-weight:700;">Phone / WhatsApp: +91 7668273774</p>' +
+            '</div>' +
+            '<div style="font-size:12px; margin-bottom:10px; display:flex; justify-content:space-between;">' +
+                '<div><strong>Patient:</strong> ' + o.name + '<br><strong>Phone:</strong> ' + o.phone + '<br><strong>Address:</strong> ' + o.address + '</div>' +
+                '<div style="text-align:right;"><strong>Invoice:</strong> #' + o.id + '<br><strong>Date:</strong> ' + o.date + '<br><strong>Status:</strong> ' + o.status + '</div>' +
+            '</div>' +
+            '<table class="inv-table">' +
+                '<thead><tr><th>Medicine</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>' +
+                '<tbody>' + rows + '</tbody>' +
+            '</table>' +
+            '<div style="text-align:right; font-size:13px; line-height:1.6;">' +
+                '<div>Subtotal: ₹' + o.subtotal + '</div>' +
+                '<div>Discount: - ₹' + (o.discount || 0) + '</div>' +
+                '<div>Delivery Charge: ₹' + o.delivery + '</div>' +
+                '<div style="font-size:16px; font-weight:800; border-top:1px solid #000; padding-top:4px;">Grand Total: ₹' + o.total + '</div>' +
+                '<div style="font-size:12px;">Payment Mode: ' + o.payment + '</div>' +
+            '</div>' +
+            '<p style="text-align:center; font-size:11px; margin-top:12px; border-top:1px dashed #64748b; padding-top:6px;">Get Well Soon! Thank you for choosing RNS Pharmacy, Sikta.</p>';
+
+            document.getElementById("invoiceContent").innerHTML = html;
+            document.getElementById("invoiceModal").style.display = "flex";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            renderCatalog();
+            updateCartBadge();
+        };
+    </script>
 </body>
 </html>
