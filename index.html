@@ -12,7 +12,7 @@
         .header { background: #ffffff; padding: 16px; border-bottom: 1px solid #e2e8f0; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .brand-title { color: #0255a5; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
-        .live-status { background: #dcfce7; color: #15803d; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; }
+        .live-status { background: #dcfce7; color: #15803d; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; border: 1px solid #bbf7d0; }
         .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
         .badge-green { background: #e6f7ed; color: #0d8a47; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
         .badge-blue { background: #e8f0fe; color: #1a56db; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
@@ -105,7 +105,7 @@
     <div class="header">
         <div class="header-top">
             <div class="brand-title">RNS PHARMACY</div>
-            <span id="syncBadge" class="live-status">🟢 Live Ready</span>
+            <button type="button" id="syncBadge" class="live-status" onclick="syncFromCloud(true)">🟢 Cloud Live</button>
         </div>
         <div class="badges">
             <span class="badge-green">✅ Verified Chemist</span>
@@ -204,17 +204,12 @@
                         <input type="number" id="medMrp" placeholder="MRP (₹)">
                         <input type="number" id="medPrice" placeholder="Offer Price (₹)">
                     </div>
-                    <button type="button" class="btn-green" onclick="addMedicine()">Save Medicine to Catalog</button>
-
-                    <!-- Global Sync Box for All Phones -->
-                    <div style="margin-top:12px; background:#eff6ff; border:1px solid #bfdbfe; padding:12px; border-radius:10px;">
-                        <p style="font-size:12px; color:#1e3a8a; font-weight:700; margin-bottom:6px;">📱 दूसरे मोबाइल (ग्राहकों) में नया स्टॉक दिखाने के लिए:</p>
-                        <p style="font-size:11px; color:#475569; margin-bottom:8px;">नीचे से अपनी दवाइयां ऐड/डिलीट करने के बाद यह बटन दबाएं। इससे आपका नया स्टॉक वेबसाइट के मुख्य कोड में जुड़कर कॉपी हो जाएगा, जिसे आप GitHub में पेस्ट कर सकते हैं:</p>
-                        <button type="button" class="btn-primary" style="background:#0255a5; padding:9px;" onclick="copyUpdatedSiteCode()">🌐 सभी मोबाइल के लिए अपडेटेड कोड कॉपी करें</button>
-                    </div>
-
+                    <button type="button" class="btn-green" onclick="addMedicine()">Save Medicine (Auto Cloud Sync)</button>
                     <hr style="margin:16px 0; border:0; border-top:1px solid #e2e8f0;">
-                    <h4 style="margin-bottom:10px;">Current Stock List</h4>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <h4>Current Stock List</h4>
+                        <button type="button" class="btn-sm" style="background:#e0f2fe; color:#0255a5;" onclick="pushConfigToCloud(true)">🔄 Force Sync All Phones</button>
+                    </div>
                     <div id="adminStockList"></div>
                 </div>
 
@@ -222,14 +217,20 @@
                 <div id="admSecOrd" class="card" style="display:none;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <div class="card-title" style="margin:0;">🛒 Customer Orders & Billing</div>
-                        <button type="button" class="btn-sm" style="background:#dc2626; color:#fff;" onclick="clearAllOrders()">Clear All</button>
+                        <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="syncFromCloud(true)">🔄 Refresh</button>
+                            <button type="button" class="btn-sm" style="background:#dc2626; color:#fff;" onclick="clearAllOrders()">Clear All</button>
+                        </div>
                     </div>
                     <div id="adminOrderList"></div>
                 </div>
 
                 <!-- 3. Prescriptions (Rx) Tab -->
                 <div id="admSecRx" class="card" style="display:none;">
-                    <div class="card-title">📄 Uploaded Prescriptions (Rx)</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <div class="card-title" style="margin:0;">📄 Uploaded Prescriptions (Rx)</div>
+                        <button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="syncFromCloud(true)">🔄 Refresh</button>
+                    </div>
                     <div id="adminRxList"></div>
                 </div>
 
@@ -240,7 +241,7 @@
                         <input type="text" id="promoCodeInput" placeholder="Code (e.g. RNS10)" style="text-transform:uppercase;">
                         <input type="number" id="promoDiscInput" placeholder="Discount ₹ (Flat)">
                     </div>
-                    <button type="button" class="btn-primary" onclick="addPromoCode()">Add Promo Code</button>
+                    <button type="button" class="btn-primary" onclick="addPromoCode()">Add Promo Code (Auto Sync)</button>
                     <hr style="margin:14px 0; border:0; border-top:1px solid #e2e8f0;">
                     <div id="adminPromoList"></div>
                 </div>
@@ -328,6 +329,13 @@
     </div>
 
     <script>
+        // ==================== REAL-TIME CLOUD SYNC CONFIGURATION ====================
+        // Uses free non-blocking pub/sub cloud channels so all devices stay in sync automatically
+        var CLOUD_BASE = "https://ntfy.sh/";
+        var TOPIC_CFG = "rns_pharm_sikta_cfg_7402_v5";
+        var TOPIC_ORD = "rns_pharm_sikta_ord_7402_v5";
+        var TOPIC_RX  = "rns_pharm_sikta_rx_7402_v5";
+
         function cleanPhone(num) {
             if (!num) return "";
             var digits = String(num).replace(/\D/g, "");
@@ -343,21 +351,17 @@
             return st;
         }
 
-        /* DEFAULT_STOCK_START */
         var defaultStock = [
             { id: "m1", name: "Paracetamol 650mg (15 Tabs)", exp: "11/2027", cat: "Fever / Pain", mrp: 35, price: 22 },
             { id: "m2", name: "Pantoprazole 40mg (10 Tabs)", exp: "08/2027", cat: "Gas / Acidity", mrp: 110, price: 85 },
             { id: "m3", name: "Cough Syrup 100ml", exp: "05/2027", cat: "Cold & Cough", mrp: 125, price: 95 },
             { id: "m4", name: "ORS Powder (1 Sachet)", exp: "10/2027", cat: "Energy / Hydration", mrp: 22, price: 20 }
         ];
-        /* DEFAULT_STOCK_END */
 
-        /* DEFAULT_PROMOS_START */
         var defaultPromos = [
             { code: "RNS20", discount: 20 },
             { code: "FIRST50", discount: 50 }
         ];
-        /* DEFAULT_PROMOS_END */
 
         function getStock() {
             var data = localStorage.getItem("rns_stock_v2");
@@ -365,27 +369,15 @@
                 localStorage.setItem("rns_stock_v2", JSON.stringify(defaultStock));
                 return defaultStock;
             }
-            return JSON.parse(data);
+            try { return JSON.parse(data); } catch (e) { return defaultStock; }
         }
 
-        function saveStock(list) {
+        function saveStock(list, skipCloud) {
             localStorage.setItem("rns_stock_v2", JSON.stringify(list));
-        }
-
-        function getOrders() {
-            return JSON.parse(localStorage.getItem("rns_orders_v2") || "[]");
-        }
-
-        function saveOrders(list) {
-            localStorage.setItem("rns_orders_v2", JSON.stringify(list));
-        }
-
-        function getRxList() {
-            return JSON.parse(localStorage.getItem("rns_rx_v2") || "[]");
-        }
-
-        function saveRxList(list) {
-            localStorage.setItem("rns_rx_v2", JSON.stringify(list));
+            localStorage.setItem("rns_cfg_modified", "1");
+            if (!skipCloud) {
+                pushConfigToCloud(false);
+            }
         }
 
         function getPromos() {
@@ -394,11 +386,231 @@
                 localStorage.setItem("rns_promos_v2", JSON.stringify(defaultPromos));
                 return defaultPromos;
             }
-            return JSON.parse(data);
+            try { return JSON.parse(data); } catch (e) { return defaultPromos; }
         }
 
-        function savePromos(list) {
+        function savePromos(list, skipCloud) {
             localStorage.setItem("rns_promos_v2", JSON.stringify(list));
+            localStorage.setItem("rns_cfg_modified", "1");
+            if (!skipCloud) {
+                pushConfigToCloud(false);
+            }
+        }
+
+        function getOrders() {
+            try { return JSON.parse(localStorage.getItem("rns_orders_v2") || "[]"); } catch (e) { return []; }
+        }
+
+        function saveOrders(list) {
+            localStorage.setItem("rns_orders_v2", JSON.stringify(list));
+        }
+
+        function getRxList() {
+            try { return JSON.parse(localStorage.getItem("rns_rx_v2") || "[]"); } catch (e) { return []; }
+        }
+
+        function saveRxList(list) {
+            localStorage.setItem("rns_rx_v2", JSON.stringify(list));
+        }
+
+        // ==================== CLOUD PUSH & PULL FUNCTIONS ====================
+        function setBadgeStatus(text, isSyncing) {
+            var b = document.getElementById("syncBadge");
+            if (!b) return;
+            b.innerText = text;
+            b.style.background = isSyncing ? "#dbeafe" : "#dcfce7";
+            b.style.color = isSyncing ? "#1d4ed8" : "#15803d";
+        }
+
+        // Push Stock & Promos to Cloud
+        function pushConfigToCloud(showAlert) {
+            setBadgeStatus("🔄 Syncing...", true);
+            var payload = {
+                ts: Date.now(),
+                stock: getStock(),
+                promos: getPromos()
+            };
+            var encoded = encodeURIComponent(JSON.stringify(payload));
+            fetch(CLOUD_BASE + TOPIC_CFG, {
+                method: "POST",
+                body: encoded
+            }).then(function() {
+                setBadgeStatus("🟢 Cloud Live", false);
+                if (showAlert) alert("✅ आपका स्टॉक और प्रोमो कोड सभी मोबाइलों के लिए क्लाउड पर अपडेट हो गया!");
+            }).catch(function() {
+                setBadgeStatus("🟢 Local Ready", false);
+            });
+        }
+
+        // Push Single Order or Order Update to Cloud
+        function pushOrderEventToCloud(type, orderObj) {
+            var payload = {
+                type: type,
+                ts: Date.now(),
+                order: orderObj || null
+            };
+            var encoded = encodeURIComponent(JSON.stringify(payload));
+            fetch(CLOUD_BASE + TOPIC_ORD, {
+                method: "POST",
+                body: encoded
+            }).catch(function() {});
+        }
+
+        // Push Single Prescription (Rx) or Update to Cloud (without heavy image data so it never exceeds cloud packet size)
+        function pushRxEventToCloud(rxObj) {
+            var lightRx = {
+                id: rxObj.id,
+                date: rxObj.date,
+                phone: rxObj.phone,
+                note: rxObj.note,
+                fileName: rxObj.fileName,
+                fileData: (rxObj.fileData && rxObj.fileData.length < 2500) ? rxObj.fileData : "",
+                status: rxObj.status,
+                adminReply: rxObj.adminReply,
+                ts: Date.now()
+            };
+            var encoded = encodeURIComponent(JSON.stringify(lightRx));
+            fetch(CLOUD_BASE + TOPIC_RX, {
+                method: "POST",
+                body: encoded
+            }).catch(function() {});
+        }
+
+        // Pull latest Stock, Orders & Rx from Cloud
+        function syncFromCloud(showIndicator) {
+            if (showIndicator) setBadgeStatus("🔄 Syncing...", true);
+
+            // 1. Fetch Stock & Promos
+            fetch(CLOUD_BASE + TOPIC_CFG + "/json?poll=1&since=all")
+                .then(function(res) { return res.text(); })
+                .then(function(text) {
+                    var lines = text.trim().split("\n");
+                    var latestCfg = null;
+                    for (var i = 0; i < lines.length; i++) {
+                        if (!lines[i]) continue;
+                        try {
+                            var pkt = JSON.parse(lines[i]);
+                            if (pkt.event === "message" && pkt.message) {
+                                var decoded = JSON.parse(decodeURIComponent(pkt.message));
+                                if (decoded && Array.isArray(decoded.stock)) {
+                                    latestCfg = decoded;
+                                }
+                            }
+                        } catch (e) {}
+                    }
+                    if (latestCfg) {
+                        localStorage.setItem("rns_stock_v2", JSON.stringify(latestCfg.stock));
+                        if (Array.isArray(latestCfg.promos)) {
+                            localStorage.setItem("rns_promos_v2", JSON.stringify(latestCfg.promos));
+                        }
+                        renderCatalog();
+                        if (isAdminLoggedIn) {
+                            renderAdminStock();
+                            renderAdminPromos();
+                        }
+                    } else if (localStorage.getItem("rns_cfg_modified") === "1") {
+                        // Auto-heal: if owner phone has modified stock and cloud cache is empty, push it automatically
+                        pushConfigToCloud(false);
+                    }
+                    setBadgeStatus("🟢 Cloud Live", false);
+                })
+                .catch(function() {
+                    setBadgeStatus("🟢 Cloud Live", false);
+                });
+
+            // 2. Fetch Orders
+            fetch(CLOUD_BASE + TOPIC_ORD + "/json?poll=1&since=all")
+                .then(function(res) { return res.text(); })
+                .then(function(text) {
+                    var lines = text.trim().split("\n");
+                    var localOrders = getOrders();
+                    var map = {};
+                    var clearTs = Number(localStorage.getItem("rns_clear_ts") || 0);
+
+                    for (var a = 0; a < localOrders.length; a++) {
+                        map[localOrders[a].id] = localOrders[a];
+                    }
+
+                    var changed = false;
+                    for (var i = 0; i < lines.length; i++) {
+                        if (!lines[i]) continue;
+                        try {
+                            var pkt = JSON.parse(lines[i]);
+                            if (pkt.event === "message" && pkt.message) {
+                                var ev = JSON.parse(decodeURIComponent(pkt.message));
+                                if (ev.type === "clear_all" && ev.ts > clearTs) {
+                                    clearTs = ev.ts;
+                                    localStorage.setItem("rns_clear_ts", String(clearTs));
+                                    map = {};
+                                    changed = true;
+                                } else if (ev.type === "order" && ev.order && ev.order.id) {
+                                    var ordTs = ev.ts || (pkt.time ? pkt.time * 1000 : 0);
+                                    if (ordTs > clearTs) {
+                                        map[ev.order.id] = ev.order;
+                                        changed = true;
+                                    }
+                                }
+                            }
+                        } catch (e) {}
+                    }
+
+                    if (changed) {
+                        var merged = Object.keys(map).map(function(k) { return map[k]; });
+                        saveOrders(merged);
+                        if (isAdminLoggedIn) renderAdminOrders();
+                    }
+                })
+                .catch(function() {});
+
+            // 3. Fetch Prescriptions (Rx)
+            fetch(CLOUD_BASE + TOPIC_RX + "/json?poll=1&since=all")
+                .then(function(res) { return res.text(); })
+                .then(function(text) {
+                    var lines = text.trim().split("\n");
+                    var localRxs = getRxList();
+                    var rxMap = {};
+
+                    for (var a = 0; a < localRxs.length; a++) {
+                        rxMap[localRxs[a].id] = localRxs[a];
+                    }
+
+                    var changed = false;
+                    for (var i = 0; i < lines.length; i++) {
+                        if (!lines[i]) continue;
+                        try {
+                            var pkt = JSON.parse(lines[i]);
+                            if (pkt.event === "message" && pkt.message) {
+                                var rObj = JSON.parse(decodeURIComponent(pkt.message));
+                                if (rObj && rObj.id) {
+                                    var existingImg = rxMap[rObj.id] ? rxMap[rObj.id].fileData : "";
+                                    if (!rObj.fileData && existingImg) {
+                                        rObj.fileData = existingImg;
+                                    }
+                                    rxMap[rObj.id] = rObj;
+                                    changed = true;
+                                }
+                            }
+                        } catch (e) {}
+                    }
+
+                    if (changed) {
+                        var mergedRx = Object.keys(rxMap).map(function(k) { return rxMap[k]; });
+                        saveRxList(mergedRx);
+                        if (isAdminLoggedIn) renderAdminRx();
+                    }
+                })
+                .catch(function() {});
+        }
+
+        // Live Stream Listener (Instant updates without page refresh)
+        function startLiveStream() {
+            if (typeof EventSource === "undefined") return;
+            try {
+                var es = new EventSource(CLOUD_BASE + TOPIC_CFG + "," + TOPIC_ORD + "," + TOPIC_RX + "/sse");
+                es.onmessage = function() {
+                    syncFromCloud(false);
+                };
+            } catch (e) {}
         }
 
         var cart = [];
@@ -416,6 +628,7 @@
                 adminDiv.style.display = "block";
                 btnStore.classList.remove("active");
                 btnAdmin.classList.add("active");
+                syncFromCloud(false);
                 if (isAdminLoggedIn) {
                     refreshAdminAll();
                 }
@@ -436,6 +649,7 @@
                 document.getElementById("adminLoginCard").style.display = "none";
                 document.getElementById("adminDashboard").style.display = "block";
                 refreshAdminAll();
+                syncFromCloud(true);
             } else {
                 alert("गलत पासवर्ड! कृपया सही एडमिन पासवर्ड डालें।");
             }
@@ -456,35 +670,7 @@
                 }
             }
             refreshAdminAll();
-        }
-
-        // Export updated stock into full HTML code so all customer phones see the updated stock
-        function copyUpdatedSiteCode() {
-            var currentStock = getStock();
-            var currentPromos = getPromos();
-            var fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-
-            var stockBlock = "/* DEFAULT_STOCK_START */\n        var defaultStock = " + JSON.stringify(currentStock, null, 4) + ";\n        /* DEFAULT_STOCK_END */";
-            var promoBlock = "/* DEFAULT_PROMOS_START */\n        var defaultPromos = " + JSON.stringify(currentPromos, null, 4) + ";\n        /* DEFAULT_PROMOS_END */";
-
-            fullHtml = fullHtml.replace(/\/\* DEFAULT_STOCK_START \*\/[\s\S]*?\/\* DEFAULT_STOCK_END \*\//, stockBlock);
-            fullHtml = fullHtml.replace(/\/\* DEFAULT_PROMOS_START \*\/[\s\S]*?\/\* DEFAULT_PROMOS_END \*\//, promoBlock);
-
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(fullHtml).then(function() {
-                    alert("✅ आपका नया स्टॉक और प्रोमो कोड पूरी वेबसाइट के कोड के साथ कॉपी हो गया है!\n\nअब बस GitHub की index.html फाइल में जाकर इसे पेस्ट (Commit) कर दें—हर मोबाइल में यही नया स्टॉक दिखेगा!");
-                }).catch(function() {
-                    alert("कोड कॉपी हो गया है!");
-                });
-            } else {
-                var ta = document.createElement("textarea");
-                ta.value = fullHtml;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand("copy");
-                document.body.removeChild(ta);
-                alert("✅ आपका नया स्टॉक कोड कॉपी हो गया है! इसे GitHub की index.html में पेस्ट कर दें।");
-            }
+            syncFromCloud(false);
         }
 
         function renderCatalog() {
@@ -725,6 +911,9 @@
             orders.push(newOrder);
             saveOrders(orders);
 
+            // Auto push order to Cloud so Owner Portal receives it on all phones
+            pushOrderEventToCloud("order", newOrder);
+
             var waText = "*NEW ORDER - RNS PHARMACY*\n" +
                 "Order ID: *" + orderId + "*\n" +
                 "Name: " + name + "\n" +
@@ -750,6 +939,42 @@
             window.open(waUrl, "_blank");
         }
 
+        // Compress prescription image into a tiny thumbnail so cloud sync is instant & never fails
+        function createTinyThumb(file, callback) {
+            if (!file || file.type.indexOf("image/") !== 0) {
+                callback("");
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = new Image();
+                img.onload = function() {
+                    try {
+                        var canvas = document.createElement("canvas");
+                        var maxDim = 90;
+                        var w = img.width;
+                        var h = img.height;
+                        if (w > h) {
+                            if (w > maxDim) { h = Math.round(h * maxDim / w); w = maxDim; }
+                        } else {
+                            if (h > maxDim) { w = Math.round(w * maxDim / h); h = maxDim; }
+                        }
+                        canvas.width = w;
+                        canvas.height = h;
+                        var ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, w, h);
+                        callback(canvas.toDataURL("image/jpeg", 0.4));
+                    } catch (err) {
+                        callback("");
+                    }
+                };
+                img.onerror = function() { callback(""); };
+                img.src = e.target.result;
+            };
+            reader.onerror = function() { callback(""); };
+            reader.readAsDataURL(file);
+        }
+
         function submitPrescription() {
             var rawPhone = document.getElementById("rxPhone").value.trim();
             var phone = cleanPhone(rawPhone);
@@ -773,19 +998,24 @@
             var file = fileInput.files[0];
             var rxId = "RX" + Math.floor(1000 + Math.random() * 9000);
 
-            var saveAndNotify = function(imgDataUrl) {
-                var rxList = getRxList();
-                rxList.push({
+            createTinyThumb(file, function(thumbUrl) {
+                var newRx = {
                     id: rxId,
                     date: new Date().toLocaleString("en-IN"),
                     phone: phone,
                     note: note || "Prescription Upload",
                     fileName: file.name,
-                    fileData: imgDataUrl || "",
+                    fileData: thumbUrl || "",
                     status: "Pending",
                     adminReply: "पर्चा प्राप्त हो गया है। फार्मासिस्ट चेक कर रहे हैं।"
-                });
+                };
+
+                var rxList = getRxList();
+                rxList.push(newRx);
                 saveRxList(rxList);
+
+                // Push Rx to Cloud so Owner Portal receives it on all phones
+                pushRxEventToCloud(newRx);
 
                 msgBox.style.display = "block";
                 msgBox.style.color = "#16a34a";
@@ -802,25 +1032,13 @@
                 fileInput.value = "";
 
                 window.open("https://wa.me/917668273774?text=" + encodeURIComponent(waMsg), "_blank");
-            };
-
-            if (file.type.indexOf("image/") === 0 && file.size < 1500000) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    saveAndNotify(e.target.result);
-                };
-                reader.onerror = function() {
-                    saveAndNotify("");
-                };
-                reader.readAsDataURL(file);
-            } else {
-                saveAndNotify("");
-            }
+            });
         }
 
         function openTrackModal() {
             document.getElementById("trackResultArea").innerHTML = "";
             document.getElementById("trackModal").style.display = "flex";
+            syncFromCloud(false);
         }
 
         function searchOrderStatus() {
@@ -833,6 +1051,17 @@
                 return;
             }
 
+            out.innerHTML = '<div style="padding:10px; color:#0255a5; font-size:13px; font-weight:700;">🔄 स्टेटस चेक किया जा रहा है...</div>';
+
+            // Pull latest updates from cloud first, then render results
+            syncFromCloud(false);
+            setTimeout(function() {
+                renderTrackResultsForPhone(phone);
+            }, 600);
+        }
+
+        function renderTrackResultsForPhone(phone) {
+            var out = document.getElementById("trackResultArea");
             var orders = getOrders().filter(function(o) { return cleanPhone(o.phone) === phone; });
             var rxs = getRxList().filter(function(r) { return cleanPhone(r.phone) === phone; });
 
@@ -904,7 +1133,7 @@
                 mrp: mrp,
                 price: price
             });
-            saveStock(stock);
+            saveStock(stock, false);
 
             document.getElementById("medName").value = "";
             document.getElementById("medExp").value = "";
@@ -914,12 +1143,12 @@
 
             renderAdminStock();
             renderCatalog();
-            alert("✅ दवा स्टॉक में जुड़ गई!");
+            alert("✅ दवा जुड़ गई और ऑटोमैटिक सभी मोबाइल के लिए क्लाउड पर अपडेट हो गई!");
         }
 
         function deleteMedicine(id) {
             var stock = getStock().filter(function(m) { return m.id !== id; });
-            saveStock(stock);
+            saveStock(stock, false);
             renderAdminStock();
             renderCatalog();
         }
@@ -981,21 +1210,29 @@
             var orders = getOrders();
             var newSt = document.getElementById("st_" + orderId).value;
             var newNt = document.getElementById("nt_" + orderId).value;
+            var updatedOrder = null;
             for (var i = 0; i < orders.length; i++) {
                 if (orders[i].id === orderId) {
                     orders[i].status = newSt;
                     orders[i].note = newNt;
+                    updatedOrder = orders[i];
                     break;
                 }
             }
             saveOrders(orders);
+            if (updatedOrder) {
+                pushOrderEventToCloud("order", updatedOrder);
+            }
             renderAdminOrders();
-            alert("✅ ऑर्डर स्टेटस और नोट अपडेट हो गया!");
+            alert("✅ ऑर्डर स्टेटस और नोट क्लाउड पर अपडेट हो गया!");
         }
 
         function clearAllOrders() {
             if (confirm("क्या आप वाकई सारे पुराने ऑर्डर हटाना चाहते हैं?")) {
+                var nowTs = Date.now();
+                localStorage.setItem("rns_clear_ts", String(nowTs));
                 localStorage.removeItem("rns_orders_v2");
+                pushOrderEventToCloud("clear_all", null);
                 renderAdminOrders();
             }
         }
@@ -1018,7 +1255,7 @@
                         '</div>' +
                         '<span style="font-size:12px; color:#64748b;">File: ' + r.fileName + ' | ' + r.date + '</span><br>' +
                         '<span style="font-size:13px;">Note: ' + r.note + '</span>' +
-                        (r.fileData ? '<div style="margin:8px 0;"><img src="' + r.fileData + '" style="max-width:100%; max-height:180px; border-radius:6px; border:1px solid #cbd5e1;"></div>' : '') +
+                        (r.fileData ? '<div style="margin:8px 0;"><img src="' + r.fileData + '" style="max-width:100%; max-height:140px; border-radius:6px; border:1px solid #cbd5e1;"></div>' : '') +
                         '<div style="display:flex; gap:6px; margin-top:8px;">' +
                             '<select id="rxst_' + r.id + '" style="margin-bottom:0; flex:1;">' +
                                 '<option value="Pending"' + (curRxSt === "Pending" ? " selected" : "") + '>Pending</option>' +
@@ -1041,16 +1278,21 @@
             var rxs = getRxList();
             var newSt = document.getElementById("rxst_" + rxId).value;
             var val = document.getElementById("rxrep_" + rxId).value;
+            var updatedRx = null;
             for (var i = 0; i < rxs.length; i++) {
                 if (rxs[i].id === rxId) {
                     rxs[i].status = newSt;
                     rxs[i].adminReply = val;
+                    updatedRx = rxs[i];
                     break;
                 }
             }
             saveRxList(rxs);
+            if (updatedRx) {
+                pushRxEventToCloud(updatedRx);
+            }
             renderAdminRx();
-            alert("✅ पर्चा स्टेटस (" + newSt + ") और रिप्लाई सेव हो गया!");
+            alert("✅ पर्चा स्टेटस (" + newSt + ") और रिप्लाई क्लाउड पर सेव हो गया!");
         }
 
         function addPromoCode() {
@@ -1062,15 +1304,16 @@
             }
             var promos = getPromos();
             promos.push({ code: code, discount: disc });
-            savePromos(promos);
+            savePromos(promos, false);
             document.getElementById("promoCodeInput").value = "";
             document.getElementById("promoDiscInput").value = "";
             renderAdminPromos();
+            alert("✅ नया प्रोमो कोड जुड़ गया और सभी फोन के लिए सिंक हो गया!");
         }
 
         function deletePromo(code) {
             var promos = getPromos().filter(function(p) { return p.code !== code; });
-            savePromos(promos);
+            savePromos(promos, false);
             renderAdminPromos();
         }
 
@@ -1171,6 +1414,11 @@
         window.onload = function() {
             renderCatalog();
             updateCartBadge();
+            syncFromCloud(false);
+            startLiveStream();
+            setInterval(function() {
+                syncFromCloud(false);
+            }, 10000);
         };
     </script>
 </body>
