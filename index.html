@@ -79,7 +79,7 @@
         /* Status Badges */
         .status-pill { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
         .st-Pending { background: #fef3c7; color: #b45309; }
-        .st-Accepted, .st-Processing, .st-InTransit { background: #dbeafe; color: #1d4ed8; }
+        .st-Accepted, .st-Processing, .st-InTransit, .st-OutforDelivery { background: #dbeafe; color: #1d4ed8; }
         .st-Delivered { background: #dcfce7; color: #15803d; }
         .st-Rejected { background: #fee2e2; color: #b91c1c; }
 
@@ -99,7 +99,7 @@
 </head>
 <body>
 
-    <!-- HEADER (With Phone Number Restored) -->
+    <!-- HEADER -->
     <div class="header">
         <div class="brand-title">RNS PHARMACY</div>
         <div class="badges">
@@ -315,7 +315,6 @@
     </div>
 
     <script>
-        // Helper: Normalize phone number to last 10 digits so 07668273774 and 7668273774 match
         function cleanPhone(num) {
             if (!num) return "";
             var digits = String(num).replace(/\D/g, "");
@@ -325,7 +324,11 @@
             return digits;
         }
 
-        // Default initial data so catalog is never empty on first visit
+        function formatOrderStatusLabel(st) {
+            if (st === "In Transit") return "In Transit (रास्ते में है)";
+            return st;
+        }
+
         var defaultStock = [
             { id: "m1", name: "Paracetamol 650mg (15 Tabs)", exp: "11/2027", cat: "Fever / Pain", mrp: 35, price: 28 },
             { id: "m2", name: "Pantoprazole 40mg (10 Tabs)", exp: "08/2027", cat: "Gas / Acidity", mrp: 110, price: 85 },
@@ -384,7 +387,6 @@
         var activePromo = null;
         var isAdminLoggedIn = false;
 
-        // Switch between Customer Store and Owner Portal
         function switchMainView(view) {
             var storeDiv = document.getElementById("viewStore");
             var adminDiv = document.getElementById("viewAdmin");
@@ -408,7 +410,6 @@
             }
         }
 
-        // Owner Login
         function loginAdmin() {
             var pass = document.getElementById("adminPassInput").value.trim();
             if (pass === "7402") {
@@ -438,7 +439,6 @@
             refreshAdminAll();
         }
 
-        // Render Live Catalog for Customers
         function renderCatalog() {
             var stock = getStock();
             var query = (document.getElementById("searchMed").value || "").toLowerCase();
@@ -466,7 +466,6 @@
             document.getElementById("catalogList").innerHTML = html;
         }
 
-        // Add Item to Cart
         function addToCart(medId) {
             var stock = getStock();
             var item = null;
@@ -589,7 +588,6 @@
                 '<div style="display:flex; justify-content:space-between; font-size:16px; border-top:1px solid #cbd5e1; padding-top:6px; color:#0255a5;"><strong>Total Payable:</strong><strong>₹' + total + '</strong></div>';
         }
 
-        // Place Final Order
         function placeFinalOrder() {
             if (cart.length === 0) {
                 alert("कृपया पहले कार्ट में कम से कम एक दवा जोड़ें!");
@@ -661,7 +659,6 @@
             window.open(waUrl, "_blank");
         }
 
-        // Upload Prescription Function
         function submitPrescription() {
             var rawPhone = document.getElementById("rxPhone").value.trim();
             var phone = cleanPhone(rawPhone);
@@ -730,7 +727,6 @@
             }
         }
 
-        // Track Order & Prescription Status
         function openTrackModal() {
             document.getElementById("trackResultArea").innerHTML = "";
             document.getElementById("trackModal").style.display = "flex";
@@ -761,7 +757,7 @@
                 html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:10px; background:#f8fafc;">' +
                     '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
                         '<strong>Order ID: ' + o.id + '</strong>' +
-                        '<span class="status-pill ' + stClass + '">' + o.status + '</span>' +
+                        '<span class="status-pill ' + stClass + '">' + formatOrderStatusLabel(o.status) + '</span>' +
                     '</div>' +
                     '<div style="font-size:13px; color:#334155; margin-bottom:4px;"><strong>Items:</strong> ' + o.itemsText + '</div>' +
                     '<div style="font-size:13px; color:#0d8a47; font-weight:700; margin-bottom:4px;">Total Bill: ₹' + o.total + ' (' + o.payment + ')</div>' +
@@ -772,10 +768,12 @@
 
             for (var j = rxs.length - 1; j >= 0; j--) {
                 var r = rxs[j];
+                var rxSt = r.status || "Pending";
+                var rxStClass = "st-" + rxSt.replace(/\s+/g, "");
                 html += '<div style="border:1px solid #bfdbfe; border-radius:10px; padding:12px; margin-bottom:10px; background:#eff6ff;">' +
                     '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
                         '<strong>Prescription ID: ' + r.id + '</strong>' +
-                        '<span class="status-pill st-Accepted">' + r.status + '</span>' +
+                        '<span class="status-pill ' + rxStClass + '">' + rxSt + '</span>' +
                     '</div>' +
                     '<div style="font-size:12px; color:#1e3a8a; margin-bottom:4px;">File: ' + r.fileName + ' (' + r.date + ')</div>' +
                     '<div style="font-size:12px; background:#ffffff; padding:6px; border-radius:6px; color:#1e293b;"><strong>Status Note:</strong> ' + (r.adminReply || "Checking") + '</div>' +
@@ -860,7 +858,7 @@
                     html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:12px; background:#f8fafc;">' +
                         '<div style="display:flex; justify-content:space-between; margin-bottom:6px;">' +
                             '<strong>' + o.id + ' - ' + o.name + ' (' + o.phone + ')</strong>' +
-                            '<span class="status-pill st-' + o.status.replace(/\s+/g, "") + '">' + o.status + '</span>' +
+                            '<span class="status-pill st-' + o.status.replace(/\s+/g, "") + '">' + formatOrderStatusLabel(o.status) + '</span>' +
                         '</div>' +
                         '<div style="font-size:12px; color:#475569; margin-bottom:4px;">📍 ' + o.address + ' | 🕒 ' + o.date + '</div>' +
                         '<div style="font-size:13px; margin-bottom:6px;"><strong>Items:</strong> ' + o.itemsText + '</div>' +
@@ -870,7 +868,7 @@
                                 '<option value="Pending"' + (o.status === "Pending" ? " selected" : "") + '>Pending</option>' +
                                 '<option value="Accepted"' + (o.status === "Accepted" ? " selected" : "") + '>Accepted</option>' +
                                 '<option value="Processing"' + (o.status === "Processing" ? " selected" : "") + '>Processing</option>' +
-                                '<option value="In Transit"' + (o.status === "In Transit" ? " selected" : "") + '>Out for Delivery</option>' +
+                                '<option value="In Transit"' + (o.status === "In Transit" ? " selected" : "") + '>In Transit (रास्ते में है)</option>' +
                                 '<option value="Delivered"' + (o.status === "Delivered" ? " selected" : "") + '>Delivered</option>' +
                                 '<option value="Rejected"' + (o.status === "Rejected" ? " selected" : "") + '>Rejected</option>' +
                             '</select>' +
@@ -879,7 +877,7 @@
                         '<div style="display:flex; gap:6px; flex-wrap:wrap;">' +
                             '<button type="button" class="btn-sm" style="background:#16a34a; color:#fff;" onclick="saveOrderUpdate(\'' + o.id + '\')">💾 Save Update</button>' +
                             '<button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="showInvoiceById(\'' + o.id + '\')">🖨️ Print Bill</button>' +
-                            '<a href="https://wa.me/91' + o.phone + '?text=' + encodeURIComponent("नमस्कार " + o.name + ", RNS Pharmacy से आपके ऑर्डर (" + o.id + ") का स्टेटस: " + o.status + "। कुल बिल: ₹" + o.total) + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">💬 WhatsApp</a>' +
+                            '<a href="https://wa.me/91' + o.phone + '?text=' + encodeURIComponent("नमस्कार " + o.name + ", RNS Pharmacy से आपके ऑर्डर (" + o.id + ") का स्टेटस: " + formatOrderStatusLabel(o.status) + "। कुल बिल: ₹" + o.total) + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">💬 WhatsApp</a>' +
                         '</div>' +
                     '</div>';
                 }
@@ -919,15 +917,27 @@
             } else {
                 for (var i = rxs.length - 1; i >= 0; i--) {
                     var r = rxs[i];
-                    html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:10px;">' +
-                        '<strong>' + r.id + ' - Mobile: ' + r.phone + '</strong><br>' +
+                    var curRxSt = r.status || "Pending";
+                    var rxStClass = "st-" + curRxSt.replace(/\s+/g, "");
+                    html += '<div style="border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-bottom:10px; background:#f8fafc;">' +
+                        '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">' +
+                            '<strong>' + r.id + ' - Mobile: ' + r.phone + '</strong>' +
+                            '<span class="status-pill ' + rxStClass + '">' + curRxSt + '</span>' +
+                        '</div>' +
                         '<span style="font-size:12px; color:#64748b;">File: ' + r.fileName + ' | ' + r.date + '</span><br>' +
                         '<span style="font-size:13px;">Note: ' + r.note + '</span>' +
                         (r.fileData ? '<div style="margin:8px 0;"><img src="' + r.fileData + '" style="max-width:100%; max-height:180px; border-radius:6px; border:1px solid #cbd5e1;"></div>' : '') +
                         '<div style="display:flex; gap:6px; margin-top:8px;">' +
-                            '<input type="text" id="rxrep_' + r.id + '" value="' + (r.adminReply || "") + '" placeholder="Reply / Bill amount" style="margin-bottom:0;">' +
+                            '<select id="rxst_' + r.id + '" style="margin-bottom:0; flex:1;">' +
+                                '<option value="Pending"' + (curRxSt === "Pending" ? " selected" : "") + '>Pending</option>' +
+                                '<option value="Accepted"' + (curRxSt === "Accepted" ? " selected" : "") + '>Accept</option>' +
+                                '<option value="Rejected"' + (curRxSt === "Rejected" ? " selected" : "") + '>Reject</option>' +
+                            '</select>' +
+                            '<input type="text" id="rxrep_' + r.id + '" value="' + (r.adminReply || "") + '" placeholder="Reply / Bill amount" style="margin-bottom:0; flex:1.5;">' +
+                        '</div>' +
+                        '<div style="display:flex; gap:6px; margin-top:8px;">' +
                             '<button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="updateRxReply(\'' + r.id + '\')">Save</button>' +
-                            '<a href="https://wa.me/91' + r.phone + '?text=' + encodeURIComponent("RNS Pharmacy: आपका पर्चा (" + r.id + ") चेक कर लिया गया है।") + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">WhatsApp</a>' +
+                            '<a href="https://wa.me/91' + r.phone + '?text=' + encodeURIComponent("RNS Pharmacy: आपके पर्चे (" + r.id + ") का स्टेटस: " + curRxSt + "। नोट: " + (r.adminReply || "")) + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">WhatsApp</a>' +
                         '</div>' +
                     '</div>';
                 }
@@ -937,17 +947,18 @@
 
         function updateRxReply(rxId) {
             var rxs = getRxList();
+            var newSt = document.getElementById("rxst_" + rxId).value;
             var val = document.getElementById("rxrep_" + rxId).value;
             for (var i = 0; i < rxs.length; i++) {
                 if (rxs[i].id === rxId) {
-                    rxs[i].status = "Reviewed";
+                    rxs[i].status = newSt;
                     rxs[i].adminReply = val;
                     break;
                 }
             }
             saveRxList(rxs);
             renderAdminRx();
-            alert("✅ पर्चा रिप्लाई सेव हो गया!");
+            alert("✅ पर्चा स्टेटस (" + newSt + ") और रिप्लाई सेव हो गया!");
         }
 
         function addPromoCode() {
@@ -984,7 +995,6 @@
             document.getElementById("adminPromoList").innerHTML = html;
         }
 
-        // Show Printable Invoice Modal (Popup-Blocker Safe)
         function showInvoiceById(orderId) {
             var orders = getOrders();
             var o = null;
@@ -1013,7 +1023,7 @@
             '</div>' +
             '<div style="font-size:12px; margin-bottom:10px; display:flex; justify-content:space-between;">' +
                 '<div><strong>Patient:</strong> ' + o.name + '<br><strong>Phone:</strong> ' + o.phone + '<br><strong>Address:</strong> ' + o.address + '</div>' +
-                '<div style="text-align:right;"><strong>Invoice:</strong> #' + o.id + '<br><strong>Date:</strong> ' + o.date + '<br><strong>Status:</strong> ' + o.status + '</div>' +
+                '<div style="text-align:right;"><strong>Invoice:</strong> #' + o.id + '<br><strong>Date:</strong> ' + o.date + '<br><strong>Status:</strong> ' + formatOrderStatusLabel(o.status) + '</div>' +
             '</div>' +
             '<table class="inv-table">' +
                 '<thead><tr><th>Medicine</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>' +
@@ -1036,7 +1046,6 @@
             document.getElementById(id).style.display = "none";
         }
 
-        // Initialize on page load
         window.onload = function() {
             renderCatalog();
             updateCartBadge();
