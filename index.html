@@ -214,7 +214,7 @@
       text-decoration: underline;
     }
 
-    /* RIGHT NAVIGATION CONTROLS (WELL-SPACED FROM LEFT TITLE) */
+    /* RIGHT NAVIGATION CONTROLS */
     .header-right {
       display: flex;
       flex-direction: column;
@@ -821,7 +821,7 @@
       cursor: pointer;
     }
 
-    /* CUSTOM MEDICINE BOX IN CART (ONLY PRODUCT NAME & MRP) */
+    /* CUSTOM MEDICINE BOX IN CART */
     .custom-med-box {
       background: var(--primary-bg);
       border: 1px dashed #108565;
@@ -912,7 +912,7 @@
 </head>
 <body>
 
-  <!-- CERTIFIED TOP HEADER (FIXED GAP ON MOBILE & DESKTOP) -->
+  <!-- CERTIFIED TOP HEADER -->
   <header class="top-header">
     <div class="header-container">
       <!-- Left Brand & Info -->
@@ -925,7 +925,6 @@
           </div>
 
           <div class="info-pills-row">
-            <!-- Stylish 24 Hours Badge -->
             <span class="pill-badge pill-24h">
               <span class="pulse-24"></span> ⚡ Open 24×7 Hours (24 Hours Service)
             </span>
@@ -941,7 +940,6 @@
             </button>
           </div>
 
-          <!-- Address without Drx. Rahul Singh at the end -->
           <div class="address-row">
             <span>📍 Kali Mata Road, Sikta, Padrauna, Kushinagar (274303)</span>
             <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer" class="map-link">
@@ -967,7 +965,7 @@
           <button class="btn-cart-navy" onclick="openModal('cartModal')">
             🛒 Cart (<span id="cartCount">0</span>) <span class="amt" id="cartHeaderAmt">₹0.00</span>
           </button>
-          <a href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy,%20I%20need%20some%20help%20with%20medicines"
+          <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines"
              target="_blank" rel="noopener noreferrer" class="btn-wa-green">
             💬 WhatsApp Shop
           </a>
@@ -1075,7 +1073,7 @@
         <button class="close-btn" onclick="closeModal('directCustomModal')">✕</button>
       </div>
       <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">
-        यदि कोई दवा हमारी लिस्ट में नहीं है या आप सीधे अपनी दवा जोड़कर बिल बनाना चाहते हैं, तो नीचे **Product Name** और **MRP** दर्ज करें:
+        यदि कोई दवा हमारी लिस्ट में नहीं है या आप सीधे अपनी दवा जोड़कर बिल बनाना चाहते हैं, तो नीचे <strong>Product Name</strong> और <strong>MRP</strong> दर्ज करें:
       </p>
       <div style="display:grid; gap:10px;">
         <input type="text" id="frontCustomName" class="input-field" placeholder="Product Name (दवा का नाम) *" />
@@ -1087,7 +1085,7 @@
     </div>
   </div>
 
-  <!-- CART & CHECKOUT MODAL (Generates Full Bill for Both Inventory & Custom Added Medicines) -->
+  <!-- CART & CHECKOUT MODAL -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -1097,7 +1095,7 @@
 
       <div id="cartItemsContainer"></div>
 
-      <!-- ADD UNLISTED MEDICINE IN CART (ONLY PRODUCT NAME & MRP - NO OFFER PRICE INPUT) -->
+      <!-- ADD UNLISTED MEDICINE IN CART (ONLY PRODUCT NAME & MRP) -->
       <div class="custom-med-box">
         <h4>➕ कोई अन्य दवा जोड़ें जो इन्वेंटरी में नहीं है (Product Name व MRP डालें):</h4>
         <div style="display:grid; grid-template-columns: 2fr 1.2fr auto; gap:8px;">
@@ -1189,7 +1187,7 @@
     </div>
   </div>
 
-  <!-- ADMIN LOGIN MODAL (Password Updated to 7402) -->
+  <!-- ADMIN LOGIN MODAL (Password = 7402) -->
   <div class="modal-overlay" id="adminLoginModal">
     <div class="modal-box" style="max-width:400px;">
       <div class="modal-header">
@@ -1218,7 +1216,7 @@
         <button class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (Edit MRP / Status / Print Bill)</button>
         <button class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Reject)</button>
         <button class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory Update</button>
-        <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes</button>
+        <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes (% / ₹)</button>
       </div>
 
       <!-- Tab 1: Orders (Includes Edit MRP option for Admin) -->
@@ -1292,12 +1290,17 @@
         </div>
       </div>
 
-      <!-- Tab 4: Promo Codes -->
+      <!-- Tab 4: Promo Codes (Updated with Percentage % vs Rupees ₹ Selector) -->
       <div id="promoTab" class="admin-tab-content" style="display:none;">
-        <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <h4 style="margin-bottom:10px;">Create Promo Code (परसेंटेज % या रुपया ₹ में डिस्काउंट सेट करें)</h4>
+        <div style="display:grid; grid-template-columns: 1.5fr 1.2fr 1.2fr auto; gap:8px; margin-bottom:14px;">
           <input type="text" id="newPromoCode" class="input-field" placeholder="Promo Code (e.g. RNS10)" />
-          <input type="number" id="newPromoDisc" class="input-field" placeholder="Discount %" />
-          <button class="btn-primary" onclick="addPromoCode()">Add Promo</button>
+          <select id="newPromoType" class="input-field" onchange="updatePromoPlaceholder()">
+            <option value="PERCENT">Percentage (%)</option>
+            <option value="FLAT">Rupees (₹)</option>
+          </select>
+          <input type="number" step="0.01" id="newPromoDisc" class="input-field" placeholder="Enter % (e.g. 10)" />
+          <button class="btn-primary" onclick="addPromoCode()">+ Add Promo</button>
         </div>
         <div id="adminPromoList"></div>
       </div>
@@ -1309,8 +1312,8 @@
     <div class="footer-inner">
       <div>
         <h3>RNS PHARMACY</h3>
-        <p><strong>Proprietor / Registered Pharmacist:</strong> Drx. Rahul Singh (B.Pharm)</p>
-        <p>Standard & Monopolistic Generic Medicine. | Open 24×7 Hours</p>
+        <p><strong>24 Hours Service Available</strong></p>
+        <p>Standard & Monopolistic Generic Medicine.</p>
       </div>
 
       <div>
@@ -1318,13 +1321,13 @@
         <p>📍 <strong>Address:</strong> Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
         <p>📞 <strong>Helpline No. & WhatsApp:</strong> +91 7668273774</p>
         <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer">
-          🗺️ View RNS Pharmacy on Google Maps
+          🗺️ View RNS PHARMACY on Google Maps
         </a>
       </div>
 
       <div>
         <h3>Quick Services</h3>
-        <a href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy,%20I%20need%20some%20help%20with%20medicines" target="_blank" rel="noopener noreferrer">
+        <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines" target="_blank" rel="noopener noreferrer">
           💬 Order Directly on WhatsApp Shop
         </a>
         <a href="javascript:void(0)" onclick="openModal('trackModal')">📦 Track Your Order / Prescription</a>
@@ -1333,7 +1336,7 @@
     </div>
 
     <div class="footer-bottom">
-      © 2026 RNS Pharmacy - Verified Retail Chemist & 100% Standard/Generic Batch-Verified Medicines
+      © 2026 RNS PHARMACY - Verified Retail Chemist & 100% Standard/Generic Batch-Verified Medicines
     </div>
   </footer>
 
@@ -1356,13 +1359,13 @@
     ];
 
     const DEFAULT_PROMOS = [
-      { code: "RNS10", discount: 10 },
-      { code: "SIKTA5", discount: 5 }
+      { code: "RNS10", type: "PERCENT", discount: 10 },
+      { code: "SAVE20", type: "FLAT", discount: 20 }
     ];
 
     const DEFAULT_REVIEWS = [
       { name: "Amit Singh", mobile: "98******12", rating: 5, comment: "100% original medicines with proper batch & expiry bill. Fast delivery in Sikta!", date: "Oct 2026" },
-      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Great guidance and genuine discount on MRP. 24x7 service is very helpful.", date: "Oct 2026" }
+      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Genuine discount on MRP and 24 Hours Service Available.", date: "Oct 2026" }
     ];
 
     function normalizeStockArray(arr) {
@@ -1568,7 +1571,7 @@
         const batchClean = (item.batch && item.batch !== "undefined") ? item.batch : "Verified";
         const expClean = (item.exp && item.exp !== "undefined") ? item.exp : "12/2028";
 
-        const waMsg = encodeURIComponent(`Hello RNS Pharmacy, I want to order *${item.name}* (${genericClean} | Mfg: ${companyClean}) at Offer Price ₹${priceVal} (MRP ₹${mrpVal}).`);
+        const waMsg = encodeURIComponent(`Hello RNS PHARMACY, I want to order *${item.name}* (${genericClean} | Mfg: ${companyClean}) at Offer Price ₹${priceVal} (MRP ₹${mrpVal}).`);
 
         return `
           <div class="product-card">
@@ -1605,7 +1608,7 @@
       }).join("");
     }
 
-    // --- CART & BILLABLE CUSTOM MEDICINE ADDITION (ONLY PRODUCT NAME & MRP) ---
+    // --- CART & BILLABLE CUSTOM MEDICINE ADDITION ---
     function addToCart(medId) {
       const med = stockList.find(m => m.id === medId);
       if (!med) return;
@@ -1630,7 +1633,6 @@
       updateCartUI();
     }
 
-    // Add from Cart Modal (Only Product Name & MRP - Billed at MRP)
     function addCustomToCart() {
       const nameInput = document.getElementById("customMedName");
       const mrpInput = document.getElementById("customMedMrp");
@@ -1651,7 +1653,7 @@
         batch: "Verified",
         exp: "Fresh",
         mrp: mrp,
-        price: mrp, // No offer MRP asked; billed directly at entered MRP
+        price: mrp,
         qty: 1,
         isCustom: true
       });
@@ -1661,7 +1663,6 @@
       updateCartUI();
     }
 
-    // Add Directly from the Search Bar Button (For customers ordering outside the menu)
     function addDirectFromSearch() {
       const nameInput = document.getElementById("frontCustomName");
       const mrpInput = document.getElementById("frontCustomMrp");
@@ -1702,12 +1703,23 @@
       updateCartUI();
     }
 
+    // --- PROMO CODE (% AND ₹ SUPPORT) ---
+    function updatePromoPlaceholder() {
+      const t = document.getElementById("newPromoType").value;
+      const inp = document.getElementById("newPromoDisc");
+      inp.placeholder = t === "FLAT" ? "Enter ₹ Amount (e.g. 10 or 20)" : "Enter % (e.g. 10)";
+    }
+
     function applyPromoCode() {
       const code = (document.getElementById("promoInput").value || "").trim().toUpperCase();
       const found = promosList.find(p => p.code.toUpperCase() === code);
       if (found) {
         activePromo = found;
-        alert(`🎉 Promo ${found.code} applied! Extra ${found.discount}% OFF.`);
+        if (found.type === "FLAT") {
+          alert(`🎉 Promo ${found.code} applied! Flat ₹${found.discount} OFF.`);
+        } else {
+          alert(`🎉 Promo ${found.code} applied! Extra ${found.discount}% OFF.`);
+        }
       } else {
         activePromo = null;
         alert("Invalid Promo Code.");
@@ -1723,7 +1735,14 @@
         subtotalOffer += Number(item.price) * item.qty;
       });
       const mrpSavings = Math.max(0, totalMrp - subtotalOffer);
-      const promoDiscount = promoObj ? Math.round((subtotalOffer * promoObj.discount) / 100) : 0;
+      let promoDiscount = 0;
+      if (promoObj) {
+        if (promoObj.type === "FLAT") {
+          promoDiscount = Math.min(subtotalOffer, Number(promoObj.discount) || 0);
+        } else {
+          promoDiscount = Math.round((subtotalOffer * (Number(promoObj.discount) || 0)) / 100);
+        }
+      }
       const grandTotal = Math.max(0, subtotalOffer - promoDiscount);
       const totalSaved = mrpSavings + promoDiscount;
       return { totalMrp, subtotalOffer, mrpSavings, promoDiscount, grandTotal, totalSaved };
@@ -1768,10 +1787,14 @@
         </div>
       `).join("");
 
+      const promoLabel = activePromo
+        ? (activePromo.type === "FLAT" ? `${activePromo.code} - ₹${activePromo.discount}` : `${activePromo.code} - ${activePromo.discount}%`)
+        : "";
+
       summary.innerHTML = `
         <div style="display:flex; justify-content:space-between;"><span>Total MRP:</span><span>₹${t.totalMrp.toFixed(2)}</span></div>
         ${t.mrpSavings > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Offer Discount on MRP:</span><span>- ₹${t.mrpSavings.toFixed(2)}</span></div>` : ""}
-        ${t.promoDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Promo (${activePromo.code}) Discount:</span><span>- ₹${t.promoDiscount.toFixed(2)}</span></div>` : ""}
+        ${t.promoDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Promo (${promoLabel}) Discount:</span><span>- ₹${t.promoDiscount.toFixed(2)}</span></div>` : ""}
         <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-top:6px; border-top:1px solid var(--border); padding-top:6px;">
           <span>Net Payable Bill Amount:</span><span>₹${t.grandTotal.toFixed(2)}</span>
         </div>
@@ -1814,6 +1837,7 @@
         address,
         note,
         payMethod,
+        promoUsed: activePromo ? JSON.parse(JSON.stringify(activePromo)) : null,
         items: JSON.parse(JSON.stringify(cart)),
         totals,
         status: "Pending"
@@ -1972,7 +1996,6 @@
       document.getElementById(tabId).style.display = "block";
     }
 
-    // Admin Option to Edit MRP of any item inside an Order and Recalculate Bill
     function editOrderItemMrp(orderId, itemIdx) {
       const ord = ordersList.find(o => o.id === orderId);
       if (!ord || !ord.items[itemIdx]) return;
@@ -1983,7 +2006,6 @@
       const newMrp = parseFloat(newMrpStr);
       if (isNaN(newMrp) || newMrp <= 0) return alert("कृपया सही MRP दर्ज करें!");
 
-      // If it was a custom item (where price === mrp) or admin wants to update rate to match new MRP:
       if (targetItem.isCustom || targetItem.price === targetItem.mrp) {
         targetItem.mrp = newMrp;
         targetItem.price = newMrp;
@@ -1995,7 +2017,7 @@
         }
       }
 
-      ord.totals = calculateTotalsFromItems(ord.items, null);
+      ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null);
       pushOrderEventToCloud("NEW_ORDER", ord);
       renderAdminTables();
       alert(`✅ "${targetItem.name}" का MRP अपडेट होकर नया बिल (₹${ord.totals.grandTotal}) जनरेट हो गया है!`);
@@ -2139,12 +2161,15 @@
         </tr>
       `).join("");
 
-      document.getElementById("adminPromoList").innerHTML = promosList.map(p => `
-        <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px;">
-          <strong>${p.code}</strong> (${p.discount}% OFF)
-          <button onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
-        </span>
-      `).join("");
+      document.getElementById("adminPromoList").innerHTML = promosList.map(p => {
+        const badgeText = p.type === "FLAT" ? `₹${p.discount} OFF` : `${p.discount}% OFF`;
+        return `
+          <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px; margin-bottom:8px;">
+            <strong>${p.code}</strong> (${badgeText})
+            <button onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
+          </span>
+        `;
+      }).join("");
     }
 
     function updateOrderStatus(orderId, newStatus) {
@@ -2165,9 +2190,17 @@
 
     function addPromoCode() {
       const code = document.getElementById("newPromoCode").value.trim().toUpperCase();
+      const type = document.getElementById("newPromoType").value;
       const disc = parseFloat(document.getElementById("newPromoDisc").value);
-      if (!code || !disc) return;
-      promosList.push({ code, discount: disc });
+      if (!code || isNaN(disc) || disc <= 0) {
+        return alert("कृपया प्रोमो कोड और उसकी वैल्यू (% या ₹) सही से दर्ज करें!");
+      }
+      const existingIdx = promosList.findIndex(p => p.code.toUpperCase() === code);
+      if (existingIdx >= 0) {
+        promosList[existingIdx] = { code, type, discount: disc };
+      } else {
+        promosList.push({ code, type, discount: disc });
+      }
       document.getElementById("newPromoCode").value = "";
       document.getElementById("newPromoDisc").value = "";
       pushConfigToCloud(false);
@@ -2180,7 +2213,7 @@
       renderAdminTables();
     }
 
-    // --- OFFICIAL PRINT BILL (Includes Both Inventory & Custom Added Medicines) ---
+    // --- OFFICIAL PRINT BILL (Updated Header & Footer Exactly as Requested) ---
     function printBill(orderId) {
       const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
@@ -2220,8 +2253,8 @@
           <div class="bill-box">
             <div class="bill-top">
               <div>
-                <h2 style="margin:0; color:#0f766e;">RNS PHARMACY (Verified Chemist - 24×7)</h2>
-                <p style="margin:3px 0; font-size:13px;"><strong>Drx. Rahul Singh (B.Pharm - Registered Pharmacist)</strong></p>
+                <h2 style="margin:0; color:#0f766e; letter-spacing:0.4px;">RNS PHARMACY</h2>
+                <p style="margin:3px 0; font-size:13px; color:#0369a1;"><strong>24 Hours Service Available</strong></p>
                 <p style="margin:2px 0; font-size:12px;">Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
                 <p style="margin:2px 0; font-size:12px;">Helpline No. & WhatsApp: +91 7668273774</p>
               </div>
@@ -2258,9 +2291,9 @@
               <div style="font-size:18px; margin-top:6px;"><strong>Grand Total Payable: ₹${ord.totals.grandTotal.toFixed(2)}</strong></div>
               ${ord.totals.totalSaved > 0 ? `<div style="color:#15803d; font-weight:bold; margin-top:4px;">Total Customer Savings on MRP: ₹${ord.totals.totalSaved.toFixed(2)}</div>` : ""}
             </div>
-            <div style="margin-top:28px; display:flex; justify-content:space-between; font-size:12px; border-top:1px dashed #94a3b8; padding-top:12px;">
-              <span>© 2026 RNS Pharmacy - Standard & Monopolistic Generic Medicine.</span>
-              <span><strong>Authorized Signatory (Drx. Rahul Singh)</strong></span>
+            <div style="margin-top:28px; display:flex; justify-content:space-between; align-items:center; font-size:12px; border-top:1px dashed #94a3b8; padding-top:12px;">
+              <span><strong>© 2026 RNS PHARMACY</strong> - Standard & Monopolistic Generic Medicine.</span>
+              <span><strong>Online Generated Bill — Signature Not Required</strong></span>
             </div>
           </div>
           <script>window.onload = function(){ window.print(); }<\/script>
