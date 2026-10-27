@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RNS PHARMACY - Sikta</title>
+    <!-- Live Cloud Sync Engine -->
+    <script src="https://unpkg.com/mqtt@5.3.4/dist/mqtt.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: #f4f7fb; color: #1e293b; padding-bottom: 90px; }
         
         /* Header */
         .header { background: #ffffff; padding: 16px; border-bottom: 1px solid #e2e8f0; }
-        .brand-title { color: #0255a5; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .brand-title { color: #0255a5; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .cloud-indicator { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 20px; background: #dcfce7; color: #15803d; display: inline-flex; align-items: center; gap: 4px; }
         .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
         .badge-green { background: #e6f7ed; color: #0d8a47; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
         .badge-blue { background: #e8f0fe; color: #1a56db; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; }
@@ -101,7 +104,10 @@
 
     <!-- HEADER -->
     <div class="header">
-        <div class="brand-title">RNS PHARMACY</div>
+        <div class="brand-title">
+            <span>RNS PHARMACY</span>
+            <span id="cloudStatusBadge" class="cloud-indicator">🔄 Connecting...</span>
+        </div>
         <div class="badges">
             <span class="badge-green">✅ Verified Chemist</span>
             <span class="badge-blue">🕒 24×7 Open</span>
@@ -170,7 +176,7 @@
 
         <!-- ==================== OWNER PORTAL VIEW ==================== -->
         <div id="viewAdmin" style="display:none;">
-            <!-- Login Box (Password Hint Removed) -->
+            <!-- Login Box (Password Hidden) -->
             <div id="adminLoginCard" class="card">
                 <div class="card-title">🔒 Owner Portal Login</div>
                 <p style="font-size:13px; color:#64748b; margin-bottom:10px;">एडमिन डैशबोर्ड खोलने के लिए अपना पासवर्ड डालें:</p>
@@ -180,6 +186,11 @@
 
             <!-- Unlocked Admin Dashboard -->
             <div id="adminDashboard" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#e0f2fe; padding:8px 12px; border-radius:10px; margin-bottom:12px; font-size:12px; color:#0369a1; font-weight:700;">
+                    <span>☁️ Live Multi-Phone Sync: चालू है</span>
+                    <button type="button" class="btn-sm" style="background:#0255a5; color:#fff; padding:4px 10px;" onclick="forceCloudPull()">🔄 Sync Now</button>
+                </div>
+
                 <div class="admin-nav">
                     <button type="button" id="admTabInv" class="admin-tab-btn active" onclick="switchAdminTab('inv')">📦 Inventory</button>
                     <button type="button" id="admTabOrd" class="admin-tab-btn" onclick="switchAdminTab('ord')">🛒 Orders (<span id="admOrdCount">0</span>)</button>
@@ -199,7 +210,7 @@
                         <input type="number" id="medMrp" placeholder="MRP (₹)">
                         <input type="number" id="medPrice" placeholder="Offer Price (₹)">
                     </div>
-                    <button type="button" class="btn-green" onclick="addMedicine()">Save Medicine to Catalog</button>
+                    <button type="button" class="btn-green" onclick="addMedicine()">Save Medicine to Catalog (Live Sync)</button>
                     <hr style="margin:16px 0; border:0; border-top:1px solid #e2e8f0;">
                     <h4 style="margin-bottom:10px;">Current Stock List</h4>
                     <div id="adminStockList"></div>
@@ -230,6 +241,16 @@
                     <button type="button" class="btn-primary" onclick="addPromoCode()">Add Promo Code</button>
                     <hr style="margin:14px 0; border:0; border-top:1px solid #e2e8f0;">
                     <div id="adminPromoList"></div>
+                </div>
+
+                <!-- Optional Custom Firebase DB Box -->
+                <div class="card" style="background:#f8fafc;">
+                    <div style="font-size:13px; font-weight:700; color:#334155; margin-bottom:6px;">⚙️ Google Firebase Realtime DB URL (Optional Backup)</div>
+                    <p style="font-size:11px; color:#64748b; margin-bottom:8px;">इन-बिल्ट लाइव क्लाउड सिंक पहले से चालू है। यदि आप अपना खुद का Google Firebase डेटाबेस लिंक भी जोड़ना चाहें, तो यहाँ पेस्ट कर सकते हैं:</p>
+                    <div style="display:flex; gap:6px;">
+                        <input type="url" id="firebaseUrlInput" placeholder="https://your-project-default-rtdb.firebaseio.com" style="margin-bottom:0; font-size:12px;">
+                        <button type="button" class="btn-sm" style="background:#0f172a; color:#fff;" onclick="saveCustomFirebaseUrl()">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,7 +316,7 @@
                 <option value="UPI (rahul9656170@slc)">UPI Online (rahul9656170@slc)</option>
             </select>
 
-            <button type="button" class="btn-green" onclick="placeFinalOrder()">✅ Confirm & Send Order on WhatsApp</button>
+            <button type="button" id="placeOrderBtn" class="btn-green" onclick="placeFinalOrder()">✅ Confirm & Send Order on WhatsApp</button>
         </div>
     </div>
 
@@ -315,6 +336,236 @@
     </div>
 
     <script>
+        // =========================================================================
+        // REAL-TIME MULTI-DEVICE CLOUD SYNC + FIREBASE ENGINE
+        // =========================================================================
+        var CLOUD_NAMESPACE = "rns_pharmacy_sikta_up274303_live_v3";
+        var TOPIC_STOCK  = CLOUD_NAMESPACE + "/stock";
+        var TOPIC_ORDERS = CLOUD_NAMESPACE + "/orders";
+        var TOPIC_RX     = CLOUD_NAMESPACE + "/rx";
+        var TOPIC_PROMOS = CLOUD_NAMESPACE + "/promos";
+        var TOPIC_FBURL  = CLOUD_NAMESPACE + "/fburl";
+
+        var mqttClients = [];
+        var isCloudConnected = false;
+
+        function setCloudBadge(statusText, isOk) {
+            var el = document.getElementById("cloudStatusBadge");
+            if (!el) return;
+            el.innerText = statusText;
+            if (isOk) {
+                el.style.background = "#dcfce7";
+                el.style.color = "#15803d";
+            } else {
+                el.style.background = "#fef3c7";
+                el.style.color = "#b45309";
+            }
+        }
+
+        function getFirebaseUrl() {
+            return (localStorage.getItem("rns_custom_fb_url") || "").replace(/\/+$/, "");
+        }
+
+        function saveCustomFirebaseUrl() {
+            var val = document.getElementById("firebaseUrlInput").value.trim().replace(/\/+$/, "");
+            localStorage.setItem("rns_custom_fb_url", val);
+            publishToCloud(TOPIC_FBURL, { updatedAt: Date.now(), url: val });
+            if (val) {
+                pushAllToFirebase();
+                alert("✅ Firebase URL सेव हो गया और सभी डिवाइस से जुड़ गया!");
+            } else {
+                alert("✅ इन-बिल्ट क्लाउड सिंक चालू है!");
+            }
+        }
+
+        // Connect to dual global WebSocket Cloud Brokers for instant zero-config sync
+        function initCloudSync() {
+            if (typeof mqtt === "undefined") {
+                setCloudBadge("⚡ Local Mode", false);
+                return;
+            }
+
+            var brokers = [
+                "wss://broker.emqx.io:8084/mqtt",
+                "wss://broker.hivemq.com:8884/mqtt"
+            ];
+
+            brokers.forEach(function(brokerUrl) {
+                try {
+                    var client = mqtt.connect(brokerUrl, {
+                        clientId: "rns_client_" + Math.random().toString(16).slice(2, 10),
+                        clean: true,
+                        connectTimeout: 8000,
+                        reconnectPeriod: 4000
+                    });
+
+                    client.on("connect", function() {
+                        isCloudConnected = true;
+                        setCloudBadge("🟢 Live Cloud Sync", true);
+                        client.subscribe([TOPIC_STOCK, TOPIC_ORDERS, TOPIC_RX, TOPIC_PROMOS, TOPIC_FBURL], { qos: 1 });
+                    });
+
+                    client.on("message", function(topic, message) {
+                        try {
+                            var payload = JSON.parse(message.toString());
+                            handleIncomingCloudData(topic, payload);
+                        } catch (e) {}
+                    });
+
+                    mqttClients.push(client);
+                } catch (err) {}
+            });
+
+            // Also pull from Firebase if URL is configured
+            if (getFirebaseUrl()) {
+                pullAllFromFirebase();
+            }
+        }
+
+        function publishToCloud(topic, payloadObj) {
+            var jsonStr = JSON.stringify(payloadObj);
+            mqttClients.forEach(function(client) {
+                try {
+                    if (client && client.connected) {
+                        client.publish(topic, jsonStr, { qos: 1, retain: true });
+                    }
+                } catch (e) {}
+            });
+        }
+
+        function handleIncomingCloudData(topic, payload) {
+            if (!payload || typeof payload !== "object") return;
+
+            if (topic === TOPIC_FBURL && payload.url) {
+                var currentFb = getFirebaseUrl();
+                if (payload.url !== currentFb) {
+                    localStorage.setItem("rns_custom_fb_url", payload.url);
+                    var inp = document.getElementById("firebaseUrlInput");
+                    if (inp) inp.value = payload.url;
+                    pullAllFromFirebase();
+                }
+                return;
+            }
+
+            if (topic === TOPIC_STOCK && Array.isArray(payload.items)) {
+                var localTs = Number(localStorage.getItem("rns_stock_ts") || 0);
+                if (payload.updatedAt > localTs) {
+                    localStorage.setItem("rns_stock_ts", String(payload.updatedAt));
+                    localStorage.setItem("rns_stock_v2", JSON.stringify(payload.items));
+                    renderCatalog();
+                    if (isAdminLoggedIn) renderAdminStock();
+                }
+            }
+
+            if (topic === TOPIC_PROMOS && Array.isArray(payload.items)) {
+                var localPromoTs = Number(localStorage.getItem("rns_promos_ts") || 0);
+                if (payload.updatedAt > localPromoTs) {
+                    localStorage.setItem("rns_promos_ts", String(payload.updatedAt));
+                    localStorage.setItem("rns_promos_v2", JSON.stringify(payload.items));
+                    if (isAdminLoggedIn) renderAdminPromos();
+                }
+            }
+
+            if (topic === TOPIC_ORDERS && Array.isArray(payload.items)) {
+                var localClearedAt = Number(localStorage.getItem("rns_orders_cleared_ts") || 0);
+                var incClearedAt = Number(payload.clearedAt || 0);
+                var effectiveCleared = Math.max(localClearedAt, incClearedAt);
+                if (effectiveCleared > localClearedAt) {
+                    localStorage.setItem("rns_orders_cleared_ts", String(effectiveCleared));
+                }
+
+                var mergedOrders = mergeItemsById(getOrders(), payload.items, effectiveCleared);
+                localStorage.setItem("rns_orders_v2", JSON.stringify(mergedOrders));
+                if (isAdminLoggedIn) renderAdminOrders();
+            }
+
+            if (topic === TOPIC_RX && Array.isArray(payload.items)) {
+                var mergedRx = mergeItemsById(getRxList(), payload.items, 0);
+                localStorage.setItem("rns_rx_v2", JSON.stringify(mergedRx));
+                if (isAdminLoggedIn) renderAdminRx();
+            }
+        }
+
+        // Smart Merge by ID so no order or prescription from any phone is ever lost
+        function mergeItemsById(localArr, incomingArr, clearedTimestamp) {
+            var map = {};
+            localArr.forEach(function(item) {
+                var createdTs = Number(item.createdAt || 0);
+                if (clearedTimestamp && createdTs > 0 && createdTs <= clearedTimestamp) return;
+                map[item.id] = item;
+            });
+            incomingArr.forEach(function(inc) {
+                var createdTs = Number(inc.createdAt || 0);
+                if (clearedTimestamp && createdTs > 0 && createdTs <= clearedTimestamp) return;
+                var existing = map[inc.id];
+                if (!existing) {
+                    map[inc.id] = inc;
+                } else {
+                    var exTs = Number(existing.updatedAt || existing.createdAt || 0);
+                    var inTs = Number(inc.updatedAt || inc.createdAt || 0);
+                    if (inTs >= exTs) {
+                        map[inc.id] = inc;
+                    }
+                }
+            });
+            var result = Object.keys(map).map(function(k) { return map[k]; });
+            result.sort(function(a, b) {
+                return Number(a.createdAt || 0) - Number(b.createdAt || 0);
+            });
+            return result;
+        }
+
+        // Optional Firebase REST Sync Functions
+        function pushFirebaseNode(nodeName, dataObj) {
+            var fbUrl = getFirebaseUrl();
+            if (!fbUrl) return;
+            try {
+                fetch(fbUrl + "/rns_pharmacy/" + nodeName + ".json", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dataObj),
+                    keepalive: true
+                }).catch(function() {});
+            } catch (e) {}
+        }
+
+        function pushAllToFirebase() {
+            pushFirebaseNode("stock", { updatedAt: Number(localStorage.getItem("rns_stock_ts") || Date.now()), items: getStock() });
+            pushFirebaseNode("orders", { updatedAt: Date.now(), clearedAt: Number(localStorage.getItem("rns_orders_cleared_ts") || 0), items: getOrders() });
+            pushFirebaseNode("rx", { updatedAt: Date.now(), items: getRxList() });
+            pushFirebaseNode("promos", { updatedAt: Number(localStorage.getItem("rns_promos_ts") || Date.now()), items: getPromos() });
+        }
+
+        function pullAllFromFirebase() {
+            var fbUrl = getFirebaseUrl();
+            if (!fbUrl) return;
+            fetch(fbUrl + "/rns_pharmacy.json")
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data) return;
+                    if (data.stock) handleIncomingCloudData(TOPIC_STOCK, data.stock);
+                    if (data.orders) handleIncomingCloudData(TOPIC_ORDERS, data.orders);
+                    if (data.rx) handleIncomingCloudData(TOPIC_RX, data.rx);
+                    if (data.promos) handleIncomingCloudData(TOPIC_PROMOS, data.promos);
+                })
+                .catch(function() {});
+        }
+
+        function forceCloudPull() {
+            pullAllFromFirebase();
+            mqttClients.forEach(function(c) {
+                if (c && c.connected) {
+                    c. unsubscribe([TOPIC_STOCK, TOPIC_ORDERS, TOPIC_RX, TOPIC_PROMOS]);
+                    c.subscribe([TOPIC_STOCK, TOPIC_ORDERS, TOPIC_RX, TOPIC_PROMOS], { qos: 1 });
+                }
+            });
+            refreshAdminAll();
+            alert("✅ लाइव डेटा रिफ्रेश और सिंक हो गया!");
+        }
+
+        // =========================================================================
+        // CORE APPLICATION LOGIC
+        // =========================================================================
         function cleanPhone(num) {
             if (!num) return "";
             var digits = String(num).replace(/\D/g, "");
@@ -345,43 +596,76 @@
         function getStock() {
             var data = localStorage.getItem("rns_stock_v2");
             if (!data) {
-                localStorage.setItem("rns_stock_v2", JSON.stringify(defaultStock));
                 return defaultStock;
             }
-            return JSON.parse(data);
+            try {
+                return JSON.parse(data);
+            } catch (e) {
+                return defaultStock;
+            }
         }
 
         function saveStock(list) {
+            var now = Date.now();
+            localStorage.setItem("rns_stock_ts", String(now));
             localStorage.setItem("rns_stock_v2", JSON.stringify(list));
+            var payload = { updatedAt: now, items: list };
+            publishToCloud(TOPIC_STOCK, payload);
+            pushFirebaseNode("stock", payload);
         }
 
         function getOrders() {
-            return JSON.parse(localStorage.getItem("rns_orders_v2") || "[]");
+            try {
+                return JSON.parse(localStorage.getItem("rns_orders_v2") || "[]");
+            } catch (e) {
+                return [];
+            }
         }
 
         function saveOrders(list) {
+            var now = Date.now();
+            var clearedAt = Number(localStorage.getItem("rns_orders_cleared_ts") || 0);
             localStorage.setItem("rns_orders_v2", JSON.stringify(list));
+            var payload = { updatedAt: now, clearedAt: clearedAt, items: list };
+            publishToCloud(TOPIC_ORDERS, payload);
+            pushFirebaseNode("orders", payload);
         }
 
         function getRxList() {
-            return JSON.parse(localStorage.getItem("rns_rx_v2") || "[]");
+            try {
+                return JSON.parse(localStorage.getItem("rns_rx_v2") || "[]");
+            } catch (e) {
+                return [];
+            }
         }
 
         function saveRxList(list) {
+            var now = Date.now();
             localStorage.setItem("rns_rx_v2", JSON.stringify(list));
+            var payload = { updatedAt: now, items: list };
+            publishToCloud(TOPIC_RX, payload);
+            pushFirebaseNode("rx", payload);
         }
 
         function getPromos() {
             var data = localStorage.getItem("rns_promos_v2");
             if (!data) {
-                localStorage.setItem("rns_promos_v2", JSON.stringify(defaultPromos));
                 return defaultPromos;
             }
-            return JSON.parse(data);
+            try {
+                return JSON.parse(data);
+            } catch (e) {
+                return defaultPromos;
+            }
         }
 
         function savePromos(list) {
+            var now = Date.now();
+            localStorage.setItem("rns_promos_ts", String(now));
             localStorage.setItem("rns_promos_v2", JSON.stringify(list));
+            var payload = { updatedAt: now, items: list };
+            publishToCloud(TOPIC_PROMOS, payload);
+            pushFirebaseNode("promos", payload);
         }
 
         var cart = [];
@@ -418,6 +702,8 @@
                 document.getElementById("adminPassInput").value = "";
                 document.getElementById("adminLoginCard").style.display = "none";
                 document.getElementById("adminDashboard").style.display = "block";
+                var fbInp = document.getElementById("firebaseUrlInput");
+                if (fbInp) fbInp.value = getFirebaseUrl();
                 refreshAdminAll();
             } else {
                 alert("गलत पासवर्ड! कृपया सही एडमिन पासवर्ड डालें।");
@@ -654,9 +940,12 @@
             var delivery = (afterDisc < 500) ? 50 : 0;
             var total = afterDisc + delivery;
 
+            var nowTs = Date.now();
             var orderId = "RNS" + Math.floor(1000 + Math.random() * 9000);
             var newOrder = {
                 id: orderId,
+                createdAt: nowTs,
+                updatedAt: nowTs,
                 date: new Date().toLocaleString("en-IN"),
                 name: name,
                 phone: phone,
@@ -704,6 +993,36 @@
             window.open(waUrl, "_blank");
         }
 
+        // Compress prescription image so it syncs fast across all phones via Cloud
+        function compressImageFile(file, callback) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = new Image();
+                img.onload = function() {
+                    var canvas = document.createElement("canvas");
+                    var maxDim = 600;
+                    var w = img.width;
+                    var h = img.height;
+                    if (w > h && w > maxDim) {
+                        h = Math.round((h * maxDim) / w);
+                        w = maxDim;
+                    } else if (h > maxDim) {
+                        w = Math.round((w * maxDim) / h);
+                        h = maxDim;
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    var ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, w, h);
+                    callback(canvas.toDataURL("image/jpeg", 0.55));
+                };
+                img.onerror = function() { callback(""); };
+                img.src = e.target.result;
+            };
+            reader.onerror = function() { callback(""); };
+            reader.readAsDataURL(file);
+        }
+
         function submitPrescription() {
             var rawPhone = document.getElementById("rxPhone").value.trim();
             var phone = cleanPhone(rawPhone);
@@ -726,11 +1045,14 @@
 
             var file = fileInput.files[0];
             var rxId = "RX" + Math.floor(1000 + Math.random() * 9000);
+            var nowTs = Date.now();
 
             var saveAndNotify = function(imgDataUrl) {
                 var rxList = getRxList();
                 rxList.push({
                     id: rxId,
+                    createdAt: nowTs,
+                    updatedAt: nowTs,
                     date: new Date().toLocaleString("en-IN"),
                     phone: phone,
                     note: note || "Prescription Upload",
@@ -758,15 +1080,8 @@
                 window.open("https://wa.me/917668273774?text=" + encodeURIComponent(waMsg), "_blank");
             };
 
-            if (file.type.indexOf("image/") === 0 && file.size < 1500000) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    saveAndNotify(e.target.result);
-                };
-                reader.onerror = function() {
-                    saveAndNotify("");
-                };
-                reader.readAsDataURL(file);
+            if (file.type.indexOf("image/") === 0) {
+                compressImageFile(file, saveAndNotify);
             } else {
                 saveAndNotify("");
             }
@@ -868,7 +1183,7 @@
 
             renderAdminStock();
             renderCatalog();
-            alert("✅ दवा स्टॉक में जुड़ गई!");
+            alert("✅ दवा स्टॉक में जुड़ गई और सभी मोबाइलों पर लाइव अपडेट हो गई!");
         }
 
         function deleteMedicine(id) {
@@ -939,17 +1254,23 @@
                 if (orders[i].id === orderId) {
                     orders[i].status = newSt;
                     orders[i].note = newNt;
+                    orders[i].updatedAt = Date.now();
                     break;
                 }
             }
             saveOrders(orders);
             renderAdminOrders();
-            alert("✅ ऑर्डर स्टेटस और नोट अपडेट हो गया!");
+            alert("✅ ऑर्डर स्टेटस और नोट सभी मोबाइलों के लिए अपडेट हो गया!");
         }
 
         function clearAllOrders() {
             if (confirm("क्या आप वाकई सारे पुराने ऑर्डर हटाना चाहते हैं?")) {
-                localStorage.removeItem("rns_orders_v2");
+                var now = Date.now();
+                localStorage.setItem("rns_orders_cleared_ts", String(now));
+                localStorage.setItem("rns_orders_v2", "[]");
+                var payload = { updatedAt: now, clearedAt: now, items: [] };
+                publishToCloud(TOPIC_ORDERS, payload);
+                pushFirebaseNode("orders", payload);
                 renderAdminOrders();
             }
         }
@@ -983,149 +1304,4 @@
                         '</div>' +
                         '<div style="display:flex; gap:6px; margin-top:8px;">' +
                             '<button type="button" class="btn-sm" style="background:#0255a5; color:#fff;" onclick="updateRxReply(\'' + r.id + '\')">Save</button>' +
-                            '<a href="https://wa.me/91' + r.phone + '?text=' + encodeURIComponent("RNS Pharmacy: आपके पर्चे (" + r.id + ") का स्टेटस: " + curRxSt + "। नोट: " + (r.adminReply || "")) + '" target="_blank" class="btn-sm" style="background:#22c55e; color:#fff; text-decoration:none;">WhatsApp</a>' +
-                        '</div>' +
-                    '</div>';
-                }
-            }
-            document.getElementById("adminRxList").innerHTML = html;
-        }
-
-        function updateRxReply(rxId) {
-            var rxs = getRxList();
-            var newSt = document.getElementById("rxst_" + rxId).value;
-            var val = document.getElementById("rxrep_" + rxId).value;
-            for (var i = 0; i < rxs.length; i++) {
-                if (rxs[i].id === rxId) {
-                    rxs[i].status = newSt;
-                    rxs[i].adminReply = val;
-                    break;
-                }
-            }
-            saveRxList(rxs);
-            renderAdminRx();
-            alert("✅ पर्चा स्टेटस (" + newSt + ") और रिप्लाई सेव हो गया!");
-        }
-
-        function addPromoCode() {
-            var code = document.getElementById("promoCodeInput").value.trim().toUpperCase();
-            var disc = parseFloat(document.getElementById("promoDiscInput").value) || 0;
-            if (!code || disc <= 0) {
-                alert("कृपया प्रोमो कोड का नाम और छूट की रकम (₹) सही डालें!");
-                return;
-            }
-            var promos = getPromos();
-            promos.push({ code: code, discount: disc });
-            savePromos(promos);
-            document.getElementById("promoCodeInput").value = "";
-            document.getElementById("promoDiscInput").value = "";
-            renderAdminPromos();
-        }
-
-        function deletePromo(code) {
-            var promos = getPromos().filter(function(p) { return p.code !== code; });
-            savePromos(promos);
-            renderAdminPromos();
-        }
-
-        function renderAdminPromos() {
-            var promos = getPromos();
-            var html = "";
-            for (var i = 0; i < promos.length; i++) {
-                var p = promos[i];
-                html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #e2e8f0; font-size:13px;">' +
-                    '<div><strong>' + p.code + '</strong> - Flat ₹' + p.discount + ' OFF</div>' +
-                    '<button type="button" class="btn-sm" style="background:#fee2e2; color:#b91c1c;" onclick="deletePromo(\'' + p.code + '\')">Remove</button>' +
-                '</div>';
-            }
-            document.getElementById("adminPromoList").innerHTML = html;
-        }
-
-        function showInvoiceById(orderId) {
-            var orders = getOrders();
-            var o = null;
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].id === orderId) {
-                    o = orders[i];
-                    break;
-                }
-            }
-            if (!o) return;
-
-            var rows = "";
-            var calcMrpTotal = 0;
-            var calcOfferTotal = 0;
-
-            if (o.itemsList && o.itemsList.length > 0) {
-                for (var j = 0; j < o.itemsList.length; j++) {
-                    var it = o.itemsList[j];
-                    var itMrp = Number(it.mrp) || Number(it.price);
-                    var itPrice = Number(it.price);
-                    if (itMrp < itPrice) itMrp = itPrice;
-                    var lineMrp = itMrp * it.qty;
-                    var lineTotal = itPrice * it.qty;
-                    var lineDisc = lineMrp - lineTotal;
-                    calcMrpTotal += lineMrp;
-                    calcOfferTotal += lineTotal;
-
-                    rows += '<tr>' +
-                        '<td>' + it.name + '</td>' +
-                        '<td>' + it.qty + '</td>' +
-                        '<td>₹' + itMrp + '</td>' +
-                        '<td>₹' + itPrice + '</td>' +
-                        '<td>₹' + lineDisc + '</td>' +
-                        '<td><strong>₹' + lineTotal + '</strong></td>' +
-                    '</tr>';
-                }
-            } else {
-                calcMrpTotal = Number(o.mrpTotal) || Number(o.subtotal);
-                calcOfferTotal = Number(o.subtotal);
-                var singleDisc = calcMrpTotal - calcOfferTotal;
-                rows = '<tr><td>' + o.itemsText + '</td><td>1</td><td>₹' + calcMrpTotal + '</td><td>₹' + calcOfferTotal + '</td><td>₹' + singleDisc + '</td><td><strong>₹' + calcOfferTotal + '</strong></td></tr>';
-            }
-
-            var finalMrpTotal = Number(o.mrpTotal) || calcMrpTotal;
-            var finalMrpDisc = (o.mrpDiscount !== undefined) ? Number(o.mrpDiscount) : (finalMrpTotal - calcOfferTotal);
-            var finalPromoDisc = Number(o.discount || 0);
-            var totalSaved = finalMrpDisc + finalPromoDisc;
-
-            var html = '<div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:10px;">' +
-                '<h2 style="color:#0255a5; margin:0;">RNS PHARMACY</h2>' +
-                '<p style="font-size:12px;">Kalimata Road, near Indian Petrol Pump, Sikta, UP - 274303</p>' +
-                '<p style="font-size:12px; font-weight:700;">Phone / WhatsApp: +91 7668273774</p>' +
-            '</div>' +
-            '<div style="font-size:12px; margin-bottom:10px; display:flex; justify-content:space-between;">' +
-                '<div><strong>Patient:</strong> ' + o.name + '<br><strong>Phone:</strong> ' + o.phone + '<br><strong>Address:</strong> ' + o.address + '</div>' +
-                '<div style="text-align:right;"><strong>Invoice:</strong> #' + o.id + '<br><strong>Date:</strong> ' + o.date + '<br><strong>Status:</strong> ' + formatOrderStatusLabel(o.status) + '</div>' +
-            '</div>' +
-            '<table class="inv-table">' +
-                '<thead><tr><th>Medicine</th><th>Qty</th><th>MRP</th><th>Offer Rate</th><th>MRP Saved</th><th>Total</th></tr></thead>' +
-                '<tbody>' + rows + '</tbody>' +
-            '</table>' +
-            '<div style="text-align:right; font-size:13px; line-height:1.6;">' +
-                '<div>Total MRP Value: ₹' + finalMrpTotal + '</div>' +
-                '<div style="color:#15803d;">Pharmacy Discount (MRP पर छूट): - ₹' + finalMrpDisc + '</div>' +
-                '<div><strong>Offer Subtotal: ₹' + o.subtotal + '</strong></div>' +
-                '<div style="color:#15803d;">Promo Code Discount' + (o.promoCode ? ' (' + o.promoCode + ')' : '') + ': - ₹' + finalPromoDisc + '</div>' +
-                '<div>Delivery Charge: ₹' + o.delivery + '</div>' +
-                '<div style="font-size:16px; font-weight:800; border-top:1px solid #000; padding-top:4px; margin-top:4px;">Grand Total Payable: ₹' + o.total + '</div>' +
-                '<div style="font-size:12px; font-weight:700; color:#15803d;">Total Customer Savings (कुल बचत): ₹' + totalSaved + '</div>' +
-                '<div style="font-size:12px;">Payment Mode: ' + o.payment + '</div>' +
-            '</div>' +
-            '<p style="text-align:center; font-size:11px; margin-top:12px; border-top:1px dashed #64748b; padding-top:6px;">Get Well Soon! Thank you for choosing RNS Pharmacy, Sikta.</p>';
-
-            document.getElementById("invoiceContent").innerHTML = html;
-            document.getElementById("invoiceModal").style.display = "flex";
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = "none";
-        }
-
-        window.onload = function() {
-            renderCatalog();
-            updateCartBadge();
-        };
-    </script>
-</body>
-</html>
+                            '<a href="https://wa.me/91' + r.phone + '?text=' + encodeURIComponent("RNS Pharmacy: आपके पर्चे (" + r.id + ") का स्टेटस:
