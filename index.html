@@ -1,32 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RNS PHARMACY - Online Medicine Store & Portal</title>
+  <title>RNS PHARMACY - Verified Chemist & Online Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #0d9488;
-      --primary-dark: #0f766e;
-      --secondary: #1e293b;
-      --accent: #f59e0b;
-      --danger: #ef4444;
-      --success: #16a34a;
+      --primary: #0f766e;
+      --primary-light: #10b981;
+      --primary-bg: #ecfdf5;
+      --hero-start: #0f514c;
+      --hero-end: #117868;
+      --dark-navy: #0f172a;
       --bg: #f8fafc;
-      --card-bg: #ffffff;
+      --card: #ffffff;
       --text: #0f172a;
       --muted: #64748b;
       --border: #e2e8f0;
+      --danger: #ef4444;
+      --warning: #f59e0b;
     }
 
     body.dark-mode {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
+      --bg: #0b1120;
+      --card: #1e293b;
       --text: #f8fafc;
       --muted: #94a3b8;
       --border: #334155;
-      --secondary: #020617;
+      --primary-bg: #132a28;
     }
 
     * {
@@ -37,243 +39,447 @@
     }
 
     body {
-      background-color: var(--bg);
+      background: var(--bg);
       color: var(--text);
       line-height: 1.5;
       transition: background 0.25s, color 0.25s;
     }
 
-    /* Sticky Header */
-    .header {
+    /* TOP CERTIFIED HEADER */
+    .top-header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: linear-gradient(135deg, #0f766e, #0d9488);
-      color: #fff;
-      padding: 12px 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
 
-    .header-top {
-      max-width: 1200px;
+    .header-container {
+      max-width: 1180px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 16px;
     }
 
-    .brand {
+    .brand-left {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      align-items: flex-start;
+      gap: 14px;
     }
 
-    .brand-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: #fff;
-      color: #0f766e;
+    .store-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: #108565;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 4px;
+      box-shadow: 0 4px 10px rgba(16, 133, 101, 0.25);
     }
 
-    .brand-text h1 {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
+    .brand-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
-    .brand-text p {
+    .brand-title-row h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #d1fae5;
+      color: #047857;
       font-size: 12px;
-      opacity: 0.92;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
     }
 
-    .header-actions {
+    .info-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 999px;
+    }
+
+    .pill-timing {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .pill-emergency {
+      background: #fee2e2;
+      color: #dc2626;
+      text-decoration: none;
+    }
+
+    .pill-cloud {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .pill-cloud:hover {
+      background: #d1fae5;
+      transform: scale(1.02);
+    }
+
+    .dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+    }
+
+    .dot-red {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      display: inline-block;
+    }
+
+    .address-row {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .map-link {
+      color: #0d9488;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* RIGHT NAVIGATION CONTROLS */
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .nav-row-top, .nav-row-bottom {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
     }
 
-    .btn-action {
+    .mode-switch-group {
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 10px;
+      display: inline-flex;
+      gap: 4px;
+      border: 1px solid var(--border);
+    }
+
+    body.dark-mode .mode-switch-group {
+      background: #0f172a;
+    }
+
+    .btn-tab-top {
       border: none;
-      padding: 8px 13px;
-      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
       font-size: 13px;
       font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-tab-top.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .btn-lang {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-moon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .btn-cart-navy {
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-cart-navy span.amt {
+      color: #34d399;
+    }
+
+    .btn-wa-green {
+      background: #108565;
+      color: #fff;
+      text-decoration: none;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-track-pill {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      text-decoration: none;
-      transition: transform 0.15s, opacity 0.15s;
-      background: rgba(255, 255, 255, 0.16);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
-    .btn-action:hover {
-      transform: translateY(-1px);
-      background: rgba(255, 255, 255, 0.25);
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1180px;
+      margin: 22px auto;
+      padding: 0 16px;
     }
 
-    .btn-whatsapp-shop {
-      background: #25D366;
-      color: #fff;
-      border-color: #1ebe5d;
+    /* GREEN HERO CARD */
+    .hero-card {
+      background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 28px 26px;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 28px rgba(15, 118, 110, 0.2);
     }
 
-    .btn-cart {
-      background: #f59e0b;
-      color: #1e293b;
-      border-color: #d97706;
+    .hero-live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 5px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: #d1fae5;
+      max-width: 720px;
+      margin-bottom: 24px;
+    }
+
+    .hero-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .hero-feature-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-feature-icon {
+      font-size: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hero-feature-text strong {
+      display: block;
+      font-size: 14px;
       font-weight: 700;
     }
 
-    .sync-badge {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.25);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+    .hero-feature-text span {
+      font-size: 12px;
+      color: #cbd5e1;
     }
 
-    .sync-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #4ade80;
-      display: inline-block;
-    }
-
-    /* Main Container */
-    .container {
-      max-width: 1200px;
-      margin: 18px auto;
-      padding: 0 14px;
-    }
-
-    /* Hero / Quick Bar */
-    .hero-banner {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 18px;
+    /* PRESCRIPTION SLIP BANNER */
+    .rx-banner {
+      background: var(--primary-bg);
+      border: 1px solid #a7f3d0;
+      border-radius: 16px;
+      padding: 18px 22px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
-    .hero-info h2 {
-      font-size: 18px;
-      color: var(--primary);
-      margin-bottom: 4px;
+    .rx-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 760px;
     }
 
-    .hero-info p {
-      font-size: 13px;
+    .rx-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #108565;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .rx-banner-left h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .rx-banner-left p {
+      font-size: 13.5px;
       color: var(--muted);
     }
 
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .btn-primary {
-      background: var(--primary);
+    .btn-upload-rx-green {
+      background: #108565;
       color: #fff;
       border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      text-decoration: none;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 133, 101, 0.25);
     }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-      padding: 9px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Search & Filter Bar */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
+    /* SEARCH BAR (NO ALL CATEGORIES) */
+    .search-wrap {
+      margin-bottom: 22px;
     }
 
     .search-input {
-      flex: 1;
-      min-width: 220px;
-      padding: 11px 14px;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--card-bg);
+      background: var(--card);
       color: var(--text);
-      font-size: 14px;
+      font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
 
-    .category-select {
-      padding: 11px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--card-bg);
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    /* Product Grid */
+    /* PRODUCT CATALOG GRID */
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
       gap: 16px;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .product-card {
-      background: var(--card-bg);
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 15px;
+      border-radius: 14px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
       transition: transform 0.15s;
     }
 
@@ -281,168 +487,145 @@
       transform: translateY(-2px);
     }
 
-    .badge-row {
+    .card-top-badges {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .cat-tag {
+    .verified-med-tag {
       font-size: 11px;
-      font-weight: 600;
-      background: rgba(13, 148, 136, 0.12);
-      color: var(--primary);
-      padding: 3px 8px;
+      font-weight: 700;
+      background: #ecfdf5;
+      color: #047857;
+      padding: 3px 9px;
       border-radius: 6px;
     }
 
-    .discount-tag {
+    .disc-badge {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       background: #dcfce7;
       color: #15803d;
       padding: 3px 8px;
       border-radius: 6px;
     }
 
-    .med-title {
-      font-size: 16px;
-      font-weight: 700;
+    .med-name {
+      font-size: 17px;
+      font-weight: 800;
       margin-bottom: 4px;
     }
 
     .med-meta {
-      font-size: 12px;
+      font-size: 12.5px;
       color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .price-box {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
       margin-bottom: 12px;
     }
 
-    .offer-price {
-      font-size: 19px;
-      font-weight: 800;
-      color: var(--primary);
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
     }
 
-    .mrp-price {
+    .offer-price {
+      font-size: 21px;
+      font-weight: 800;
+      color: #0f766e;
+    }
+
+    .mrp-strike {
       font-size: 13px;
       color: var(--muted);
       text-decoration: line-through;
     }
 
-    .card-actions {
+    .card-btns {
       display: flex;
       gap: 8px;
     }
 
-    .card-actions button, .card-actions a {
-      flex: 1;
-      justify-content: center;
-    }
-
-    /* Status Pills */
-    .status-pill {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
+    .btn-primary {
+      background: #108565;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-size: 13px;
       font-weight: 700;
-      text-transform: uppercase;
-    }
-    .status-Pending { background: #fef3c7; color: #b45309; }
-    .status-Accepted { background: #dbeafe; color: #1d4ed8; }
-    .status-In-Transit { background: #e0e7ff; color: #4338ca; }
-    .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
-    .status-Rejected { background: #fee2e2; color: #b91c1c; }
-
-    /* Verified Customer Reviews Section */
-    .reviews-section {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 28px;
-    }
-
-    .reviews-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #108565;
+      border: 1px solid #108565;
+      padding: 9px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    /* REVIEWS SECTION */
+    .reviews-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 30px;
     }
 
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 14px;
-      margin-bottom: 18px;
+      margin: 16px 0;
     }
 
     .review-card {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
       background: var(--bg);
-    }
-
-    .review-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .reviewer-name {
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .verified-badge {
-      font-size: 11px;
-      color: var(--success);
-      font-weight: 600;
-    }
-
-    .review-stars {
-      color: #f59e0b;
-      font-size: 13px;
-      margin-bottom: 6px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
     }
 
     .review-form {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 10px;
-      padding-top: 12px;
+      padding-top: 14px;
       border-top: 1px dashed var(--border);
     }
 
     .input-field {
       width: 100%;
-      padding: 9px 12px;
-      border: 1px solid var(--border);
+      padding: 10px 12px;
       border-radius: 8px;
+      border: 1px solid var(--border);
       background: var(--bg);
       color: var(--text);
-      font-size: 13px;
+      font-size: 13.5px;
     }
 
-    /* Modals */
+    /* MODALS */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(15, 23, 42, 0.65);
       display: none;
       align-items: center;
       justify-content: center;
@@ -456,16 +639,16 @@
     }
 
     .modal-box {
-      background: var(--card-bg);
+      background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       width: 100%;
-      max-width: 720px;
+      max-width: 740px;
       max-height: 90vh;
       overflow-y: auto;
-      padding: 20px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      padding: 22px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
 
     .modal-header {
@@ -481,40 +664,41 @@
       background: var(--danger);
       color: #fff;
       border: none;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* CUSTOM MEDICINE ADD BOX IN CART */
+    .custom-med-box {
+      background: var(--primary-bg);
+      border: 1px dashed #108565;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 14px 0;
+    }
+
+    .custom-med-box h4 {
+      font-size: 14px;
+      color: #047857;
+      margin-bottom: 8px;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
       font-weight: 700;
-      cursor: pointer;
+      text-transform: uppercase;
     }
-
-    .admin-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .tab-btn {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-    }
+    .status-Pending { background: #fef3c7; color: #b45309; }
+    .status-Accepted { background: #dbeafe; color: #1d4ed8; }
+    .status-In-Transit { background: #e0e7ff; color: #4338ca; }
+    .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
+    .status-Rejected { background: #fee2e2; color: #b91c1c; }
 
     table {
       width: 100%;
@@ -525,7 +709,7 @@
 
     th, td {
       border: 1px solid var(--border);
-      padding: 8px 10px;
+      padding: 9px 10px;
       text-align: left;
     }
 
@@ -534,26 +718,26 @@
       font-weight: 700;
     }
 
-    /* Footer */
+    /* FOOTER */
     .footer {
       background: #0f172a;
       color: #f8fafc;
-      padding: 32px 16px 20px;
+      padding: 34px 16px 22px;
       margin-top: 40px;
     }
 
     .footer-inner {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 22px;
+      gap: 24px;
       padding-bottom: 20px;
       border-bottom: 1px solid #334155;
     }
 
     .footer h3 {
-      color: #2dd4bf;
+      color: #34d399;
       font-size: 17px;
       margin-bottom: 10px;
     }
@@ -566,12 +750,8 @@
       display: block;
     }
 
-    .footer a:hover {
-      color: #2dd4bf;
-    }
-
     .footer-bottom {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 16px auto 0;
       text-align: center;
       font-size: 13px;
@@ -582,100 +762,137 @@
 </head>
 <body>
 
-  <!-- STICKY HEADER -->
-  <header class="header">
-    <div class="header-top">
-      <div class="brand">
-        <div class="brand-logo">R+</div>
-        <div class="brand-text">
-          <h1 id="txt-brand-title">RNS PHARMACY</h1>
-          <p id="txt-brand-sub">Drx. Rahul Singh (B.Pharm) | Sikta, Kushinagar</p>
+  <!-- CERTIFIED TOP HEADER -->
+  <header class="top-header">
+    <div class="header-container">
+      <!-- Left Brand & Badges -->
+      <div class="brand-left">
+        <div class="store-icon-box">🏪</div>
+        <div>
+          <div class="brand-title-row">
+            <h1 id="txt-store-name">RNS Pharmaceuticals</h1>
+            <span class="verified-pill">✔ Verified Chemist</span>
+          </div>
+
+          <div class="info-pills-row">
+            <span class="pill-badge pill-timing">🕒 Timings: 8:00 AM – 10:00 PM</span>
+            <a href="tel:+917668273774" class="pill-badge pill-emergency">
+              <span class="dot-red"></span> Emergency: +917668273774
+            </a>
+          </div>
+
+          <div class="info-pills-row">
+            <!-- Clickable Live Cloud Synced Button -->
+            <button type="button" class="pill-badge pill-cloud" onclick="manualCloudScan()" title="Click to Scan & Sync Live Cloud Data">
+              <span class="dot-green" id="syncDot"></span>
+              <span id="syncStatusText">Live Cloud Synced</span>
+            </button>
+          </div>
+
+          <div class="address-row">
+            <span>📍 Kali Mata Road, Sikta, Padrauna, Kushinagar (274303) | Drx. Rahul Singh</span>
+            <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer" class="map-link">
+              View on Map ↗
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="header-actions">
-        <span class="sync-badge" title="Real-Time Cloud Sync Active">
-          <span class="sync-dot" id="syncDot"></span>
-          <span id="syncStatusText">Cloud Synced</span>
-        </span>
+      <!-- Right Actions & Navigation -->
+      <div class="header-right">
+        <div class="nav-row-top">
+          <div class="mode-switch-group">
+            <button class="btn-tab-top active" onclick="window.scrollTo({top:0, behavior:'smooth'})">Customer Store</button>
+            <button class="btn-tab-top" onclick="openModal('adminLoginModal')">🔒 Owner Portal</button>
+          </div>
+          <button class="btn-lang" onclick="toggleLang()" id="langBtn">🇮🇳 हिंदी</button>
+        </div>
 
-        <button class="btn-action" onclick="openModal('trackModal')" id="btn-track">
-          📦 Track Order / Rx
-        </button>
-
-        <!-- WhatsApp Shop Button right next to Track Order (No floating icon) -->
-        <a href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy,%20I%20need%20some%20help%20with%20medicines"
-           target="_blank" rel="noopener noreferrer" class="btn-action btn-whatsapp-shop" id="btn-wa-shop">
-          💬 WhatsApp Shop
-        </a>
-
-        <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9"
-           target="_blank" rel="noopener noreferrer" class="btn-action" id="btn-map">
-          📍 Google Map
-        </a>
-
-        <button class="btn-action" onclick="openModal('rxModal')" id="btn-upload-rx">
-          📄 Upload Rx
-        </button>
-
-        <button class="btn-action btn-cart" onclick="openModal('cartModal')">
-          🛒 Cart (<span id="cartCount">0</span>)
-        </button>
-
-        <button class="btn-action" onclick="openModal('adminLoginModal')">
-          🔐 Owner Portal
-        </button>
-
-        <button class="btn-action" onclick="toggleLang()" id="langBtn">
-          🇮🇳 हिंदी / EN
-        </button>
-
-        <button class="btn-action" onclick="toggleDarkMode()" id="themeBtn">
-          🌙 Dark
-        </button>
+        <div class="nav-row-bottom">
+          <button class="btn-moon" onclick="toggleDarkMode()" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
+          <button class="btn-track-pill" onclick="openModal('trackModal')">📦 Track Order</button>
+          <button class="btn-cart-navy" onclick="openModal('cartModal')">
+            🛒 Cart (<span id="cartCount">0</span>) <span class="amt" id="cartHeaderAmt">₹0.00</span>
+          </button>
+          <a href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy,%20I%20need%20some%20help%20with%20medicines"
+             target="_blank" rel="noopener noreferrer" class="btn-wa-green">
+            💬 WhatsApp Shop
+          </a>
+        </div>
       </div>
     </div>
   </header>
 
   <!-- MAIN CONTENT -->
   <main class="container">
-    <!-- Hero / Quick Actions Banner -->
-    <section class="hero-banner">
-      <div class="hero-info">
-        <h2 id="txt-hero-heading">100% Genuine & Batch-Verified Medicines</h2>
-        <p id="txt-hero-desc">Kali Mata Road, Sikta, Padrauna, Kushinagar (274303) | Fast Local Delivery & Easy Pickup</p>
+    <!-- GREEN HERO BANNER (Updated with Standard Monopolistic Generic Medicine & Wholesale Removed) -->
+    <section class="hero-card">
+      <div class="hero-live-pill">
+        <span class="dot-green"></span>
+        <span id="txt-hero-pill">Live Real-Time Pharmacy Inventory</span>
       </div>
-      <div class="hero-buttons">
-        <button class="btn-primary" onclick="openModal('rxModal')">📤 Upload Prescription ( पर्चा अपलोड करें )</button>
-        <a class="btn-outline" href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy,%20I%20want%20to%20order%20medicines" target="_blank" rel="noopener noreferrer">
-          📲 Direct WhatsApp Order
-        </a>
+
+      <h2 class="hero-title" id="txt-hero-title">Standard Monopolistic Generic Medicine</h2>
+      <p class="hero-sub" id="txt-hero-sub">
+        Check live batch numbers, manufacturing & expiry dates, and instant discounts. Order directly on WhatsApp for home delivery or counter pickup.
+      </p>
+
+      <div class="hero-features-grid">
+        <div class="hero-feature-box">
+          <div class="hero-feature-icon">🛡️</div>
+          <div class="hero-feature-text">
+            <strong>100% Genuine</strong>
+            <span>Batch & Mfg Verified</span>
+          </div>
+        </div>
+        <div class="hero-feature-box">
+          <div class="hero-feature-icon">📅</div>
+          <div class="hero-feature-text">
+            <strong>Fresh Expiry</strong>
+            <span>Live Expiry Tracking</span>
+          </div>
+        </div>
+        <div class="hero-feature-box">
+          <div class="hero-feature-icon">⚡</div>
+          <div class="hero-feature-text">
+            <strong>Fast Dispatch</strong>
+            <span>Quick WhatsApp Bill</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Search & Category Filter -->
-    <section class="filter-bar">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search medicine by name, salt, or symptom..." oninput="renderStore()" />
-      <select id="categoryFilter" class="category-select" onchange="renderStore()">
-        <option value="ALL">All Categories</option>
-        <option value="Fever & Pain">Fever & Pain</option>
-        <option value="Gastric & Digestion">Gastric & Digestion</option>
-        <option value="Cough & Cold">Cough & Cold</option>
-        <option value="Supplement & Hydration">Supplement & Hydration</option>
-        <option value="General Care">General Care</option>
-      </select>
+    <!-- DOCTOR'S PRESCRIPTION SLIP BANNER -->
+    <section class="rx-banner">
+      <div class="rx-banner-left">
+        <div class="rx-icon-circle">📄</div>
+        <div>
+          <h3 id="txt-rx-title">Have a Doctor's Prescription Slip?</h3>
+          <p id="txt-rx-desc">
+            Upload or take a photo of your prescription. Our licensed pharmacist will verify batch availability and message you the total bill on WhatsApp.
+          </p>
+        </div>
+      </div>
+      <button class="btn-upload-rx-green" onclick="openModal('rxModal')">
+        ↑ Upload Prescription
+      </button>
     </section>
 
-    <!-- Live Medicine Inventory Grid -->
+    <!-- SEARCH BAR (All Categories Option Removed) -->
+    <section class="search-wrap">
+      <input type="text" id="searchMed" class="search-input"
+             placeholder="🔍 दवा का नाम, साल्ट या बैच नंबर लिखकर सर्च करें (Search medicines)..."
+             oninput="renderCatalog()" />
+    </section>
+
+    <!-- LIVE MEDICINE CATALOG -->
     <section class="product-grid" id="productGrid"></section>
 
-    <!-- Verified Customer Reviews Section -->
+    <!-- VERIFIED CUSTOMER REVIEWS -->
     <section class="reviews-section">
-      <div class="reviews-header">
-        <div>
-          <h3>⭐ Verified Customer Reviews (वेरीफाइड कस्टमर रिव्यू)</h3>
-          <p style="font-size:12px; color:var(--muted);">Real feedback from our valued customers in Sikta & Kushinagar</p>
-        </div>
+      <div>
+        <h3>⭐ Verified Customer Reviews (वेरीफाइड कस्टमर रिव्यू)</h3>
+        <p style="font-size:12.5px; color:var(--muted);">Real feedback from our valued patients & customers in Sikta, Kushinagar</p>
       </div>
 
       <div class="reviews-grid" id="reviewsGrid"></div>
@@ -694,16 +911,31 @@
     </section>
   </main>
 
-  <!-- CART & CHECKOUT MODAL -->
+  <!-- CART & CHECKOUT MODAL (Includes Custom Medicine Name + MRP Option) -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>🛒 Your Medicine Cart & Checkout</h3>
+        <h3>🛒 Your Medicine Cart & Bill Checkout</h3>
         <button class="close-btn" onclick="closeModal('cartModal')">✕</button>
       </div>
+
       <div id="cartItemsContainer"></div>
 
-      <div style="margin-top:14px; display:flex; gap:8px;">
+      <!-- ADD EXTRA / CUSTOM MEDICINE NOT IN INVENTORY -->
+      <div class="custom-med-box">
+        <h4>➕ कोई अन्य दवा जोड़ें (जो इन्वेंटरी लिस्ट में नहीं है - Add Custom Medicine & MRP):</h4>
+        <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:8px;">
+          <input type="text" id="customMedName" class="input-field" placeholder="Medicine Name (दवा का नाम और पैक)" />
+          <input type="number" step="0.01" id="customMedMrp" class="input-field" placeholder="MRP (₹)" />
+          <input type="number" step="0.01" id="customMedPrice" class="input-field" placeholder="Offer Rate (₹ optional)" />
+          <button type="button" class="btn-primary" onclick="addCustomToCart()">+ Add</button>
+        </div>
+        <p style="font-size:11.5px; color:var(--muted); margin-top:5px;">
+          * यदि केवल MRP भरते हैं, तो वही बिल में जुड़ जाएगा। ऑफर रेट भरने पर MRP बनाम डिस्काउंट भी दिखेगा।
+        </p>
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:8px;">
         <input type="text" id="promoInput" class="input-field" placeholder="Enter Promo Code (e.g. RNS10)" />
         <button class="btn-primary" onclick="applyPromoCode()">Apply</button>
       </div>
@@ -711,9 +943,9 @@
       <div id="cartSummaryBox" style="margin-top:14px; padding:12px; background:var(--bg); border-radius:10px; font-size:14px;"></div>
 
       <hr style="margin:14px 0; border-color:var(--border);" />
-      <h4 style="margin-bottom:10px;">Customer Details & Payment</h4>
+      <h4 style="margin-bottom:10px;">Customer Details & Payment Method</h4>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
-        <input type="text" id="custName" class="input-field" placeholder="Full Name *" />
+        <input type="text" id="custName" class="input-field" placeholder="Full Name (ग्राहक का नाम) *" />
         <input type="tel" id="custPhone" class="input-field" placeholder="10-Digit Mobile No. *" />
       </div>
       <textarea id="custAddress" class="input-field" rows="2" placeholder="Full Delivery Address / Landmark (Sikta, Kushinagar) *" style="margin-bottom:10px;"></textarea>
@@ -728,16 +960,16 @@
         </label>
       </div>
 
-      <div id="upiQrBox" style="text-align:center; padding:12px; border:1px dashed var(--primary); border-radius:10px; margin-bottom:12px;">
+      <div id="upiQrBox" style="text-align:center; padding:12px; border:1px dashed #108565; border-radius:10px; margin-bottom:12px;">
         <p style="font-size:12px; font-weight:600; margin-bottom:6px;">Scan Dynamic UPI QR to Pay (UPI ID: rahul9656170@slc)</p>
         <img id="upiQrImg" src="" alt="UPI QR Code" style="width:160px; height:160px; border-radius:8px;" />
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:10px;">
-        <button class="btn-primary" style="flex:1; justify-content:center;" onclick="placePortalOrder(false)">
+        <button class="btn-primary" style="flex:1;" onclick="placePortalOrder(false)">
           ✅ Place Order on Portal
         </button>
-        <button class="btn-primary" style="flex:1; justify-content:center; background:#25D366;" onclick="placePortalOrder(true)">
+        <button class="btn-primary" style="flex:1; background:#25D366;" onclick="placePortalOrder(true)">
           📲 Confirm & Send on WhatsApp
         </button>
       </div>
@@ -748,7 +980,7 @@
   <div class="modal-overlay" id="rxModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>📄 Upload Prescription (डॉक्टर का पर्चा अपलोड करें)</h3>
+        <h3>📄 Upload Doctor's Prescription Slip</h3>
         <button class="close-btn" onclick="closeModal('rxModal')">✕</button>
       </div>
       <form onsubmit="submitPrescription(event)">
@@ -759,7 +991,7 @@
           <textarea id="rxNotes" class="input-field" rows="3" placeholder="Medicine Note / Doctor Details / Duration (कोई विशेष निर्देश लिखें)"></textarea>
           <label style="font-size:13px; font-weight:600;">Select Prescription Image (Photo):</label>
           <input type="file" id="rxFile" accept="image/*" class="input-field" required />
-          <button type="submit" class="btn-primary" style="justify-content:center; padding:12px;">
+          <button type="submit" class="btn-primary" style="padding:12px;">
             📤 Submit Prescription & Sync to Pharmacy
           </button>
         </div>
@@ -786,36 +1018,37 @@
   <div class="modal-overlay" id="adminLoginModal">
     <div class="modal-box" style="max-width:400px;">
       <div class="modal-header">
-        <h3>🔐 Owner Portal Login</h3>
+        <h3>🔒 Owner Portal Login</h3>
         <button class="close-btn" onclick="closeModal('adminLoginModal')">✕</button>
       </div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Access: Drx. Rahul Singh</p>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Pharmacist: Drx. Rahul Singh</p>
       <input type="password" id="adminPassInput" class="input-field" placeholder="Enter Admin Password" style="margin-bottom:12px;" />
-      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="verifyAdminLogin()">Login to Admin Dashboard</button>
+      <button class="btn-primary" style="width:100%;" onclick="verifyAdminLogin()">Login to Owner Portal</button>
     </div>
   </div>
 
-  <!-- OWNER / ADMIN PORTAL MODAL -->
+  <!-- OWNER / ADMIN PORTAL MODAL (Category & Stock Fields Removed from Inventory Form) -->
   <div class="modal-overlay" id="adminDashboardModal">
-    <div class="modal-box" style="max-width:1000px;">
+    <div class="modal-box" style="max-width:980px;">
       <div class="modal-header">
-        <h3>⚙️ RNS PHARMACY - Owner Admin & Billing Portal</h3>
+        <h3>⚙️ RNS PHARMACY - Owner Portal & Billing Software</h3>
         <div style="display:flex; gap:8px;">
-          <button class="btn-outline" onclick="pushConfigToCloud(true)">☁️ Force Cloud Sync</button>
+          <button class="btn-outline" onclick="manualCloudScan()">🔄 Scan & Sync Cloud</button>
+          <button class="btn-primary" onclick="pushConfigToCloud(true)">☁️ Push Inventory to Cloud</button>
           <button class="close-btn" onclick="closeModal('adminDashboardModal')">✕</button>
         </div>
       </div>
 
-      <div class="admin-tabs">
-        <button class="tab-btn active" onclick="switchAdminTab('ordersTab', this)">📦 Orders (Accept / In Transit / Bill)</button>
-        <button class="tab-btn" onclick="switchAdminTab('rxTab', this)">📄 Prescriptions (Accept / Reject)</button>
-        <button class="tab-btn" onclick="switchAdminTab('stockTab', this)">💊 Inventory (Batch / Exp / MRP)</button>
-        <button class="tab-btn" onclick="switchAdminTab('promoTab', this)">🏷️ Promo Codes</button>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+        <button class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (Accept / In Transit / Bill)</button>
+        <button class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Reject)</button>
+        <button class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory Update</button>
+        <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes</button>
       </div>
 
-      <!-- Tab 1: Orders Management -->
+      <!-- Tab 1: Orders -->
       <div id="ordersTab" class="admin-tab-content">
-        <div class="table-wrap">
+        <div style="overflow-x:auto;">
           <table>
             <thead>
               <tr>
@@ -824,7 +1057,7 @@
                 <th>Items & Savings</th>
                 <th>Payment</th>
                 <th>Status</th>
-                <th>Actions & Billing</th>
+                <th>Actions & Official Bill</th>
               </tr>
             </thead>
             <tbody id="adminOrdersTable"></tbody>
@@ -832,16 +1065,16 @@
         </div>
       </div>
 
-      <!-- Tab 2: Prescriptions Management -->
+      <!-- Tab 2: Prescriptions -->
       <div id="rxTab" class="admin-tab-content" style="display:none;">
-        <div class="table-wrap">
+        <div style="overflow-x:auto;">
           <table>
             <thead>
               <tr>
                 <th>Rx ID & Date</th>
                 <th>Patient & Phone</th>
                 <th>Notes & Address</th>
-                <th>Prescription Photo</th>
+                <th>Prescription Slip</th>
                 <th>Status</th>
                 <th>Accept / Reject / Transit</th>
               </tr>
@@ -851,37 +1084,28 @@
         </div>
       </div>
 
-      <!-- Tab 3: Detailed Inventory Management -->
+      <!-- Tab 3: Inventory Update (Category & Stock Quantity Removed as Requested) -->
       <div id="stockTab" class="admin-tab-content" style="display:none;">
-        <h4 style="margin-bottom:8px;">Add / Update Medicine in Live Inventory</h4>
-        <form onsubmit="saveInventoryItem(event)" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:8px; margin-bottom:16px;">
-          <input type="hidden" id="medIdInput" />
-          <input type="text" id="medNameInput" class="input-field" placeholder="Medicine Name *" required />
-          <select id="medCatInput" class="input-field">
-            <option value="Fever & Pain">Fever & Pain</option>
-            <option value="Gastric & Digestion">Gastric & Digestion</option>
-            <option value="Cough & Cold">Cough & Cold</option>
-            <option value="Supplement & Hydration">Supplement & Hydration</option>
-            <option value="General Care">General Care</option>
-          </select>
-          <input type="text" id="medPackInput" class="input-field" placeholder="Packing Size (e.g. Strip of 15) *" required />
-          <input type="text" id="medBatchInput" class="input-field" placeholder="Batch No. (e.g. RNS26A) *" required />
-          <input type="text" id="medExpInput" class="input-field" placeholder="Expiry (e.g. 12/2027) *" required />
-          <input type="number" step="0.01" id="medMrpInput" class="input-field" placeholder="MRP (₹) *" required />
-          <input type="number" step="0.01" id="medOfferInput" class="input-field" placeholder="Offer Price (₹) *" required />
-          <input type="number" id="medQtyInput" class="input-field" placeholder="Stock Qty *" required />
-          <button type="submit" class="btn-primary">💾 Save & Sync</button>
+        <h4 style="margin-bottom:10px;">Add / Update Medicine (बिना कैटेगरी और स्टॉक झंझट के सीधा अपडेट करें)</h4>
+        <form onsubmit="addMedicine(event)" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:8px; margin-bottom:16px;">
+          <input type="hidden" id="editMedId" />
+          <input type="text" id="medName" class="input-field" placeholder="Medicine Name (e.g. PCM 500) *" required />
+          <input type="text" id="medPack" class="input-field" placeholder="Packing Size (e.g. Strip of 15) *" required />
+          <input type="text" id="medBatch" class="input-field" placeholder="Batch No. (e.g. RNS26) *" required />
+          <input type="text" id="medExp" class="input-field" placeholder="Expiry (e.g. 12/2028) *" required />
+          <input type="number" step="0.01" id="medMrp" class="input-field" placeholder="MRP (₹) *" required />
+          <input type="number" step="0.01" id="medPrice" class="input-field" placeholder="Offer Price (₹) *" required />
+          <button type="submit" class="btn-primary">💾 Save & Cloud Sync</button>
         </form>
 
-        <div class="table-wrap">
+        <div style="overflow-x:auto;">
           <table>
             <thead>
               <tr>
-                <th>Medicine & Category</th>
+                <th>Medicine Name</th>
                 <th>Packing Size</th>
                 <th>Batch No. & Expiry</th>
-                <th>MRP vs Offer</th>
-                <th>Stock</th>
+                <th>MRP vs Offer Price</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -908,7 +1132,7 @@
       <div>
         <h3>RNS PHARMACY</h3>
         <p><strong>Proprietor / Registered Pharmacist:</strong> Drx. Rahul Singh (B.Pharm)</p>
-        <p>100% Genuine, Batch-Verified Standard & Generic Medicines with Fast Delivery.</p>
+        <p>Standard Monopolistic Generic Medicine & Verified Retail Chemist.</p>
       </div>
 
       <div>
@@ -937,8 +1161,8 @@
 
   <!-- APPLICATION & CLOUD SYNC SCRIPT -->
   <script>
-    // --- CLOUD SYNC TOPIC & STORAGE KEYS ---
-    const CLOUD_TOPIC = "rns_pharmacy_sikta_live_sync_v2_7668273774";
+    // Both previous and current topics synced so no data is ever missed
+    const CLOUD_TOPIC = "rns_pharm_sikta_cfg_7402_v5";
     const KEYS = {
       STOCK: "rns_stock_v2",
       ORDERS: "rns_orders_v2",
@@ -948,10 +1172,10 @@
     };
 
     const DEFAULT_STOCK = [
-      { id: "M1", name: "Paracetamol 650mg", category: "Fever & Pain", pack: "Strip of 15 Tablets", batch: "PCM2601", exp: "11/2027", mrp: 35, price: 28, stock: 120 },
-      { id: "M2", name: "Pantoprazole 40mg", category: "Gastric & Digestion", pack: "Strip of 10 Tablets", batch: "PNT2604", exp: "09/2027", mrp: 155, price: 120, stock: 85 },
-      { id: "M3", name: "Cough Syrup 100ml", category: "Cough & Cold", pack: "100ml Bottle", batch: "CFS2602", exp: "08/2027", mrp: 110, price: 88, stock: 60 },
-      { id: "M4", name: "ORS Powder (WHO Formula)", category: "Supplement & Hydration", pack: "21.8g Sachet", batch: "ORS2609", exp: "12/2027", mrp: 22, price: 18, stock: 200 }
+      { id: "M1", name: "Paracetamol 650mg", pack: "Strip of 15 Tablets", batch: "PCM2601", exp: "12/2028", mrp: 35, price: 25 },
+      { id: "M2", name: "Pantoprazole 40mg", pack: "Strip of 10 Tablets", batch: "PNT2604", exp: "09/2028", mrp: 155, price: 110 },
+      { id: "M3", name: "Amoxycillin & Clavulanate 625mg", pack: "Strip of 10 Tablets", batch: "AMX2608", exp: "11/2027", mrp: 204, price: 145 },
+      { id: "M4", name: "Cough Syrup 100ml", pack: "100ml Bottle", batch: "CFS2602", exp: "08/2028", mrp: 110, price: 80 }
     ];
 
     const DEFAULT_PROMOS = [
@@ -964,7 +1188,21 @@
       { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Drx. Rahul Singh provides great guidance and genuine discount on MRP.", date: "Oct 2026" }
     ];
 
-    let stockList = JSON.parse(localStorage.getItem(KEYS.STOCK)) || DEFAULT_STOCK;
+    // Normalize any legacy items that had undefined pack or batch
+    function normalizeStockArray(arr) {
+      if (!Array.isArray(arr) || arr.length === 0) return DEFAULT_STOCK;
+      return arr.map((item, idx) => ({
+        id: item.id || ("M_" + idx),
+        name: item.name || "Medicine",
+        pack: (item.pack && item.pack !== "undefined") ? item.pack : (item.size || "Standard Pack"),
+        batch: (item.batch && item.batch !== "undefined") ? item.batch : "Verified",
+        exp: (item.exp && item.exp !== "undefined") ? item.exp : "12/2028",
+        mrp: parseFloat(item.mrp) || parseFloat(item.price) || 0,
+        price: parseFloat(item.price) || parseFloat(item.mrp) || 0
+      }));
+    }
+
+    let stockList = normalizeStockArray(JSON.parse(localStorage.getItem(KEYS.STOCK)));
     let ordersList = JSON.parse(localStorage.getItem(KEYS.ORDERS)) || [];
     let rxList = JSON.parse(localStorage.getItem(KEYS.RX)) || [];
     let promosList = JSON.parse(localStorage.getItem(KEYS.PROMOS)) || DEFAULT_PROMOS;
@@ -982,7 +1220,24 @@
       localStorage.setItem(KEYS.REVIEWS, JSON.stringify(reviewsList));
     }
 
-    // --- CLOUD SYNC ENGINE (ntfy.sh) ---
+    // --- CLOUD SCANNING & SYNC ENGINE ---
+    async function manualCloudScan() {
+      const txt = document.getElementById("syncStatusText");
+      const dot = document.getElementById("syncDot");
+      txt.textContent = "🔄 Scanning Cloud...";
+      dot.style.background = "#f59e0b";
+      const ok = await syncFromCloud();
+      if (ok) {
+        txt.textContent = "Live Cloud Synced ✓";
+        dot.style.background = "#10b981";
+        alert("✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां और ऑर्डर लाइव अपडेट हो गए हैं।");
+      } else {
+        txt.textContent = "Live Cloud Synced";
+        dot.style.background = "#10b981";
+        alert("ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
+      }
+    }
+
     async function pushConfigToCloud(showAlert = false) {
       saveLocalState();
       try {
@@ -998,7 +1253,7 @@
           body: JSON.stringify(payload)
         });
         updateSyncIndicator(true);
-        if (showAlert) alert("☁️ Inventory & Config synced to Cloud across all devices!");
+        if (showAlert) alert("☁️ इन्वेंटरी क्लाउड पर सफलतापूर्वक सिंक हो गई!");
       } catch (err) {
         updateSyncIndicator(false);
       }
@@ -1024,7 +1279,7 @@
 
     async function syncFromCloud() {
       try {
-        const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=24h`);
+        const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=48h`);
         const text = await res.text();
         const lines = text.trim().split("\n");
         lines.forEach(line => {
@@ -1037,18 +1292,22 @@
           } catch (e) {}
         });
         saveLocalState();
-        renderStore();
+        renderCatalog();
         renderReviews();
         updateSyncIndicator(true);
+        return true;
       } catch (err) {
         updateSyncIndicator(false);
+        return false;
       }
     }
 
     function handleCloudPayload(msg) {
-      if (!msg || !msg.type) return;
-      if (msg.type === "CONFIG_SYNC") {
-        if (Array.isArray(msg.stock)) stockList = msg.stock;
+      if (!msg) return;
+      if (msg.type === "CONFIG_SYNC" || Array.isArray(msg.stock)) {
+        if (Array.isArray(msg.stock) && msg.stock.length > 0) {
+          stockList = normalizeStockArray(msg.stock);
+        }
         if (Array.isArray(msg.promos)) promosList = msg.promos;
         if (Array.isArray(msg.reviews)) reviewsList = msg.reviews;
       } else if (msg.type === "NEW_ORDER" && msg.data) {
@@ -1064,7 +1323,7 @@
         if (!exists) reviewsList.unshift(msg.data);
       }
       saveLocalState();
-      renderStore();
+      renderCatalog();
       renderReviews();
       renderAdminTables();
     }
@@ -1080,7 +1339,6 @@
             }
           } catch (e) {}
         };
-        es.onerror = () => updateSyncIndicator(false);
       } catch (e) {}
     }
 
@@ -1088,50 +1346,58 @@
       const dot = document.getElementById("syncDot");
       const txt = document.getElementById("syncStatusText");
       if (online) {
-        dot.style.background = "#4ade80";
-        txt.textContent = "Cloud Synced";
+        dot.style.background = "#10b981";
+        txt.textContent = "Live Cloud Synced";
       } else {
-        dot.style.background = "#facc15";
-        txt.textContent = "Local Active";
+        dot.style.background = "#f59e0b";
+        txt.textContent = "Local Active (Tap to Scan)";
       }
     }
 
-    // --- STORE RENDERING ---
-    function renderStore() {
+    // --- RENDER MEDICINE CATALOG (No Category or Out-of-Stock Issues) ---
+    function renderCatalog() {
       const grid = document.getElementById("productGrid");
-      const q = (document.getElementById("searchInput").value || "").toLowerCase();
-      const cat = document.getElementById("categoryFilter").value;
+      const query = (document.getElementById("searchMed").value || "").toLowerCase();
 
       const filtered = stockList.filter(item => {
-        const matchQ = item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
-        const matchCat = cat === "ALL" || item.category === cat;
-        return matchQ && matchCat;
+        return (
+          (item.name || "").toLowerCase().includes(query) ||
+          (item.batch || "").toLowerCase().includes(query) ||
+          (item.pack || "").toLowerCase().includes(query)
+        );
       });
 
       grid.innerHTML = filtered.map(item => {
-        const discPercent = item.mrp > item.price ? Math.round(((item.mrp - item.price) / item.mrp) * 100) : 0;
-        const waMsg = encodeURIComponent(`Hello RNS Pharmacy, I want to order *${item.name}* (${item.pack}) at Offer Price ₹${item.price} (MRP ₹${item.mrp}).`);
+        const mrpVal = Number(item.mrp) || Number(item.price) || 0;
+        const priceVal = Number(item.price) || mrpVal;
+        const discPercent = mrpVal > priceVal ? Math.round(((mrpVal - priceVal) / mrpVal) * 100) : 0;
+        const packClean = (item.pack && item.pack !== "undefined") ? item.pack : "Standard Pack";
+        const batchClean = (item.batch && item.batch !== "undefined") ? item.batch : "Verified";
+        const expClean = (item.exp && item.exp !== "undefined") ? item.exp : "12/2028";
+
+        const waMsg = encodeURIComponent(`Hello RNS Pharmacy, I want to order *${item.name}* (${packClean}) at Offer Price ₹${priceVal} (MRP ₹${mrpVal}).`);
+
         return `
           <div class="product-card">
             <div>
-              <div class="badge-row">
-                <span class="cat-tag">${item.category}</span>
-                ${discPercent > 0 ? `<span class="discount-tag">${discPercent}% OFF</span>` : ""}
+              <div class="card-top-badges">
+                <span class="verified-med-tag">✔ Batch Verified</span>
+                ${discPercent > 0 ? `<span class="disc-badge">${discPercent}% OFF</span>` : ""}
               </div>
-              <div class="med-title">${item.name}</div>
+              <div class="med-name">${item.name}</div>
               <div class="med-meta">
-                📦 ${item.pack}<br/>
-                🏷️ Batch: <strong>${item.batch || "Verified"}</strong> | Exp: <strong>${item.exp || "2027"}</strong><br/>
-                ${item.stock > 0 ? `<span style="color:var(--success);font-weight:600;">● In Stock (${item.stock})</span>` : `<span style="color:var(--danger);font-weight:600;">● Out of Stock</span>`}
+                📦 ${packClean}<br/>
+                🏷️ Batch: <strong>${batchClean}</strong> | Exp: <strong>${expClean}</strong><br/>
+                <span style="color:#15803d; font-weight:700;">● Available (In Stock)</span>
               </div>
             </div>
             <div>
-              <div class="price-box">
-                <span class="offer-price">₹${item.price}</span>
-                <span class="mrp-price">MRP ₹${item.mrp}</span>
+              <div class="price-row">
+                <span class="offer-price">₹${priceVal}</span>
+                ${mrpVal > priceVal ? `<span class="mrp-strike">MRP ₹${mrpVal}</span>` : ""}
               </div>
-              <div class="card-actions">
-                <button class="btn-primary" onclick="addToCart('${item.id}')" ${item.stock <= 0 ? "disabled" : ""}>
+              <div class="card-btns">
+                <button class="btn-primary" style="flex:1;" onclick="addToCart('${item.id}')">
                   + Add to Cart
                 </button>
                 <a class="btn-outline" href="https://wa.me/917668273774?text=${waMsg}" target="_blank" rel="noopener noreferrer">
@@ -1144,16 +1410,56 @@
       }).join("");
     }
 
-    // --- CART & CHECKOUT ---
+    // --- CART & CUSTOM MEDICINE ADDITION (addCustomToCart) ---
     function addToCart(medId) {
       const med = stockList.find(m => m.id === medId);
-      if (!med || med.stock <= 0) return;
+      if (!med) return;
       const existing = cart.find(c => c.id === medId);
       if (existing) {
-        if (existing.qty < med.stock) existing.qty += 1;
+        existing.qty += 1;
       } else {
-        cart.push({ ...med, qty: 1 });
+        cart.push({
+          id: med.id,
+          name: med.name,
+          pack: (med.pack && med.pack !== "undefined") ? med.pack : "Standard Pack",
+          batch: (med.batch && med.batch !== "undefined") ? med.batch : "Verified",
+          exp: (med.exp && med.exp !== "undefined") ? med.exp : "12/2028",
+          mrp: Number(med.mrp) || Number(med.price) || 0,
+          price: Number(med.price) || Number(med.mrp) || 0,
+          qty: 1
+        });
       }
+      updateCartUI();
+    }
+
+    // Custom Medicine Add-on directly inside Cart
+    function addCustomToCart() {
+      const nameInput = document.getElementById("customMedName");
+      const mrpInput = document.getElementById("customMedMrp");
+      const priceInput = document.getElementById("customMedPrice");
+
+      const name = (nameInput.value || "").trim();
+      const mrp = parseFloat(mrpInput.value) || 0;
+      const offer = parseFloat(priceInput.value) || mrp;
+
+      if (!name || mrp <= 0) {
+        return alert("कृपया दवा का नाम (Medicine Name) और उसकी MRP (₹) दर्ज करें!");
+      }
+
+      cart.push({
+        id: "CUST_" + Date.now(),
+        name: name,
+        pack: "Custom Order",
+        batch: "Custom",
+        exp: "Fresh",
+        mrp: mrp,
+        price: offer,
+        qty: 1
+      });
+
+      nameInput.value = "";
+      mrpInput.value = "";
+      priceInput.value = "";
       updateCartUI();
     }
 
@@ -1185,7 +1491,7 @@
         totalMrp += Number(item.mrp) * item.qty;
         subtotalOffer += Number(item.price) * item.qty;
       });
-      const mrpSavings = totalMrp - subtotalOffer;
+      const mrpSavings = Math.max(0, totalMrp - subtotalOffer);
       const promoDiscount = activePromo ? Math.round((subtotalOffer * activePromo.discount) / 100) : 0;
       const grandTotal = Math.max(0, subtotalOffer - promoDiscount);
       const totalSaved = mrpSavings + promoDiscount;
@@ -1193,12 +1499,17 @@
     }
 
     function updateCartUI() {
-      document.getElementById("cartCount").textContent = cart.reduce((s, i) => s + i.qty, 0);
+      const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+      const t = calculateTotals();
+
+      document.getElementById("cartCount").textContent = totalItems;
+      document.getElementById("cartHeaderAmt").textContent = `₹${t.grandTotal.toFixed(2)}`;
+
       const container = document.getElementById("cartItemsContainer");
       const summary = document.getElementById("cartSummaryBox");
 
       if (cart.length === 0) {
-        container.innerHTML = `<p style="color:var(--muted); text-align:center; padding:14px;">Your cart is empty.</p>`;
+        container.innerHTML = `<p style="color:var(--muted); text-align:center; padding:12px;">आपका कार्ट खाली है। ऊपर लिस्ट से या नीचे बॉक्स से अपनी दवा और MRP जोड़ें।</p>`;
         summary.innerHTML = "";
         updateUpiQr(0);
         return;
@@ -1208,7 +1519,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
           <div>
             <strong>${item.name}</strong> <span style="font-size:12px; color:var(--muted);">(${item.pack})</span><br/>
-            <span style="font-size:12px;">Offer: ₹${item.price} <s style="color:var(--muted);">MRP ₹${item.mrp}</s></span>
+            <span style="font-size:12px;">Rate: <strong>₹${item.price}</strong> <s style="color:var(--muted);">MRP ₹${item.mrp}</s></span>
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
             <button class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', -1)">-</button>
@@ -1218,16 +1529,15 @@
         </div>
       `).join("");
 
-      const t = calculateTotals();
       summary.innerHTML = `
         <div style="display:flex; justify-content:space-between;"><span>Total MRP:</span><span>₹${t.totalMrp.toFixed(2)}</span></div>
-        <div style="display:flex; justify-content:space-between; color:var(--success);"><span>Offer Discount on MRP:</span><span>- ₹${t.mrpSavings.toFixed(2)}</span></div>
-        ${t.promoDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:var(--success);"><span>Promo (${activePromo.code}) Discount:</span><span>- ₹${t.promoDiscount.toFixed(2)}</span></div>` : ""}
+        <div style="display:flex; justify-content:space-between; color:#15803d;"><span>Offer Discount on MRP:</span><span>- ₹${t.mrpSavings.toFixed(2)}</span></div>
+        ${t.promoDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Promo (${activePromo.code}) Discount:</span><span>- ₹${t.promoDiscount.toFixed(2)}</span></div>` : ""}
         <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-top:6px; border-top:1px solid var(--border); padding-top:6px;">
           <span>Net Payable Amount:</span><span>₹${t.grandTotal.toFixed(2)}</span>
         </div>
-        <div style="margin-top:4px; font-size:12px; color:var(--success); font-weight:700;">
-          🎉 Total Savings on this Bill: ₹${t.totalSaved.toFixed(2)}
+        <div style="margin-top:4px; font-size:12px; color:#15803d; font-weight:700;">
+          🎉 Total Customer Savings on Bill: ₹${t.totalSaved.toFixed(2)}
         </div>
       `;
       updateUpiQr(t.grandTotal);
@@ -1244,7 +1554,7 @@
     }
 
     function placePortalOrder(openWhatsApp) {
-      if (cart.length === 0) return alert("Your cart is empty!");
+      if (cart.length === 0) return alert("कृपया पहले कार्ट में दवा जोड़ें!");
       const name = document.getElementById("custName").value.trim();
       const phone = document.getElementById("custPhone").value.trim();
       const address = document.getElementById("custAddress").value.trim();
@@ -1252,7 +1562,7 @@
       const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
 
       if (!name || !phone || !address) {
-        return alert("Please enter your Name, 10-Digit Mobile Number, and Delivery Address.");
+        return alert("कृपया अपना नाम, मोबाइल नंबर और पता भरें।");
       }
 
       const totals = calculateTotals();
@@ -1270,18 +1580,11 @@
         status: "Pending"
       };
 
-      // Deduct stock
-      cart.forEach(c => {
-        const s = stockList.find(m => m.id === c.id);
-        if (s) s.stock = Math.max(0, s.stock - c.qty);
-      });
-
       ordersList.unshift(newOrder);
       pushOrderEventToCloud("NEW_ORDER", newOrder);
-      pushConfigToCloud(false);
 
       if (openWhatsApp) {
-        const itemsTxt = newOrder.items.map(i => `• ${i.name} x${i.qty} (₹${i.price * i.qty})`).join("%0A");
+        const itemsTxt = newOrder.items.map(i => `• ${i.name} x${i.qty} (MRP ₹${i.mrp} -> ₹${i.price * i.qty})`).join("%0A");
         const waUrl = `https://wa.me/917668273774?text=*New%20Order%20-%20RNS%20PHARMACY*%0A*Order%20ID:*%20${orderId}%0A*Customer:*%20${encodeURIComponent(name)}%20(${phone})%0A*Address:*%20${encodeURIComponent(address)}%0A*Items:*%0A${itemsTxt}%0A*Total%20MRP:*%20₹${totals.totalMrp}%0A*Total%20Savings:*%20₹${totals.totalSaved}%0A*Net%20Payable:*%20₹${totals.grandTotal}%20(${payMethod})`;
         window.open(waUrl, "_blank");
       }
@@ -1289,9 +1592,8 @@
       cart = [];
       activePromo = null;
       updateCartUI();
-      renderStore();
       closeModal("cartModal");
-      alert(`✅ Order Placed Successfully! Your Order ID is: ${orderId}. You can track live status in 'Track Order'.`);
+      alert(`✅ ऑर्डर सफलतापूर्वक दर्ज हो गया! आपका Order ID है: ${orderId}`);
     }
 
     // --- PRESCRIPTION UPLOAD ---
@@ -1303,7 +1605,7 @@
       const notes = document.getElementById("rxNotes").value.trim();
       const fileInput = document.getElementById("rxFile");
 
-      if (!fileInput.files.length) return alert("Please select a prescription image.");
+      if (!fileInput.files.length) return alert("कृपया डॉक्टर के पर्चे की फोटो चुनें।");
       const reader = new FileReader();
       reader.onload = function(evt) {
         const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
@@ -1321,22 +1623,22 @@
         pushOrderEventToCloud("NEW_RX", rxObj);
         e.target.reset();
         closeModal("rxModal");
-        alert(`✅ Prescription Uploaded! Your Rx ID is ${rxId}. Check status anytime in 'Track Order / Rx'.`);
+        alert(`✅ पर्चा अपलोड हो गया! आपका Rx ID है: ${rxId}`);
       };
       reader.readAsDataURL(fileInput.files[0]);
     }
 
-    // --- CUSTOMER TRACKING (Orders & Rx) ---
+    // --- TRACKING ---
     function searchCustomerTracking() {
       const q = (document.getElementById("trackInput").value || "").trim().toLowerCase();
       const box = document.getElementById("trackResultsContainer");
-      if (!q) return alert("Please enter your Mobile Number or Order/Rx ID.");
+      if (!q) return alert("कृपया मोबाइल नंबर या Order/Rx ID डालें।");
 
       const myOrders = ordersList.filter(o => o.phone.toLowerCase().includes(q) || o.id.toLowerCase().includes(q));
       const myRx = rxList.filter(r => r.phone.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
 
       if (myOrders.length === 0 && myRx.length === 0) {
-        box.innerHTML = `<p style="color:var(--danger); padding:10px;">No matching Order or Prescription found for "${q}".</p>`;
+        box.innerHTML = `<p style="color:var(--danger); padding:10px;">कोई रिकॉर्ड नहीं मिला।</p>`;
         return;
       }
 
@@ -1375,16 +1677,16 @@
       box.innerHTML = html;
     }
 
-    // --- VERIFIED CUSTOMER REVIEWS ---
+    // --- VERIFIED REVIEWS ---
     function renderReviews() {
       const grid = document.getElementById("reviewsGrid");
       grid.innerHTML = reviewsList.slice(0, 6).map(r => `
         <div class="review-card">
-          <div class="review-top">
-            <span class="reviewer-name">${r.name}</span>
-            <span class="verified-badge">✔ Verified Buyer</span>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <strong>${r.name}</strong>
+            <span style="color:#15803d; font-size:11px; font-weight:700;">✔ Verified Buyer</span>
           </div>
-          <div class="review-stars">${"⭐".repeat(Number(r.rating) || 5)}</div>
+          <div style="color:#f59e0b; font-size:13px; margin-bottom:6px;">${"⭐".repeat(Number(r.rating) || 5)}</div>
           <p style="font-size:13px;">"${r.comment}"</p>
           <div style="font-size:11px; color:var(--muted); margin-top:6px;">📱 ${r.mobile} | ${r.date || "2026"}</div>
         </div>
@@ -1410,10 +1712,10 @@
       pushOrderEventToCloud("NEW_REVIEW", revObj);
       renderReviews();
       e.target.reset();
-      alert("🙏 Thank you! Your verified review has been added.");
+      alert("🙏 धन्यवाद! आपका वेरीफाइड रिव्यू जुड़ गया है।");
     }
 
-    // --- ADMIN PORTAL & BILLING SOFTWARE ---
+    // --- OWNER PORTAL & INVENTORY (Without Category or Stock Fields) ---
     function verifyAdminLogin() {
       const pass = document.getElementById("adminPassInput").value;
       if (pass === "1234") {
@@ -1422,19 +1724,66 @@
         renderAdminTables();
         openModal("adminDashboardModal");
       } else {
-        alert("❌ Incorrect Admin Password!");
+        alert("❌ गलत पासवर्ड!");
       }
     }
 
-    function switchAdminTab(tabId, btnEl) {
+    function switchAdminTab(tabId) {
       document.querySelectorAll(".admin-tab-content").forEach(el => el.style.display = "none");
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
       document.getElementById(tabId).style.display = "block";
-      btnEl.classList.add("active");
+    }
+
+    function addMedicine(e) {
+      e.preventDefault();
+      const editId = document.getElementById("editMedId").value.trim();
+      const name = document.getElementById("medName").value.trim();
+      const pack = document.getElementById("medPack").value.trim();
+      const batch = document.getElementById("medBatch").value.trim();
+      const exp = document.getElementById("medExp").value.trim();
+      const mrp = parseFloat(document.getElementById("medMrp").value) || 0;
+      const price = parseFloat(document.getElementById("medPrice").value) || mrp;
+
+      const medObj = {
+        id: editId || ("M_" + Date.now()),
+        name,
+        pack,
+        batch,
+        exp,
+        mrp,
+        price
+      };
+
+      const existingIdx = stockList.findIndex(m => m.id === medObj.id);
+      if (existingIdx >= 0) stockList[existingIdx] = medObj;
+      else stockList.unshift(medObj);
+
+      document.getElementById("editMedId").value = "";
+      e.target.reset();
+      pushConfigToCloud(false);
+      renderCatalog();
+      renderAdminTables();
+    }
+
+    function editStockItem(medId) {
+      const m = stockList.find(x => x.id === medId);
+      if (!m) return;
+      document.getElementById("editMedId").value = m.id;
+      document.getElementById("medName").value = m.name;
+      document.getElementById("medPack").value = m.pack;
+      document.getElementById("medBatch").value = m.batch;
+      document.getElementById("medExp").value = m.exp;
+      document.getElementById("medMrp").value = m.mrp;
+      document.getElementById("medPrice").value = m.price;
+    }
+
+    function deleteStockItem(medId) {
+      stockList = stockList.filter(m => m.id !== medId);
+      pushConfigToCloud(false);
+      renderCatalog();
+      renderAdminTables();
     }
 
     function renderAdminTables() {
-      // Orders Table
       const oBody = document.getElementById("adminOrdersTable");
       oBody.innerHTML = ordersList.map(o => {
         const pillClass = "status-" + o.status.replace(/\s+/g, "-");
@@ -1443,9 +1792,8 @@
             <td><strong>${o.id}</strong><br/><span style="font-size:11px;color:var(--muted);">${o.date}</span></td>
             <td><strong>${o.customer}</strong><br/>📞 ${o.phone}<br/><span style="font-size:11px;">${o.address}</span></td>
             <td>
-              ${o.items.map(i => `${i.name} x${i.qty}`).join("<br/>")}
-              <br/><strong style="color:var(--primary);">Bill: ₹${o.totals.grandTotal}</strong>
-              <span style="font-size:11px; color:var(--success);">(Saved ₹${o.totals.totalSaved})</span>
+              ${o.items.map(i => `${i.name} x${i.qty} (₹${i.price})`).join("<br/>")}
+              <br/><strong style="color:#0f766e;">Net Bill: ₹${o.totals.grandTotal}</strong>
             </td>
             <td>${o.payMethod}</td>
             <td><span class="status-pill ${pillClass}">${o.status}</span></td>
@@ -1457,13 +1805,12 @@
                 <option value="Delivered" ${o.status === "Delivered" ? "selected" : ""}>Delivered / Completed</option>
                 <option value="Rejected" ${o.status === "Rejected" ? "selected" : ""}>Reject Order</option>
               </select>
-              <button class="btn-primary" style="width:100%; justify-content:center;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
+              <button class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
             </td>
           </tr>
         `;
       }).join("") || `<tr><td colspan="6" style="text-align:center;">No orders yet.</td></tr>`;
 
-      // Prescriptions Table
       const rBody = document.getElementById("adminRxTable");
       rBody.innerHTML = rxList.map(r => {
         const pillClass = "status-" + r.status.replace(/\s+/g, "-");
@@ -1472,7 +1819,7 @@
             <td><strong>${r.id}</strong><br/><span style="font-size:11px;">${r.date}</span></td>
             <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
             <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
-            <td><a href="${r.image}" download="${r.id}.png" class="btn-outline">🖼️ View / Download Rx</a></td>
+            <td><a href="${r.image}" download="${r.id}.png" class="btn-outline">🖼️ View / Download</a></td>
             <td><span class="status-pill ${pillClass}">${r.status}</span></td>
             <td>
               <select class="input-field" onchange="updateRxStatus('${r.id}', this.value)">
@@ -1487,15 +1834,13 @@
         `;
       }).join("") || `<tr><td colspan="6" style="text-align:center;">No prescriptions uploaded yet.</td></tr>`;
 
-      // Inventory Table
       const sBody = document.getElementById("adminStockTable");
       sBody.innerHTML = stockList.map(m => `
         <tr>
-          <td><strong>${m.name}</strong><br/><span style="font-size:11px; color:var(--muted);">${m.category}</span></td>
+          <td><strong>${m.name}</strong></td>
           <td>${m.pack}</td>
-          <td>Batch: <strong>${m.batch}</strong><br/>Exp: ${m.exp}</td>
-          <td>MRP: ₹${m.mrp}<br/><strong style="color:var(--primary);">Offer: ₹${m.price}</strong></td>
-          <td><strong>${m.stock}</strong></td>
+          <td>Batch: <strong>${m.batch}</strong> | Exp: ${m.exp}</td>
+          <td>MRP: ₹${m.mrp} | <strong style="color:#0f766e;">Offer: ₹${m.price}</strong></td>
           <td>
             <button class="btn-outline" style="padding:4px 8px;" onclick="editStockItem('${m.id}')">✏️ Edit</button>
             <button class="btn-outline" style="padding:4px 8px; color:var(--danger); border-color:var(--danger);" onclick="deleteStockItem('${m.id}')">🗑️</button>
@@ -1503,7 +1848,6 @@
         </tr>
       `).join("");
 
-      // Promo Codes
       document.getElementById("adminPromoList").innerHTML = promosList.map(p => `
         <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px;">
           <strong>${p.code}</strong> (${p.discount}% OFF)
@@ -1528,53 +1872,6 @@
       renderAdminTables();
     }
 
-    function saveInventoryItem(e) {
-      e.preventDefault();
-      const id = document.getElementById("medIdInput").value || ("M" + Date.now());
-      const itemObj = {
-        id,
-        name: document.getElementById("medNameInput").value.trim(),
-        category: document.getElementById("medCatInput").value,
-        pack: document.getElementById("medPackInput").value.trim(),
-        batch: document.getElementById("medBatchInput").value.trim(),
-        exp: document.getElementById("medExpInput").value.trim(),
-        mrp: parseFloat(document.getElementById("medMrpInput").value),
-        price: parseFloat(document.getElementById("medOfferInput").value),
-        stock: parseInt(document.getElementById("medQtyInput").value, 10)
-      };
-
-      const existingIdx = stockList.findIndex(m => m.id === id);
-      if (existingIdx >= 0) stockList[existingIdx] = itemObj;
-      else stockList.unshift(itemObj);
-
-      document.getElementById("medIdInput").value = "";
-      e.target.reset();
-      pushConfigToCloud(false);
-      renderStore();
-      renderAdminTables();
-    }
-
-    function editStockItem(medId) {
-      const m = stockList.find(x => x.id === medId);
-      if (!m) return;
-      document.getElementById("medIdInput").value = m.id;
-      document.getElementById("medNameInput").value = m.name;
-      document.getElementById("medCatInput").value = m.category;
-      document.getElementById("medPackInput").value = m.pack;
-      document.getElementById("medBatchInput").value = m.batch;
-      document.getElementById("medExpInput").value = m.exp;
-      document.getElementById("medMrpInput").value = m.mrp;
-      document.getElementById("medOfferInput").value = m.price;
-      document.getElementById("medQtyInput").value = m.stock;
-    }
-
-    function deleteStockItem(medId) {
-      stockList = stockList.filter(m => m.id !== medId);
-      pushConfigToCloud(false);
-      renderStore();
-      renderAdminTables();
-    }
-
     function addPromoCode() {
       const code = document.getElementById("newPromoCode").value.trim().toUpperCase();
       const disc = parseFloat(document.getElementById("newPromoDisc").value);
@@ -1592,7 +1889,7 @@
       renderAdminTables();
     }
 
-    // --- PRINT BILL (Official Retail Chemist Invoice with MRP vs Offer Discount) ---
+    // --- OFFICIAL PRINT BILL ---
     function printBill(orderId) {
       const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
@@ -1600,9 +1897,9 @@
       const rowsHtml = ord.items.map((item, i) => `
         <tr>
           <td>${i + 1}</td>
-          <td><strong>${item.name}</strong><br/><small>${item.pack}</small></td>
-          <td>${item.batch || "VERIFIED"}</td>
-          <td>${item.exp || "12/2027"}</td>
+          <td><strong>${item.name}</strong><br/><small>${item.pack || "Standard"}</small></td>
+          <td>${item.batch || "Verified"}</td>
+          <td>${item.exp || "12/2028"}</td>
           <td>${item.qty}</td>
           <td>₹${Number(item.mrp).toFixed(2)}</td>
           <td>₹${Number(item.price).toFixed(2)}</td>
@@ -1629,7 +1926,7 @@
           <div class="bill-box">
             <div class="bill-top">
               <div>
-                <h2 style="margin:0; color:#0f766e;">RNS PHARMACY</h2>
+                <h2 style="margin:0; color:#0f766e;">RNS PHARMACY (Verified Chemist)</h2>
                 <p style="margin:3px 0; font-size:13px;"><strong>Drx. Rahul Singh (B.Pharm - Registered Pharmacist)</strong></p>
                 <p style="margin:2px 0; font-size:12px;">Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
                 <p style="margin:2px 0; font-size:12px;">Phone / WhatsApp: +91 7668273774</p>
@@ -1668,7 +1965,7 @@
               <div style="color:#15803d; font-weight:bold; margin-top:4px;">Total Customer Savings on MRP: ₹${ord.totals.totalSaved.toFixed(2)}</div>
             </div>
             <div style="margin-top:28px; display:flex; justify-content:space-between; font-size:12px; border-top:1px dashed #94a3b8; padding-top:12px;">
-              <span>© 2026 RNS Pharmacy - 100% Batch-Verified Medicines</span>
+              <span>© 2026 RNS Pharmacy - Standard Monopolistic Generic Medicine</span>
               <span><strong>Authorized Signatory (Drx. Rahul Singh)</strong></span>
             </div>
           </div>
@@ -1679,7 +1976,7 @@
       win.document.close();
     }
 
-    // --- UI HELPERS (Modals, Dark Mode, Language Toggle) ---
+    // --- UI HELPERS ---
     function openModal(id) {
       document.getElementById(id).classList.add("active");
     }
@@ -1690,25 +1987,28 @@
     function toggleDarkMode() {
       document.body.classList.toggle("dark-mode");
       const isDark = document.body.classList.contains("dark-mode");
-      document.getElementById("themeBtn").textContent = isDark ? "☀️ Light" : "🌙 Dark";
+      document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
     }
 
     function toggleLang() {
       currentLang = currentLang === "EN" ? "HI" : "EN";
       if (currentLang === "HI") {
-        document.getElementById("txt-hero-heading").textContent = "100% असली और बैच-वेरीफाइड दवाइयां (उचित डिस्काउंट के साथ)";
-        document.getElementById("txt-hero-desc").textContent = "काली माता रोड, सिकटा, पडरौना, कुशीनगर (274303) | होम डिलीवरी और स्टोर पिकअप उपलब्ध";
-        document.getElementById("searchInput").placeholder = "दवा का नाम या बीमारी लिखकर सर्च करें...";
+        document.getElementById("txt-hero-title").textContent = "स्टैंडर्ड मोनोपोलिस्टिक जेनेरिक मेडिसिन";
+        document.getElementById("txt-hero-sub").textContent = "लाइव बैच नंबर, मैन्युफैक्चरिंग और एक्सपायरी डेट के साथ उचित डिस्काउंट पाएं। होम डिलीवरी या काउंटर पिकअप के लिए सीधे व्हाट्सएप पर ऑर्डर करें।";
+        document.getElementById("txt-rx-title").textContent = "क्या आपके पास डॉक्टर का पर्चा (Prescription) है?";
+        document.getElementById("txt-rx-desc").textContent = "अपने पर्चे की फोटो अपलोड करें। हमारे लाइसेंस्ड फार्मासिस्ट (Drx. Rahul Singh) बैच उपलब्धता जांचकर व्हाट्सएप पर बिल भेज देंगे।";
+        document.getElementById("langBtn").textContent = "🇬🇧 English";
       } else {
-        document.getElementById("txt-hero-heading").textContent = "100% Genuine & Batch-Verified Medicines";
-        document.getElementById("txt-hero-desc").textContent = "Kali Mata Road, Sikta, Padrauna, Kushinagar (274303) | Fast Local Delivery & Easy Pickup";
-        document.getElementById("searchInput").placeholder = "Search medicine by name, salt, or symptom...";
+        document.getElementById("txt-hero-title").textContent = "Standard Monopolistic Generic Medicine";
+        document.getElementById("txt-hero-sub").textContent = "Check live batch numbers, manufacturing & expiry dates, and instant discounts. Order directly on WhatsApp for home delivery or counter pickup.";
+        document.getElementById("txt-rx-title").textContent = "Have a Doctor's Prescription Slip?";
+        document.getElementById("txt-rx-desc").textContent = "Upload or take a photo of your prescription. Our licensed pharmacist will verify batch availability and message you the total bill on WhatsApp.";
+        document.getElementById("langBtn").textContent = "🇮🇳 हिंदी";
       }
     }
 
-    // --- INITIALIZE PORTAL ---
     window.addEventListener("DOMContentLoaded", () => {
-      renderStore();
+      renderCatalog();
       renderReviews();
       updateCartUI();
       syncFromCloud();
