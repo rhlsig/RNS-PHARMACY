@@ -1290,7 +1290,7 @@
         </div>
       </div>
 
-      <!-- Tab 4: Promo Codes (Updated with Percentage % vs Rupees ₹ Selector) -->
+      <!-- Tab 4: Promo Codes (Percentage % vs Rupees ₹ Selector) -->
       <div id="promoTab" class="admin-tab-content" style="display:none;">
         <h4 style="margin-bottom:10px;">Create Promo Code (परसेंटेज % या रुपया ₹ में डिस्काउंट सेट करें)</h4>
         <div style="display:grid; grid-template-columns: 1.5fr 1.2fr 1.2fr auto; gap:8px; margin-bottom:14px;">
@@ -1307,13 +1307,14 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (Updated with "Verified by authorized registered pharmacist." at the Red Marked Spot) -->
   <footer class="footer">
     <div class="footer-inner">
       <div>
         <h3>RNS PHARMACY</h3>
         <p><strong>24 Hours Service Available</strong></p>
         <p>Standard & Monopolistic Generic Medicine.</p>
+        <p>Verified by authorized registered pharmacist.</p>
       </div>
 
       <div>
@@ -2213,7 +2214,7 @@
       renderAdminTables();
     }
 
-    // --- OFFICIAL PRINT BILL (Updated Header & Footer Exactly as Requested) ---
+    // --- OFFICIAL PRINT BILL ---
     function printBill(orderId) {
       const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
