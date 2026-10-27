@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RNS PHARMACY - Verified Chemist & Online Store</title>
+  <title>RNS PHARMACY - 24×7 Verified Chemist & Online Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -45,7 +45,7 @@
       transition: background 0.25s, color 0.25s;
     }
 
-    /* TOP CERTIFIED HEADER - STRICTLY SIDE BY SIDE LIKE SAMPLE */
+    /* TOP CERTIFIED HEADER - WITH PROPER GAP ON MOBILE & DESKTOP */
     .top-header {
       background: var(--card);
       border-bottom: 1px solid var(--border);
@@ -63,8 +63,8 @@
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 18px;
     }
 
     .brand-left {
@@ -73,18 +73,19 @@
       gap: 12px;
       flex: 1 1 auto;
       min-width: 0;
+      padding-right: 6px;
     }
 
     .store-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 13px;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
       background: #108565;
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 21px;
       flex-shrink: 0;
       margin-top: 2px;
       box-shadow: 0 4px 10px rgba(16, 133, 101, 0.25);
@@ -95,14 +96,15 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
 
     .brand-title-row h1 {
-      font-size: 23px;
+      font-size: 22px;
       font-weight: 800;
       color: var(--text);
       letter-spacing: -0.2px;
+      white-space: nowrap;
     }
 
     .verified-pill {
@@ -122,22 +124,43 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 7px;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
 
     .pill-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       font-size: 11.5px;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 4px 11px;
       border-radius: 999px;
     }
 
-    .pill-timing {
-      background: #e0f2fe;
-      color: #0369a1;
+    /* STYLISH 24 HOURS BADGE */
+    .pill-24h {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: 0 3px 8px rgba(2, 132, 199, 0.28);
+      border: 1px solid #38bdf8;
+    }
+
+    .pulse-24 {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.8);
+      animation: pulseGlow 1.6s infinite;
+      display: inline-block;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.8); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
     }
 
     .pill-helpline {
@@ -191,14 +214,15 @@
       text-decoration: underline;
     }
 
-    /* RIGHT NAVIGATION CONTROLS (SIDE-BY-SIDE ON RIGHT) */
+    /* RIGHT NAVIGATION CONTROLS (WELL-SPACED FROM LEFT TITLE) */
     .header-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 8px;
       flex-shrink: 0;
+      margin-left: 8px;
     }
 
     .nav-row-top, .nav-row-bottom {
@@ -226,9 +250,9 @@
       border: none;
       background: transparent;
       color: var(--muted);
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 7px;
       cursor: pointer;
       white-space: nowrap;
@@ -246,15 +270,15 @@
       border: 1px solid #a7f3d0;
       padding: 6px 12px;
       border-radius: 999px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
     }
 
     .btn-moon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--card);
@@ -262,7 +286,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 14px;
       flex-shrink: 0;
     }
 
@@ -270,9 +294,9 @@
       background: #0f172a;
       color: #fff;
       border: none;
-      padding: 8px 14px;
+      padding: 8px 13px;
       border-radius: 999px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -289,9 +313,9 @@
       background: #108565;
       color: #fff;
       text-decoration: none;
-      padding: 8px 14px;
+      padding: 8px 13px;
       border-radius: 999px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
@@ -303,9 +327,9 @@
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 7px 12px;
+      padding: 7px 11px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -314,58 +338,75 @@
       white-space: nowrap;
     }
 
-    /* Responsive adjustments so left info and right buttons stay side-by-side even on smaller screens */
+    /* MOBILE CHROME FIX: CLEAN GAP BETWEEN 'RNS PHARMACY' & 'Customer Store | Owner Portal' */
     @media (max-width: 768px) {
       .top-header {
-        padding: 10px 10px;
+        padding: 12px 10px;
       }
       .header-container {
-        gap: 8px;
+        gap: 10px;
         align-items: flex-start;
       }
+      .brand-left {
+        gap: 8px;
+        max-width: 53%;
+        padding-right: 4px;
+      }
       .store-icon-box {
-        width: 36px;
-        height: 36px;
-        font-size: 17px;
-        border-radius: 9px;
+        width: 32px;
+        height: 32px;
+        font-size: 15px;
+        border-radius: 8px;
+      }
+      .brand-title-row {
+        gap: 4px;
+        margin-bottom: 5px;
       }
       .brand-title-row h1 {
-        font-size: 16px;
+        font-size: 14px;
+        letter-spacing: -0.3px;
       }
       .verified-pill {
-        font-size: 9.5px;
+        font-size: 9px;
         padding: 2px 6px;
       }
       .pill-badge {
-        font-size: 9.5px;
+        font-size: 9px;
         padding: 3px 7px;
       }
       .address-row {
-        font-size: 10.5px;
+        font-size: 10px;
+        line-height: 1.35;
+      }
+      .header-right {
+        max-width: 45%;
+        margin-left: 6px;
+        gap: 6px;
+      }
+      .mode-switch-group {
+        padding: 2px;
+        gap: 2px;
       }
       .btn-tab-top {
-        font-size: 10.5px;
-        padding: 4px 7px;
+        font-size: 9.5px;
+        padding: 4px 6px;
       }
       .btn-lang {
-        font-size: 10.5px;
-        padding: 4px 8px;
+        font-size: 9.5px;
+        padding: 4px 7px;
       }
       .btn-moon {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
       }
       .btn-cart-navy, .btn-wa-green, .btn-track-pill {
-        font-size: 10.5px;
-        padding: 5px 9px;
+        font-size: 10px;
+        padding: 5px 8px;
       }
       .nav-row-top, .nav-row-bottom {
         flex-wrap: wrap;
         gap: 4px;
-      }
-      .header-right {
-        max-width: 46%;
       }
     }
 
@@ -464,7 +505,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
     .rx-banner-left {
@@ -514,13 +555,17 @@
       box-shadow: 0 4px 12px rgba(16, 133, 101, 0.25);
     }
 
-    /* SEARCH BAR */
+    /* SEARCH BAR + DIRECT CUSTOM MEDICINE ADD OPTION BESIDE IT */
     .search-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 22px;
+      align-items: stretch;
     }
 
     .search-input {
-      width: 100%;
+      flex: 1 1 280px;
       padding: 14px 18px;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -528,6 +573,28 @@
       color: var(--text);
       font-size: 15px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .btn-direct-custom {
+      background: linear-gradient(135deg, #0f766e, #108565);
+      color: #ffffff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.22);
+      white-space: nowrap;
+      transition: transform 0.15s;
+    }
+
+    .btn-direct-custom:hover {
+      transform: translateY(-1px);
     }
 
     /* PRODUCT CATALOG GRID */
@@ -754,7 +821,7 @@
       cursor: pointer;
     }
 
-    /* CUSTOM REQUEST MEDICINE BOX IN CART */
+    /* CUSTOM MEDICINE BOX IN CART (ONLY PRODUCT NAME & MRP) */
     .custom-med-box {
       background: var(--primary-bg);
       border: 1px dashed #108565;
@@ -845,7 +912,7 @@
 </head>
 <body>
 
-  <!-- CERTIFIED TOP HEADER (SIDE-BY-SIDE LAYOUT) -->
+  <!-- CERTIFIED TOP HEADER (FIXED GAP ON MOBILE & DESKTOP) -->
   <header class="top-header">
     <div class="header-container">
       <!-- Left Brand & Info -->
@@ -858,7 +925,10 @@
           </div>
 
           <div class="info-pills-row">
-            <span class="pill-badge pill-timing">🕒 Timings: 8:00 AM – 10:00 PM</span>
+            <!-- Stylish 24 Hours Badge -->
+            <span class="pill-badge pill-24h">
+              <span class="pulse-24"></span> ⚡ Open 24×7 Hours (24 Hours Service)
+            </span>
             <a href="https://wa.me/917668273774" target="_blank" rel="noopener noreferrer" class="pill-badge pill-helpline">
               <span class="dot-red"></span> Helpline No. & WhatsApp: +917668273774
             </a>
@@ -871,8 +941,9 @@
             </button>
           </div>
 
+          <!-- Address without Drx. Rahul Singh at the end -->
           <div class="address-row">
-            <span>📍 Kali Mata Road, Sikta, Padrauna, Kushinagar (274303) | Drx. Rahul Singh</span>
+            <span>📍 Kali Mata Road, Sikta, Padrauna, Kushinagar (274303)</span>
             <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer" class="map-link">
               View on Map ↗
             </a>
@@ -880,7 +951,7 @@
         </div>
       </div>
 
-      <!-- Right Navigation & Action Buttons (Directly Beside on the Right Side) -->
+      <!-- Right Navigation & Action Buttons -->
       <div class="header-right">
         <div class="nav-row-top">
           <div class="mode-switch-group">
@@ -960,11 +1031,14 @@
       </button>
     </section>
 
-    <!-- SEARCH BAR -->
+    <!-- SEARCH BAR + DIRECT BUTTON BESIDE IT FOR UNLISTED MEDICINE -->
     <section class="search-wrap">
       <input type="text" id="searchMed" class="search-input"
              placeholder="🔍 दवा का नाम, जेनेरिक साल्ट, कंपनी या बैच नंबर लिखकर सर्च करें..."
              oninput="renderCatalog()" />
+      <button type="button" class="btn-direct-custom" onclick="openModal('directCustomModal')">
+        ➕ दवा नहीं मिल रही? यहाँ से सीधे जोड़ें
+      </button>
     </section>
 
     <!-- LIVE MEDICINE CATALOG -->
@@ -993,1180 +1067,49 @@
     </section>
   </main>
 
-  <!-- CART & CHECKOUT MODAL (With Request-Only Option for Unlisted Medicine & MRP) -->
+  <!-- DIRECT ADD UNLISTED MEDICINE MODAL (OPENED FROM NEXT TO SEARCH BAR) -->
+  <div class="modal-overlay" id="directCustomModal">
+    <div class="modal-box" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>➕ अपनी दवा सीधे जोड़ें (Direct Add Medicine)</h3>
+        <button class="close-btn" onclick="closeModal('directCustomModal')">✕</button>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">
+        यदि कोई दवा हमारी लिस्ट में नहीं है या आप सीधे अपनी दवा जोड़कर बिल बनाना चाहते हैं, तो नीचे **Product Name** और **MRP** दर्ज करें:
+      </p>
+      <div style="display:grid; gap:10px;">
+        <input type="text" id="frontCustomName" class="input-field" placeholder="Product Name (दवा का नाम) *" />
+        <input type="number" step="0.01" id="frontCustomMrp" class="input-field" placeholder="MRP कितने तक का है (₹) *" />
+        <button type="button" class="btn-primary" style="padding:12px;" onclick="addDirectFromSearch()">
+          🛒 कार्ट में जोड़ें और बिल देखें (Add & Proceed to Checkout)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART & CHECKOUT MODAL (Generates Full Bill for Both Inventory & Custom Added Medicines) -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>🛒 Your Medicine Cart & Checkout</h3>
+        <h3>🛒 Your Medicine Cart & Bill Checkout</h3>
         <button class="close-btn" onclick="closeModal('cartModal')">✕</button>
       </div>
 
       <div id="cartItemsContainer"></div>
 
-      <!-- REQUEST / IDENTIFY MEDICINE NOT IN INVENTORY (Only Product Name & MRP up to ₹) -->
+      <!-- ADD UNLISTED MEDICINE IN CART (ONLY PRODUCT NAME & MRP - NO OFFER PRICE INPUT) -->
       <div class="custom-med-box">
-        <h4>📝 कोई अन्य दवा जो लिस्ट में नहीं है (केवल पहचान / रिक्वेस्ट के लिए जोड़ें):</h4>
+        <h4>➕ कोई अन्य दवा जोड़ें जो इन्वेंटरी में नहीं है (Product Name व MRP डालें):</h4>
         <div style="display:grid; grid-template-columns: 2fr 1.2fr auto; gap:8px;">
           <input type="text" id="customMedName" class="input-field" placeholder="Product Name (दवा का नाम)" />
           <input type="number" step="0.01" id="customMedMrp" class="input-field" placeholder="MRP कितने तक का है (₹)" />
-          <button type="button" class="btn-primary" onclick="addCustomToCart()">+ Add Request</button>
+          <button type="button" class="btn-primary" onclick="addCustomToCart()">+ Add to Bill</button>
         </div>
         <p style="font-size:11.5px; color:var(--muted); margin-top:5px;">
-          * यह केवल प्रोडक्ट की पहचान (Name और अनुमानित MRP) की रिक्वेस्ट के लिए है, इसका अमाउंट डायरेक्ट चेकआउट बिल में नहीं जुड़ेगा।
+          * यह दवा आपके द्वारा दर्ज MRP पर सीधे बिल में जुड़ जाएगी।
         </p>
       </div>
 
-      <div id="requestedItemsContainer"></div>
-
       <div style="margin-top:12px; display:flex; gap:8px;">
         <input type="text" id="promoInput" class="input-field" placeholder="Enter Promo Code (e.g. RNS10)" />
-        <button class="btn-primary" onclick="applyPromoCode()">Apply</button>
-      </div>
-
-      <div id="cartSummaryBox" style="margin-top:14px; padding:12px; background:var(--bg); border-radius:10px; font-size:14px;"></div>
-
-      <hr style="margin:14px 0; border-color:var(--border);" />
-      <h4 style="margin-bottom:10px;">Customer Details & Payment Method</h4>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
-        <input type="text" id="custName" class="input-field" placeholder="Full Name (ग्राहक का नाम) *" />
-        <input type="tel" id="custPhone" class="input-field" placeholder="10-Digit Mobile No. *" />
-      </div>
-      <textarea id="custAddress" class="input-field" rows="2" placeholder="Full Delivery Address / Landmark (Sikta, Kushinagar) *" style="margin-bottom:10px;"></textarea>
-      <input type="text" id="custNote" class="input-field" placeholder="Optional Note (Doctor name / delivery timing)" style="margin-bottom:10px;" />
-
-      <div style="margin-bottom:12px;">
-        <label style="font-weight:600; font-size:13px; margin-right:16px;">
-          <input type="radio" name="payMethod" value="UPI" checked onchange="toggleUpiBox()" /> UPI QR Scan (rahul9656170@slc)
-        </label>
-        <label style="font-weight:600; font-size:13px;">
-          <input type="radio" name="payMethod" value="COD" onchange="toggleUpiBox()" /> Cash on Delivery (COD)
-        </label>
-      </div>
-
-      <div id="upiQrBox" style="text-align:center; padding:12px; border:1px dashed #108565; border-radius:10px; margin-bottom:12px;">
-        <p style="font-size:12px; font-weight:600; margin-bottom:6px;">Scan Dynamic UPI QR to Pay (UPI ID: rahul9656170@slc)</p>
-        <img id="upiQrImg" src="" alt="UPI QR Code" style="width:160px; height:160px; border-radius:8px;" />
-      </div>
-
-      <div style="display:flex; flex-wrap:wrap; gap:10px;">
-        <button class="btn-primary" style="flex:1;" onclick="placePortalOrder(false)">
-          ✅ Submit Order / Request on Portal
-        </button>
-        <button class="btn-primary" style="flex:1; background:#25D366;" onclick="placePortalOrder(true)">
-          📲 Confirm & Send on WhatsApp
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRESCRIPTION (Rx) UPLOAD MODAL -->
-  <div class="modal-overlay" id="rxModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>📄 Upload Doctor's Prescription Slip</h3>
-        <button class="close-btn" onclick="closeModal('rxModal')">✕</button>
-      </div>
-      <form onsubmit="submitPrescription(event)">
-        <div style="display:grid; gap:10px;">
-          <input type="text" id="rxName" class="input-field" placeholder="Patient / Customer Name *" required />
-          <input type="tel" id="rxPhone" class="input-field" placeholder="10-Digit Mobile Number *" required />
-          <input type="text" id="rxAddress" class="input-field" placeholder="Delivery Address *" required />
-          <textarea id="rxNotes" class="input-field" rows="3" placeholder="Medicine Note / Doctor Details / Duration (कोई विशेष निर्देश लिखें)"></textarea>
-          <label style="font-size:13px; font-weight:600;">Select Prescription Image (Photo):</label>
-          <input type="file" id="rxFile" accept="image/*" class="input-field" required />
-          <button type="submit" class="btn-primary" style="padding:12px;">
-            📤 Submit Prescription & Sync to Pharmacy
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- TRACK ORDER & PRESCRIPTION STATUS MODAL -->
-  <div class="modal-overlay" id="trackModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>📦 Track Order & Prescription Status</h3>
-        <button class="close-btn" onclick="closeModal('trackModal')">✕</button>
-      </div>
-      <div style="display:flex; gap:8px; margin-bottom:14px;">
-        <input type="text" id="trackInput" class="input-field" placeholder="Enter Registered Mobile Number or Order/Rx ID..." />
-        <button class="btn-primary" onclick="searchCustomerTracking()">Search Status</button>
-      </div>
-      <div id="trackResultsContainer"></div>
-    </div>
-  </div>
-
-  <!-- ADMIN LOGIN MODAL (Password Hidden) -->
-  <div class="modal-overlay" id="adminLoginModal">
-    <div class="modal-box" style="max-width:400px;">
-      <div class="modal-header">
-        <h3>🔒 Owner Portal Login</h3>
-        <button class="close-btn" onclick="closeModal('adminLoginModal')">✕</button>
-      </div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Pharmacist: Drx. Rahul Singh</p>
-      <input type="password" id="adminPassInput" class="input-field" placeholder="Enter Admin Password" style="margin-bottom:12px;" />
-      <button class="btn-primary" style="width:100%;" onclick="verifyAdminLogin()">Login to Owner Portal</button>
-    </div>
-  </div>
-
-  <!-- OWNER / ADMIN PORTAL MODAL -->
-  <div class="modal-overlay" id="adminDashboardModal">
-    <div class="modal-box" style="max-width:1020px;">
-      <div class="modal-header">
-        <h3>⚙️ RNS PHARMACY - Owner Portal & Billing Software</h3>
-        <div style="display:flex; gap:8px;">
-          <button class="btn-outline" onclick="manualCloudScan()">🔄 Scan & Sync Cloud</button>
-          <button class="btn-primary" onclick="pushConfigToCloud(true)">☁️ Push Inventory to Cloud</button>
-          <button class="close-btn" onclick="closeModal('adminDashboardModal')">✕</button>
-        </div>
-      </div>
-
-      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-        <button class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (Accept / In Transit / Bill)</button>
-        <button class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Reject)</button>
-        <button class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory Update</button>
-        <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes</button>
-      </div>
-
-      <!-- Tab 1: Orders -->
-      <div id="ordersTab" class="admin-tab-content">
-        <div style="overflow-x:auto;">
-          <table>
-            <thead>
-              <tr>
-                <th>Order ID & Date</th>
-                <th>Customer</th>
-                <th>Items, Requests & Savings</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Actions & Official Bill</th>
-              </tr>
-            </thead>
-            <tbody id="adminOrdersTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tab 2: Prescriptions -->
-      <div id="rxTab" class="admin-tab-content" style="display:none;">
-        <div style="overflow-x:auto;">
-          <table>
-            <thead>
-              <tr>
-                <th>Rx ID & Date</th>
-                <th>Patient & Phone</th>
-                <th>Notes & Address</th>
-                <th>Prescription Slip</th>
-                <th>Status</th>
-                <th>Accept / Reject / Transit</th>
-              </tr>
-            </thead>
-            <tbody id="adminRxTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tab 3: Inventory Update (Includes Generic Name & Manufactured By Company) -->
-      <div id="stockTab" class="admin-tab-content" style="display:none;">
-        <h4 style="margin-bottom:10px;">Add / Update Medicine (प्रोडक्ट नेम, जेनेरिक नेम और मैन्युफैक्चरिंग कंपनी के साथ)</h4>
-        <form onsubmit="addMedicine(event)" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(175px, 1fr)); gap:8px; margin-bottom:16px;">
-          <input type="hidden" id="editMedId" />
-          <input type="text" id="medName" class="input-field" placeholder="Product Name (e.g. Dolo 650) *" required />
-          <input type="text" id="medGeneric" class="input-field" placeholder="Generic Name (e.g. Paracetamol 650mg) *" required />
-          <input type="text" id="medCompany" class="input-field" placeholder="Manufactured By (कंपनी का नाम) *" required />
-          <input type="text" id="medPack" class="input-field" placeholder="Packing Size (e.g. Strip of 15) *" required />
-          <input type="text" id="medBatch" class="input-field" placeholder="Batch No. (e.g. RNS26) *" required />
-          <input type="text" id="medExp" class="input-field" placeholder="Expiry (e.g. 12/2028) *" required />
-          <input type="number" step="0.01" id="medMrp" class="input-field" placeholder="MRP (₹) *" required />
-          <input type="number" step="0.01" id="medPrice" class="input-field" placeholder="Offer Price (₹) *" required />
-          <button type="submit" class="btn-primary">💾 Save & Cloud Sync</button>
-        </form>
-
-        <div style="overflow-x:auto;">
-          <table>
-            <thead>
-              <tr>
-                <th>Product & Generic Name</th>
-                <th>Manufactured By</th>
-                <th>Packing Size</th>
-                <th>Batch No. & Expiry</th>
-                <th>MRP vs Offer Price</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="adminStockTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tab 4: Promo Codes -->
-      <div id="promoTab" class="admin-tab-content" style="display:none;">
-        <div style="display:flex; gap:8px; margin-bottom:12px;">
-          <input type="text" id="newPromoCode" class="input-field" placeholder="Promo Code (e.g. RNS10)" />
-          <input type="number" id="newPromoDisc" class="input-field" placeholder="Discount %" />
-          <button class="btn-primary" onclick="addPromoCode()">Add Promo</button>
-        </div>
-        <div id="adminPromoList"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div>
-        <h3>RNS PHARMACY</h3>
-        <p><strong>Proprietor / Registered Pharmacist:</strong> Drx. Rahul Singh (B.Pharm)</p>
-        <p>Standard & Monopolistic Generic Medicine.</p>
-      </div>
-
-      <div>
-        <h3>Contact & Location</h3>
-        <p>📍 <strong>Address:</strong> Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
-        <p>📞 <strong>Helpline No. & WhatsApp:</strong> +91 7668273774</p>
-        <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer">
-          🗺️ View RNS Pharmacy on Google Maps
-        </a>
-      </div>
-
-      <div>
-        <h3>Quick Services</h3>
-        <a href="https://wa.me/917668273774?text=Hello%20RNS%20Pharmacy,%20I%20need%20some%20help%20with%20medicines" target="_blank" rel="noopener noreferrer">
-          💬 Order Directly on WhatsApp Shop
-        </a>
-        <a href="javascript:void(0)" onclick="openModal('trackModal')">📦 Track Your Order / Prescription</a>
-        <a href="javascript:void(0)" onclick="openModal('rxModal')">📄 Upload Doctor Prescription</a>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      © 2026 RNS Pharmacy - Verified Retail Chemist & 100% Standard/Generic Batch-Verified Medicines
-    </div>
-  </footer>
-
-  <!-- APPLICATION & CLOUD SYNC SCRIPT -->
-  <script>
-    const CLOUD_TOPIC = "rns_pharm_sikta_cfg_7402_v5";
-    const KEYS = {
-      STOCK: "rns_stock_v2",
-      ORDERS: "rns_orders_v2",
-      RX: "rns_rx_v2",
-      PROMOS: "rns_promos_v2",
-      REVIEWS: "rns_reviews_v2"
-    };
-
-    const DEFAULT_STOCK = [
-      { id: "M1", name: "Paracetamol 650", generic: "Paracetamol IP 650mg", company: "Micro Labs Ltd", pack: "Strip of 15 Tablets", batch: "PCM2601", exp: "12/2028", mrp: 35, price: 25 },
-      { id: "M2", name: "Pan-D Capsule", generic: "Pantoprazole 40mg + Domperidone 30mg", company: "Alkem Laboratories", pack: "Strip of 15 Capsules", batch: "PNT2604", exp: "09/2028", mrp: 155, price: 110 },
-      { id: "M3", name: "Amoxyclav 625", generic: "Amoxycillin 500mg + Clavulanic Acid 125mg", company: "Cipla Ltd", pack: "Strip of 10 Tablets", batch: "AMX2608", exp: "11/2027", mrp: 204, price: 145 },
-      { id: "M4", name: "Ascoril LS Syrup", generic: "Ambroxol + Levosalbutamol + Guaiphenesin", company: "Glenmark Pharmaceuticals", pack: "100ml Bottle", batch: "CFS2602", exp: "08/2028", mrp: 118, price: 85 }
-    ];
-
-    const DEFAULT_PROMOS = [
-      { code: "RNS10", discount: 10 },
-      { code: "SIKTA5", discount: 5 }
-    ];
-
-    const DEFAULT_REVIEWS = [
-      { name: "Amit Singh", mobile: "98******12", rating: 5, comment: "100% original medicines with proper batch & expiry bill. Fast delivery in Sikta!", date: "Oct 2026" },
-      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Drx. Rahul Singh provides great guidance and genuine discount on MRP.", date: "Oct 2026" }
-    ];
-
-    function normalizeStockArray(arr) {
-      if (!Array.isArray(arr) || arr.length === 0) return DEFAULT_STOCK;
-      return arr.map((item, idx) => ({
-        id: item.id || ("M_" + idx),
-        name: item.name || "Medicine",
-        generic: (item.generic && item.generic !== "undefined") ? item.generic : "Standard Generic Formula",
-        company: (item.company && item.company !== "undefined") ? item.company : "GMP Certified Mfg",
-        pack: (item.pack && item.pack !== "undefined") ? item.pack : (item.size || "Standard Pack"),
-        batch: (item.batch && item.batch !== "undefined") ? item.batch : "Verified",
-        exp: (item.exp && item.exp !== "undefined") ? item.exp : "12/2028",
-        mrp: parseFloat(item.mrp) || parseFloat(item.price) || 0,
-        price: parseFloat(item.price) || parseFloat(item.mrp) || 0
-      }));
-    }
-
-    let stockList = normalizeStockArray(JSON.parse(localStorage.getItem(KEYS.STOCK)));
-    let ordersList = JSON.parse(localStorage.getItem(KEYS.ORDERS)) || [];
-    let rxList = JSON.parse(localStorage.getItem(KEYS.RX)) || [];
-    let promosList = JSON.parse(localStorage.getItem(KEYS.PROMOS)) || DEFAULT_PROMOS;
-    let reviewsList = JSON.parse(localStorage.getItem(KEYS.REVIEWS)) || DEFAULT_REVIEWS;
-
-    let cart = [];
-    let requestedMeds = []; // Separate list for custom requested medicines (Product Name + Approx MRP only)
-    let activePromo = null;
-    let currentLang = "EN";
-
-    function saveLocalState() {
-      localStorage.setItem(KEYS.STOCK, JSON.stringify(stockList));
-      localStorage.setItem(KEYS.ORDERS, JSON.stringify(ordersList));
-      localStorage.setItem(KEYS.RX, JSON.stringify(rxList));
-      localStorage.setItem(KEYS.PROMOS, JSON.stringify(promosList));
-      localStorage.setItem(KEYS.REVIEWS, JSON.stringify(reviewsList));
-    }
-
-    // --- CLOUD SCANNING & SYNC ENGINE ---
-    async function manualCloudScan() {
-      const txt = document.getElementById("syncStatusText");
-      const dot = document.getElementById("syncDot");
-      txt.textContent = "🔄 Scanning Cloud...";
-      dot.style.background = "#f59e0b";
-      const ok = await syncFromCloud();
-      if (ok) {
-        txt.textContent = "Live Cloud Synced ✓";
-        dot.style.background = "#10b981";
-        alert("✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां और ऑर्डर लाइव अपडेट हो गए हैं।");
-      } else {
-        txt.textContent = "Live Cloud Synced";
-        dot.style.background = "#10b981";
-        alert("ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
-      }
-    }
-
-    async function pushConfigToCloud(showAlert = false) {
-      saveLocalState();
-      try {
-        const payload = {
-          type: "CONFIG_SYNC",
-          ts: Date.now(),
-          stock: stockList,
-          promos: promosList,
-          reviews: reviewsList
-        };
-        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-        updateSyncIndicator(true);
-        if (showAlert) alert("☁️ इन्वेंटरी क्लाउड पर सफलतापूर्वक सिंक हो गई!");
-      } catch (err) {
-        updateSyncIndicator(false);
-      }
-    }
-
-    async function pushOrderEventToCloud(eventType, dataObj) {
-      saveLocalState();
-      try {
-        const payload = {
-          type: eventType,
-          ts: Date.now(),
-          data: dataObj
-        };
-        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-        updateSyncIndicator(true);
-      } catch (err) {
-        updateSyncIndicator(false);
-      }
-    }
-
-    async function syncFromCloud() {
-      try {
-        const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=48h`);
-        const text = await res.text();
-        const lines = text.trim().split("\n");
-        lines.forEach(line => {
-          if (!line) return;
-          try {
-            const wrapper = JSON.parse(line);
-            if (wrapper && wrapper.message) {
-              handleCloudPayload(JSON.parse(wrapper.message));
-            }
-          } catch (e) {}
-        });
-        saveLocalState();
-        renderCatalog();
-        renderReviews();
-        updateSyncIndicator(true);
-        return true;
-      } catch (err) {
-        updateSyncIndicator(false);
-        return false;
-      }
-    }
-
-    function handleCloudPayload(msg) {
-      if (!msg) return;
-      if (msg.type === "CONFIG_SYNC" || Array.isArray(msg.stock)) {
-        if (Array.isArray(msg.stock) && msg.stock.length > 0) {
-          stockList = normalizeStockArray(msg.stock);
-        }
-        if (Array.isArray(msg.promos)) promosList = msg.promos;
-        if (Array.isArray(msg.reviews)) reviewsList = msg.reviews;
-      } else if (msg.type === "NEW_ORDER" && msg.data) {
-        const idx = ordersList.findIndex(o => o.id === msg.data.id);
-        if (idx >= 0) ordersList[idx] = msg.data;
-        else ordersList.unshift(msg.data);
-      } else if (msg.type === "NEW_RX" && msg.data) {
-        const idx = rxList.findIndex(r => r.id === msg.data.id);
-        if (idx >= 0) rxList[idx] = msg.data;
-        else rxList.unshift(msg.data);
-      } else if (msg.type === "NEW_REVIEW" && msg.data) {
-        const exists = reviewsList.some(rv => rv.name === msg.data.name && rv.comment === msg.data.comment);
-        if (!exists) reviewsList.unshift(msg.data);
-      }
-      saveLocalState();
-      renderCatalog();
-      renderReviews();
-      renderAdminTables();
-    }
-
-    function startLiveStream() {
-      try {
-        const es = new EventSource(`https://ntfy.sh/${CLOUD_TOPIC}/sse`);
-        es.onmessage = (event) => {
-          try {
-            const wrapper = JSON.parse(event.data);
-            if (wrapper && wrapper.message) {
-              handleCloudPayload(JSON.parse(wrapper.message));
-            }
-          } catch (e) {}
-        };
-      } catch (e) {}
-    }
-
-    function updateSyncIndicator(online) {
-      const dot = document.getElementById("syncDot");
-      const txt = document.getElementById("syncStatusText");
-      if (online) {
-        dot.style.background = "#10b981";
-        txt.textContent = "Live Cloud Synced";
-      } else {
-        dot.style.background = "#f59e0b";
-        txt.textContent = "Local Active (Tap to Scan)";
-      }
-    }
-
-    // --- RENDER MEDICINE CATALOG (Shows Generic Name & Manufactured By) ---
-    function renderCatalog() {
-      const grid = document.getElementById("productGrid");
-      const query = (document.getElementById("searchMed").value || "").toLowerCase();
-
-      const filtered = stockList.filter(item => {
-        return (
-          (item.name || "").toLowerCase().includes(query) ||
-          (item.generic || "").toLowerCase().includes(query) ||
-          (item.company || "").toLowerCase().includes(query) ||
-          (item.batch || "").toLowerCase().includes(query) ||
-          (item.pack || "").toLowerCase().includes(query)
-        );
-      });
-
-      grid.innerHTML = filtered.map(item => {
-        const mrpVal = Number(item.mrp) || Number(item.price) || 0;
-        const priceVal = Number(item.price) || mrpVal;
-        const discPercent = mrpVal > priceVal ? Math.round(((mrpVal - priceVal) / mrpVal) * 100) : 0;
-        const genericClean = (item.generic && item.generic !== "undefined") ? item.generic : "Standard Generic Formula";
-        const companyClean = (item.company && item.company !== "undefined") ? item.company : "GMP Certified Mfg";
-        const packClean = (item.pack && item.pack !== "undefined") ? item.pack : "Standard Pack";
-        const batchClean = (item.batch && item.batch !== "undefined") ? item.batch : "Verified";
-        const expClean = (item.exp && item.exp !== "undefined") ? item.exp : "12/2028";
-
-        const waMsg = encodeURIComponent(`Hello RNS Pharmacy, I want to order *${item.name}* (${genericClean} | Mfg: ${companyClean}) at Offer Price ₹${priceVal} (MRP ₹${mrpVal}).`);
-
-        return `
-          <div class="product-card">
-            <div>
-              <div class="card-top-badges">
-                <span class="verified-med-tag">✔ Batch Verified</span>
-                ${discPercent > 0 ? `<span class="disc-badge">${discPercent}% OFF</span>` : ""}
-              </div>
-              <div class="med-name">${item.name}</div>
-              <div class="med-generic">🧪 Generic: ${genericClean}</div>
-              <div class="med-company">🏭 Mfg By: <strong>${companyClean}</strong></div>
-              <div class="med-meta">
-                📦 ${packClean}<br/>
-                🏷️ Batch: <strong>${batchClean}</strong> | Exp: <strong>${expClean}</strong><br/>
-                <span style="color:#15803d; font-weight:700;">● Available</span>
-              </div>
-            </div>
-            <div>
-              <div class="price-row">
-                <span class="offer-price">₹${priceVal}</span>
-                ${mrpVal > priceVal ? `<span class="mrp-strike">MRP ₹${mrpVal}</span>` : ""}
-              </div>
-              <div class="card-btns">
-                <button class="btn-primary" style="flex:1;" onclick="addToCart('${item.id}')">
-                  + Add to Cart
-                </button>
-                <a class="btn-outline" href="https://wa.me/917668273774?text=${waMsg}" target="_blank" rel="noopener noreferrer">
-                  💬 WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    // --- CART & REQUEST-ONLY UNLISTED MEDICINE ---
-    function addToCart(medId) {
-      const med = stockList.find(m => m.id === medId);
-      if (!med) return;
-      const existing = cart.find(c => c.id === medId);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({
-          id: med.id,
-          name: med.name,
-          generic: med.generic || "",
-          company: med.company || "",
-          pack: (med.pack && med.pack !== "undefined") ? med.pack : "Standard Pack",
-          batch: (med.batch && med.batch !== "undefined") ? med.batch : "Verified",
-          exp: (med.exp && med.exp !== "undefined") ? med.exp : "12/2028",
-          mrp: Number(med.mrp) || Number(med.price) || 0,
-          price: Number(med.price) || Number(med.mrp) || 0,
-          qty: 1
-        });
-      }
-      updateCartUI();
-    }
-
-    // Adds Unlisted Medicine Strictly as a Request (Product Name + Approx MRP only, NOT added to Checkout Bill)
-    function addCustomToCart() {
-      const nameInput = document.getElementById("customMedName");
-      const mrpInput = document.getElementById("customMedMrp");
-
-      const name = (nameInput.value || "").trim();
-      const mrp = parseFloat(mrpInput.value) || 0;
-
-      if (!name || mrp <= 0) {
-        return alert("कृपया प्रोडक्ट का नाम (Product Name) और उसका MRP कितने तक का है (₹) दर्ज करें!");
-      }
-
-      requestedMeds.push({
-        id: "REQ_" + Date.now(),
-        name: name,
-        mrpUpTo: mrp
-      });
-
-      nameInput.value = "";
-      mrpInput.value = "";
-      updateCartUI();
-    }
-
-    function removeRequestedMed(reqId) {
-      requestedMeds = requestedMeds.filter(r => r.id !== reqId);
-      updateCartUI();
-    }
-
-    function changeCartQty(medId, delta) {
-      const idx = cart.findIndex(c => c.id === medId);
-      if (idx === -1) return;
-      cart[idx].qty += delta;
-      if (cart[idx].qty <= 0) cart.splice(idx, 1);
-      updateCartUI();
-    }
-
-    function applyPromoCode() {
-      const code = (document.getElementById("promoInput").value || "").trim().toUpperCase();
-      const found = promosList.find(p => p.code.toUpperCase() === code);
-      if (found) {
-        activePromo = found;
-        alert(`🎉 Promo ${found.code} applied! Extra ${found.discount}% OFF.`);
-      } else {
-        activePromo = null;
-        alert("Invalid Promo Code.");
-      }
-      updateCartUI();
-    }
-
-    function calculateTotals() {
-      let totalMrp = 0;
-      let subtotalOffer = 0;
-      cart.forEach(item => {
-        totalMrp += Number(item.mrp) * item.qty;
-        subtotalOffer += Number(item.price) * item.qty;
-      });
-      const mrpSavings = Math.max(0, totalMrp - subtotalOffer);
-      const promoDiscount = activePromo ? Math.round((subtotalOffer * activePromo.discount) / 100) : 0;
-      const grandTotal = Math.max(0, subtotalOffer - promoDiscount);
-      const totalSaved = mrpSavings + promoDiscount;
-      return { totalMrp, subtotalOffer, mrpSavings, promoDiscount, grandTotal, totalSaved };
-    }
-
-    function updateCartUI() {
-      const totalItems = cart.reduce((s, i) => s + i.qty, 0) + requestedMeds.length;
-      const t = calculateTotals();
-
-      document.getElementById("cartCount").textContent = totalItems;
-      document.getElementById("cartHeaderAmt").textContent = `₹${t.grandTotal.toFixed(2)}`;
-
-      const container = document.getElementById("cartItemsContainer");
-      const reqContainer = document.getElementById("requestedItemsContainer");
-      const summary = document.getElementById("cartSummaryBox");
-
-      if (cart.length === 0) {
-        container.innerHTML = `<p style="color:var(--muted); text-align:center; padding:10px;">इन्वेंटरी से कोई दवा कार्ट में नहीं है।</p>`;
-      } else {
-        container.innerHTML = cart.map(item => `
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
-            <div>
-              <strong>${item.name}</strong> <span style="font-size:12px; color:var(--muted);">(${item.pack})</span><br/>
-              <span style="font-size:11.5px; color:var(--muted);">${item.generic || ""} | ${item.company || ""}</span><br/>
-              <span style="font-size:12px;">Offer: <strong>₹${item.price}</strong> <s style="color:var(--muted);">MRP ₹${item.mrp}</s></span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <button class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', -1)">-</button>
-              <strong>${item.qty}</strong>
-              <button class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', 1)">+</button>
-            </div>
-          </div>
-        `).join("");
-      }
-
-      if (requestedMeds.length > 0) {
-        reqContainer.innerHTML = `
-          <div style="background:#fef3c7; color:#92400e; padding:10px 12px; border-radius:10px; border:1px solid #fde68a; font-size:13px;">
-            <strong>📌 रिक्वेस्ट की गई दवा (केवल पहचान हेतु — डायरेक्ट बिल में शामिल नहीं):</strong>
-            ${requestedMeds.map(r => `
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:4px; border-top:1px dashed #fcd34d;">
-                <span>🔹 <strong>${r.name}</strong> (MRP ₹${r.mrpUpTo} तक)</span>
-                <button type="button" onclick="removeRequestedMed('${r.id}')" style="background:none; border:none; color:#dc2626; font-weight:800; cursor:pointer;">✕ हटाएं</button>
-              </div>
-            `).join("")}
-          </div>
-        `;
-      } else {
-        reqContainer.innerHTML = "";
-      }
-
-      if (cart.length === 0) {
-        summary.innerHTML = requestedMeds.length > 0
-          ? `<div style="font-size:13px; color:#047857; font-weight:600;">ℹ️ आपने केवल रिक्वेस्ट आइटम जोड़ा है। ऑर्डर सबमिट करने पर फार्मासिस्ट इसकी उपलब्धता कन्फर्म करेंगे।</div>`
-          : "";
-        updateUpiQr(0);
-        return;
-      }
-
-      summary.innerHTML = `
-        <div style="display:flex; justify-content:space-between;"><span>Total MRP (Inventory Items):</span><span>₹${t.totalMrp.toFixed(2)}</span></div>
-        <div style="display:flex; justify-content:space-between; color:#15803d;"><span>Offer Discount on MRP:</span><span>- ₹${t.mrpSavings.toFixed(2)}</span></div>
-        ${t.promoDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:#15803d;"><span>Promo (${activePromo.code}) Discount:</span><span>- ₹${t.promoDiscount.toFixed(2)}</span></div>` : ""}
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-top:6px; border-top:1px solid var(--border); padding-top:6px;">
-          <span>Net Payable Amount:</span><span>₹${t.grandTotal.toFixed(2)}</span>
-        </div>
-        <div style="margin-top:4px; font-size:12px; color:#15803d; font-weight:700;">
-          🎉 Total Customer Savings on Bill: ₹${t.totalSaved.toFixed(2)}
-        </div>
-      `;
-      updateUpiQr(t.grandTotal);
-    }
-
-    function updateUpiQr(amount) {
-      const upiUrl = `upi://pay?pa=rahul9656170@slc&pn=RNS%20PHARMACY&am=${amount.toFixed(2)}&cu=INR`;
-      document.getElementById("upiQrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`;
-    }
-
-    function toggleUpiBox() {
-      const method = document.querySelector('input[name="payMethod"]:checked').value;
-      document.getElementById("upiQrBox").style.display = method === "UPI" ? "block" : "none";
-    }
-
-    function placePortalOrder(openWhatsApp) {
-      if (cart.length === 0 && requestedMeds.length === 0) {
-        return alert("कृपया पहले कार्ट में दवा या रिक्वेस्ट आइटम जोड़ें!");
-      }
-      const name = document.getElementById("custName").value.trim();
-      const phone = document.getElementById("custPhone").value.trim();
-      const address = document.getElementById("custAddress").value.trim();
-      const note = document.getElementById("custNote").value.trim();
-      const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
-
-      if (!name || !phone || !address) {
-        return alert("कृपया अपना नाम, मोबाइल नंबर और पता भरें।");
-      }
-
-      const totals = calculateTotals();
-      const orderId = "RNS-" + Math.floor(100000 + Math.random() * 900000);
-      const newOrder = {
-        id: orderId,
-        date: new Date().toLocaleString(),
-        customer: name,
-        phone,
-        address,
-        note,
-        payMethod,
-        items: JSON.parse(JSON.stringify(cart)),
-        requestedItems: JSON.parse(JSON.stringify(requestedMeds)),
-        totals,
-        status: "Pending"
-      };
-
-      ordersList.unshift(newOrder);
-      pushOrderEventToCloud("NEW_ORDER", newOrder);
-
-      if (openWhatsApp) {
-        const itemsTxt = newOrder.items.length > 0
-          ? newOrder.items.map(i => `• ${i.name} x${i.qty} (MRP ₹${i.mrp} -> ₹${i.price * i.qty})`).join("%0A")
-          : "None";
-        const reqTxt = newOrder.requestedItems && newOrder.requestedItems.length > 0
-          ? "%0A*Requested Medicines (पहचान हेतु):*%0A" + newOrder.requestedItems.map(r => `🔸 ${r.name} (MRP up to ₹${r.mrpUpTo})`).join("%0A")
-          : "";
-        const waUrl = `https://wa.me/917668273774?text=*New%20Order%20-%20RNS%20PHARMACY*%0A*Order%20ID:*%20${orderId}%0A*Customer:*%20${encodeURIComponent(name)}%20(${phone})%0A*Address:*%20${encodeURIComponent(address)}%0A*Items:*%0A${itemsTxt}${reqTxt}%0A*Net%20Payable:*%20₹${totals.grandTotal}%20(${payMethod})`;
-        window.open(waUrl, "_blank");
-      }
-
-      cart = [];
-      requestedMeds = [];
-      activePromo = null;
-      updateCartUI();
-      closeModal("cartModal");
-      alert(`✅ आपका ऑर्डर/रिक्वेस्ट सफलतापूर्वक दर्ज हो गया! Order ID: ${orderId}`);
-    }
-
-    // --- PRESCRIPTION UPLOAD ---
-    function submitPrescription(e) {
-      e.preventDefault();
-      const name = document.getElementById("rxName").value.trim();
-      const phone = document.getElementById("rxPhone").value.trim();
-      const address = document.getElementById("rxAddress").value.trim();
-      const notes = document.getElementById("rxNotes").value.trim();
-      const fileInput = document.getElementById("rxFile");
-
-      if (!fileInput.files.length) return alert("कृपया डॉक्टर के पर्चे की फोटो चुनें।");
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
-        const rxObj = {
-          id: rxId,
-          date: new Date().toLocaleString(),
-          name,
-          phone,
-          address,
-          notes,
-          image: evt.target.result,
-          status: "Pending"
-        };
-        rxList.unshift(rxObj);
-        pushOrderEventToCloud("NEW_RX", rxObj);
-        e.target.reset();
-        closeModal("rxModal");
-        alert(`✅ पर्चा अपलोड हो गया! आपका Rx ID है: ${rxId}`);
-      };
-      reader.readAsDataURL(fileInput.files[0]);
-    }
-
-    // --- TRACKING ---
-    function searchCustomerTracking() {
-      const q = (document.getElementById("trackInput").value || "").trim().toLowerCase();
-      const box = document.getElementById("trackResultsContainer");
-      if (!q) return alert("कृपया मोबाइल नंबर या Order/Rx ID डालें।");
-
-      const myOrders = ordersList.filter(o => o.phone.toLowerCase().includes(q) || o.id.toLowerCase().includes(q));
-      const myRx = rxList.filter(r => r.phone.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
-
-      if (myOrders.length === 0 && myRx.length === 0) {
-        box.innerHTML = `<p style="color:var(--danger); padding:10px;">कोई रिकॉर्ड नहीं मिला।</p>`;
-        return;
-      }
-
-      let html = "";
-      myOrders.forEach(o => {
-        const pillClass = "status-" + o.status.replace(/\s+/g, "-");
-        const reqHtml = (o.requestedItems && o.requestedItems.length > 0)
-          ? `<div style="font-size:12px; color:#b45309; margin-bottom:6px;">📌 Requested: ${o.requestedItems.map(r => `${r.name} (MRP up to ₹${r.mrpUpTo})`).join(", ")}</div>`
-          : "";
-        html += `
-          <div style="border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>Order ID: ${o.id}</strong>
-              <span class="status-pill ${pillClass}">${o.status}</span>
-            </div>
-            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Date: ${o.date} | Payment: ${o.payMethod}</div>
-            ${reqHtml}
-            <div style="font-size:13px; margin-bottom:6px;">
-              Payable: <strong>₹${o.totals.grandTotal}</strong> (Saved ₹${o.totals.totalSaved} on MRP ₹${o.totals.totalMrp})
-            </div>
-            <button class="btn-outline" onclick="printBill('${o.id}')">🖨️ View / Print Official Bill</button>
-          </div>
-        `;
-      });
-
-      myRx.forEach(r => {
-        const pillClass = "status-" + r.status.replace(/\s+/g, "-");
-        html += `
-          <div style="border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>Prescription ID: ${r.id}</strong>
-              <span class="status-pill ${pillClass}">${r.status}</span>
-            </div>
-            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Patient: ${r.name} | Date: ${r.date}</div>
-            <div style="font-size:13px;">Note: ${r.notes || "N/A"}</div>
-          </div>
-        `;
-      });
-
-      box.innerHTML = html;
-    }
-
-    // --- VERIFIED REVIEWS ---
-    function renderReviews() {
-      const grid = document.getElementById("reviewsGrid");
-      grid.innerHTML = reviewsList.slice(0, 6).map(r => `
-        <div class="review-card">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <strong>${r.name}</strong>
-            <span style="color:#15803d; font-size:11px; font-weight:700;">✔ Verified Buyer</span>
-          </div>
-          <div style="color:#f59e0b; font-size:13px; margin-bottom:6px;">${"⭐".repeat(Number(r.rating) || 5)}</div>
-          <p style="font-size:13px;">"${r.comment}"</p>
-          <div style="font-size:11px; color:var(--muted); margin-top:6px;">📱 ${r.mobile} | ${r.date || "2026"}</div>
-        </div>
-      `).join("");
-    }
-
-    function submitCustomerReview(e) {
-      e.preventDefault();
-      const name = document.getElementById("revName").value.trim();
-      const mobileRaw = document.getElementById("revMobile").value.trim();
-      const rating = document.getElementById("revRating").value;
-      const comment = document.getElementById("revComment").value.trim();
-
-      const maskedMobile = mobileRaw.slice(0, 2) + "******" + mobileRaw.slice(-2);
-      const revObj = {
-        name,
-        mobile: maskedMobile,
-        rating: Number(rating),
-        comment,
-        date: new Date().toLocaleDateString()
-      };
-      reviewsList.unshift(revObj);
-      pushOrderEventToCloud("NEW_REVIEW", revObj);
-      renderReviews();
-      e.target.reset();
-      alert("🙏 धन्यवाद! आपका वेरीफाइड रिव्यू जुड़ गया है।");
-    }
-
-    // --- OWNER PORTAL & INVENTORY (With Generic Name & Manufactured By) ---
-    function verifyAdminLogin() {
-      const pass = document.getElementById("adminPassInput").value;
-      if (pass === "1234") {
-        document.getElementById("adminPassInput").value = "";
-        closeModal("adminLoginModal");
-        renderAdminTables();
-        openModal("adminDashboardModal");
-      } else {
-        alert("❌ गलत पासवर्ड!");
-      }
-    }
-
-    function switchAdminTab(tabId) {
-      document.querySelectorAll(".admin-tab-content").forEach(el => el.style.display = "none");
-      document.getElementById(tabId).style.display = "block";
-    }
-
-    function addMedicine(e) {
-      e.preventDefault();
-      const editId = document.getElementById("editMedId").value.trim();
-      const name = document.getElementById("medName").value.trim();
-      const generic = document.getElementById("medGeneric").value.trim();
-      const company = document.getElementById("medCompany").value.trim();
-      const pack = document.getElementById("medPack").value.trim();
-      const batch = document.getElementById("medBatch").value.trim();
-      const exp = document.getElementById("medExp").value.trim();
-      const mrp = parseFloat(document.getElementById("medMrp").value) || 0;
-      const price = parseFloat(document.getElementById("medPrice").value) || mrp;
-
-      const medObj = {
-        id: editId || ("M_" + Date.now()),
-        name,
-        generic,
-        company,
-        pack,
-        batch,
-        exp,
-        mrp,
-        price
-      };
-
-      const existingIdx = stockList.findIndex(m => m.id === medObj.id);
-      if (existingIdx >= 0) stockList[existingIdx] = medObj;
-      else stockList.unshift(medObj);
-
-      document.getElementById("editMedId").value = "";
-      e.target.reset();
-      pushConfigToCloud(false);
-      renderCatalog();
-      renderAdminTables();
-    }
-
-    function editStockItem(medId) {
-      const m = stockList.find(x => x.id === medId);
-      if (!m) return;
-      document.getElementById("editMedId").value = m.id;
-      document.getElementById("medName").value = m.name;
-      document.getElementById("medGeneric").value = m.generic || "";
-      document.getElementById("medCompany").value = m.company || "";
-      document.getElementById("medPack").value = m.pack;
-      document.getElementById("medBatch").value = m.batch;
-      document.getElementById("medExp").value = m.exp;
-      document.getElementById("medMrp").value = m.mrp;
-      document.getElementById("medPrice").value = m.price;
-    }
-
-    function deleteStockItem(medId) {
-      stockList = stockList.filter(m => m.id !== medId);
-      pushConfigToCloud(false);
-      renderCatalog();
-      renderAdminTables();
-    }
-
-    function renderAdminTables() {
-      const oBody = document.getElementById("adminOrdersTable");
-      oBody.innerHTML = ordersList.map(o => {
-        const pillClass = "status-" + o.status.replace(/\s+/g, "-");
-        const reqListHtml = (o.requestedItems && o.requestedItems.length > 0)
-          ? `<div style="margin-top:4px; padding:4px 6px; background:#fef3c7; color:#92400e; border-radius:6px; font-size:11.5px;">
-               <strong>Requested (पहचान हेतु):</strong><br/>
-               ${o.requestedItems.map(r => `• ${r.name} (MRP up to ₹${r.mrpUpTo})`).join("<br/>")}
-             </div>`
-          : "";
-        return `
-          <tr>
-            <td><strong>${o.id}</strong><br/><span style="font-size:11px;color:var(--muted);">${o.date}</span></td>
-            <td><strong>${o.customer}</strong><br/>📞 ${o.phone}<br/><span style="font-size:11px;">${o.address}</span></td>
-            <td>
-              ${o.items.map(i => `${i.name} x${i.qty} (₹${i.price})`).join("<br/>") || "<em>No Direct Items</em>"}
-              ${reqListHtml}
-              <br/><strong style="color:#0f766e;">Net Bill: ₹${o.totals.grandTotal}</strong>
-            </td>
-            <td>${o.payMethod}</td>
-            <td><span class="status-pill ${pillClass}">${o.status}</span></td>
-            <td>
-              <select class="input-field" style="margin-bottom:6px;" onchange="updateOrderStatus('${o.id}', this.value)">
-                <option value="Pending" ${o.status === "Pending" ? "selected" : ""}>Pending</option>
-                <option value="Accepted" ${o.status === "Accepted" ? "selected" : ""}>Accept Order</option>
-                <option value="In Transit" ${o.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
-                <option value="Delivered" ${o.status === "Delivered" ? "selected" : ""}>Delivered / Completed</option>
-                <option value="Rejected" ${o.status === "Rejected" ? "selected" : ""}>Reject Order</option>
-              </select>
-              <button class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
-            </td>
-          </tr>
-        `;
-      }).join("") || `<tr><td colspan="6" style="text-align:center;">No orders yet.</td></tr>`;
-
-      const rBody = document.getElementById("adminRxTable");
-      rBody.innerHTML = rxList.map(r => {
-        const pillClass = "status-" + r.status.replace(/\s+/g, "-");
-        return `
-          <tr>
-            <td><strong>${r.id}</strong><br/><span style="font-size:11px;">${r.date}</span></td>
-            <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
-            <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
-            <td><a href="${r.image}" download="${r.id}.png" class="btn-outline">🖼️ View / Download</a></td>
-            <td><span class="status-pill ${pillClass}">${r.status}</span></td>
-            <td>
-              <select class="input-field" onchange="updateRxStatus('${r.id}', this.value)">
-                <option value="Pending" ${r.status === "Pending" ? "selected" : ""}>Pending</option>
-                <option value="Accepted" ${r.status === "Accepted" ? "selected" : ""}>Accept Rx</option>
-                <option value="In Transit" ${r.status === "In Transit" ? "selected" : ""}>In Transit</option>
-                <option value="Completed" ${r.status === "Completed" ? "selected" : ""}>Completed</option>
-                <option value="Rejected" ${r.status === "Rejected" ? "selected" : ""}>Reject Rx</option>
-              </select>
-            </td>
-          </tr>
-        `;
-      }).join("") || `<tr><td colspan="6" style="text-align:center;">No prescriptions uploaded yet.</td></tr>`;
-
-      const sBody = document.getElementById("adminStockTable");
-      sBody.innerHTML = stockList.map(m => `
-        <tr>
-          <td><strong>${m.name}</strong><br/><span style="font-size:11.5px; color:#0f766e;">${m.generic || "-"}</span></td>
-          <td>${m.company || "-"}</td>
-          <td>${m.pack}</td>
-          <td>Batch: <strong>${m.batch}</strong> | Exp: ${m.exp}</td>
-          <td>MRP: ₹${m.mrp} | <strong style="color:#0f766e;">Offer: ₹${m.price}</strong></td>
-          <td>
-            <button class="btn-outline" style="padding:4px 8px;" onclick="editStockItem('${m.id}')">✏️ Edit</button>
-            <button class="btn-outline" style="padding:4px 8px; color:var(--danger); border-color:var(--danger);" onclick="deleteStockItem('${m.id}')">🗑️</button>
-          </td>
-        </tr>
-      `).join("");
-
-      document.getElementById("adminPromoList").innerHTML = promosList.map(p => `
-        <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px;">
-          <strong>${p.code}</strong> (${p.discount}% OFF)
-          <button onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
-        </span>
-      `).join("");
-    }
-
-    function updateOrderStatus(orderId, newStatus) {
-      const ord = ordersList.find(o => o.id === orderId);
-      if (!ord) return;
-      ord.status = newStatus;
-      pushOrderEventToCloud("NEW_ORDER", ord);
-      renderAdminTables();
-    }
-
-    function updateRxStatus(rxId, newStatus) {
-      const rx = rxList.find(r => r.id === rxId);
-      if (!rx) return;
-      rx.status = newStatus;
-      pushOrderEventToCloud("NEW_RX", rx);
-      renderAdminTables();
-    }
-
-    function addPromoCode() {
-      const code = document.getElementById("newPromoCode").value.trim().toUpperCase();
-      const disc = parseFloat(document.getElementById("newPromoDisc").value);
-      if (!code || !disc) return;
-      promosList.push({ code, discount: disc });
-      document.getElementById("newPromoCode").value = "";
-      document.getElementById("newPromoDisc").value = "";
-      pushConfigToCloud(false);
-      renderAdminTables();
-    }
-
-    function removePromo(code) {
-      promosList = promosList.filter(p => p.code !== code);
-      pushConfigToCloud(false);
-      renderAdminTables();
-    }
-
-    // --- OFFICIAL PRINT BILL ---
-    function printBill(orderId) {
-      const ord = ordersList.find(o => o.id === orderId);
-      if (!ord) return;
-
-      const rowsHtml = ord.items.map((item, i) => `
-        <tr>
-          <td>${i + 1}</td>
-          <td>
-            <strong>${item.name}</strong><br/>
-            <small>${item.generic || ""} | Mfg: ${item.company || "Standard"} | ${item.pack || ""}</small>
-          </td>
-          <td>${item.batch || "Verified"}</td>
-          <td>${item.exp || "12/2028"}</td>
-          <td>${item.qty}</td>
-          <td>₹${Number(item.mrp).toFixed(2)}</td>
-          <td>₹${Number(item.price).toFixed(2)}</td>
-          <td><strong>₹${(item.price * item.qty).toFixed(2)}</strong></td>
-        </tr>
-      `).join("");
-
-      const reqSectionHtml = (ord.requestedItems && ord.requestedItems.length > 0)
-        ? `<div style="margin-top:12px; padding:10px; border:1px dashed #d97706; border-radius:6px; font-size:12.5px;">
-             <strong>Requested Medicines (ग्राहक द्वारा पहचान हेतु दर्ज):</strong><br/>
-             ${ord.requestedItems.map(r => `• ${r.name} (अनुमानित MRP: ₹${r.mrpUpTo} तक)`).join("<br/>")}
-           </div>`
-        : "";
-
-      const win = window.open("", "_blank", "width=850,height=700");
-      win.document.write(`
-        <html>
-        <head>
-          <title>Invoice_${ord.id}_RNS_PHARMACY</title>
-          <style>
-            body { font-family: Arial, sans-serif; padding: 24px; color: #111; }
-            .bill-box { border: 2px solid #0f766e; padding: 20px; border-radius: 8px; }
-            .bill-top { display: flex; justify-content: space-between; border-bottom: 2px solid #0f766e; padding-bottom: 12px; margin-bottom: 14px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
-            th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
-            th { background: #f1f5f9; }
-            .totals { margin-top: 14px; text-align: right; font-size: 14px; }
-          </style>
-        </head>
-        <body>
-          <div class="bill-box">
-            <div class="bill-top">
-              <div>
-                <h2 style="margin:0; color:#0f766e;">RNS PHARMACY (Verified Chemist)</h2>
-                <p style="margin:3px 0; font-size:13px;"><strong>Drx. Rahul Singh (B.Pharm - Registered Pharmacist)</strong></p>
-                <p style="margin:2px 0; font-size:12px;">Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
-                <p style="margin:2px 0; font-size:12px;">Helpline No. & WhatsApp: +91 7668273774</p>
-              </div>
-              <div style="text-align:right; font-size:13px;">
-                <strong>INVOICE / CASH MEMO</strong><br/>
-                Order ID: <strong>${ord.id}</strong><br/>
-                Date: ${ord.date}<br/>
-                Status: <strong>${ord.status}</strong> (${ord.payMethod})
-              </div>
-            </div>
-            <div style="font-size:13px; margin-bottom:10px;">
-              <strong>Customer Name:</strong> ${ord.customer} | <strong>Mobile:</strong> ${ord.phone}<br/>
-              <strong>Delivery Address:</strong> ${ord.address}
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Product, Generic & Company</th>
-                  <th>Batch No.</th>
-                  <th>Expiry</th>
-                  <th>Qty</th>
-                  <th>MRP (Unit)</th>
-                  <th>Offer Rate</th>
-                  <th>Net Amount</th>
-                </tr>
-              </thead>
-              <tbody>${rowsHtml}</tbody>
-            </table>
-            ${reqSectionHtml}
-            <div class="totals">
-              <div>Total MRP Value: <strong>₹${ord.totals.totalMrp.toFixed(2)}</strong></div>
-              <div style="color:#15803d;">MRP vs Offer Discount: <strong>- ₹${ord.totals.mrpSavings.toFixed(2)}</strong></div>
-              ${ord.totals.promoDiscount > 0 ? `<div style="color:#15803d;">Promo Discount: <strong>- ₹${ord.totals.promoDiscount.toFixed(2)}</strong></div>` : ""}
-              <div style="font-size:18px; margin-top:6px;"><strong>Grand Total Payable: ₹${ord.totals.grandTotal.toFixed(2)}</strong></div>
-              <div style="color:#15803d; font-weight:bold; margin-top:4px;">Total Customer Savings on MRP: ₹${ord.totals.totalSaved.toFixed(2)}</div>
-            </div>
-            <div style="margin-top:28px; display:flex; justify-content:space-between; font-size:12px; border-top:1px dashed #94a3b8; padding-top:12px;">
-              <span>© 2026 RNS Pharmacy - Standard & Monopolistic Generic Medicine.</span>
-              <span><strong>Authorized Signatory (Drx. Rahul Singh)</strong></span>
-            </div>
-          </div>
-          <script>window.onload = function(){ window.print(); }<\/script>
-        </body>
-        </html>
-      `);
-      win.document.close();
-    }
-
-    // --- UI HELPERS ---
-    function openModal(id) {
-      document.getElementById(id).classList.add("active");
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.remove("active");
-    }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
-    }
-
-    function toggleLang() {
-      currentLang = currentLang === "EN" ? "HI" : "EN";
-      if (currentLang === "HI") {
-        document.getElementById("txt-hero-title").textContent = "स्टैंडर्ड एंड मोनोपोलिक जेनेरिक मेडिसिन.";
-        document.getElementById("txt-hero-sub").textContent = "लाइव बैच नंबर, मैन्युफैक्चरिंग और एक्सपायरी डेट के साथ उचित डिस्काउंट पाएं। होम डिलीवरी या काउंटर पिकअप के लिए सीधे व्हाट्सएप पर ऑर्डर करें।";
-        document.getElementById("txt-rx-title").textContent = "क्या आपके पास डॉक्टर का पर्चा (Prescription) है?";
-        document.getElementById("txt-rx-desc").textContent = "अपने पर्चे की फोटो अपलोड करें। हमारे लाइसेंस्ड फार्मासिस्ट (Drx. Rahul Singh) बैच उपलब्धता जांचकर व्हाट्सएप पर बिल भेज देंगे।";
-        document.getElementById("langBtn").textContent = "🇬🇧 English";
-      } else {
-        document.getElementById("txt-hero-title").textContent = "Standard & Monopolistic Generic Medicine.";
-        document.getElementById("txt-hero-sub").textContent = "Check live batch numbers, manufacturing & expiry dates, and instant discounts. Order directly on WhatsApp for home delivery or counter pickup.";
-        document.getElementById("txt-rx-title").textContent = "Have a Doctor's Prescription Slip?";
-        document.getElementById("txt-rx-desc").textContent = "Upload or take a photo of your prescription. Our licensed pharmacist will verify batch availability and message you the total bill on WhatsApp.";
-        document.getElementById("langBtn").textContent = "🇮🇳 हिंदी";
-      }
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      renderCatalog();
-      renderReviews();
-      updateCartUI();
-      syncFromCloud();
-      startLiveStream();
-    });
-  </script>
-</body>
-</html>
+        <button class="btn-primary" onclick="applyPromoCode
