@@ -1,242 +1,411 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RNS PHARMACY</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f7f4; color: #333; }
-        .header { background-color: #007b5e; color: white; padding: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 24px; }
-        .header p { margin: 5px 0 0; font-size: 14px; opacity: 0.9; }
-        .top-nav { display: flex; justify-content: center; gap: 10px; padding: 15px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-wrap: wrap; }
-        .btn { padding: 10px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-wa { background-color: #25D366; color: white; }
-        .btn-admin { background-color: #333; color: white; }
-        .btn-track { background-color: #007bff; color: white; }
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-        .card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 99999; }
-        .modal-content { background: #fff; width: 90%; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 10px; position: relative; max-height: 80vh; overflow-y: auto; }
-        .close { position: absolute; right: 15px; top: 10px; font-size: 24px; color: red; cursor: pointer; }
-        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .hidden { display: none; }
-        .bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .bill-table th, .bill-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RNS PHARMACY - Complete Portal</title>
+​<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+medical: { blue: '#1d4ed8', green: '#059669' }
+}
+}
+}
+}
+</script>
+​<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+​<style>
+body { font-family: 'Inter', sans-serif; }
+.hero-gradient { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+.tab-active { border-bottom: 2px solid #059669; color: #059669; font-weight: 800; }
+.tab-inactive { color: #64748b; font-weight: 600; }
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+​.status-Pending { color: #f59e0b; background: #fef3c7; }
+.status-Accepted { color: #2563eb; background: #dbeafe; }
+.status-Processing { color: #8b5cf6; background: #ede9fe; }
+.status-In-Transit { color: #0891b2; background: #cffafe; }
+.status-Delivered { color: #059669; background: #d1fae5; }
+.status-Rejected { color: #e11d48; background: #ffe4e6; }
+</style>
 </head>
-<body>
-
-    <div class="header">
-        <h1>RNS PHARMACY</h1>
-        <p>Kalimata Road, near Indian Petrol Pump, Sikta, Uttar Pradesh 274303</p>
-    </div>
-
-    <div class="top-nav">
-        <button class="btn btn-track" onclick="openTrack()">Track Order</button>
-        <button class="btn btn-wa" onclick="window.open('https://wa.me/917668273774?text=Hello RNS Pharmacy, I need some help with medicines.', '_blank')">WhatsApp Shop</button>
-        <button class="btn btn-admin" onclick="openAdmin()">Owner Portal</button>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <h3>Place New Order</h3>
-            <input type="text" id="cName" placeholder="Patient / Customer Name">
-            <input type="tel" id="cPhone" placeholder="Mobile Number">
-            <input type="text" id="cAddress" placeholder="Full Delivery Address">
-            <input type="text" id="cItems" placeholder="Medicines needed (e.g. Paracetamol x2)">
-            <input type="number" id="cAmount" placeholder="Approx Amount (₹)">
-            
-            <p style="font-size:12px; color:red;">* ₹50 Delivery charge applies for orders below ₹500.</p>
-            <select id="cPayment">
-                <option value="Cash">Cash on Delivery</option>
-                <option value="UPI">UPI (rahul9656170@slc)</option>
-            </select>
-            <button class="btn btn-wa" style="width:100%; margin-top:10px;" onclick="processOrder()">Confirm & Order on WhatsApp</button>
-        </div>
-    </div>
-
-    <!-- Track Order Modal -->
-    <div id="trackModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('trackModal')">&times;</span>
-            <h3>Track Your Order</h3>
-            <input type="tel" id="trackPhone" placeholder="Enter Mobile Number">
-            <button class="btn btn-track" onclick="checkOrderStatus()">Check Status</button>
-            <div id="trackResult" style="margin-top:15px; font-weight:bold;"></div>
-        </div>
-    </div>
-
-    <!-- Admin Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('adminModal')">&times;</span>
-            <h3>Owner Portal</h3>
-            <div id="adminLoginArea">
-                <input type="password" id="adminPass" placeholder="Enter Admin Password">
-                <button class="btn btn-admin" onclick="verifyAdmin()">Login</button>
-            </div>
-            <div id="adminDashboard" class="hidden">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h4>Recent Orders</h4>
-                    <button class="btn" style="background:#ff4757; color:white; padding:5px 10px;" onclick="clearAllOrders()">Clear Data</button>
-                </div>
-                <div id="orderListArea"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Modal logic
-        function openAdmin() { document.getElementById('adminModal').style.display = 'block'; }
-        function openTrack() { document.getElementById('trackModal').style.display = 'block'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        // Admin Auth
-        function verifyAdmin() {
-            if(document.getElementById('adminPass').value === '7402') {
-                document.getElementById('adminLoginArea').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                loadAdminOrders();
-            } else {
-                alert("Incorrect Password!");
-            }
-        }
-
-        // Process Customer Order
-        function processOrder() {
-            let name = document.getElementById('cName').value;
-            let phone = document.getElementById('cPhone').value;
-            let addr = document.getElementById('cAddress').value;
-            let items = document.getElementById('cItems').value;
-            let amt = parseFloat(document.getElementById('cAmount').value) || 0;
-            let pay = document.getElementById('cPayment').value;
-
-            if(!name || !phone || !items) return alert("Please fill Name, Phone, and Medicines.");
-
-            let delivery = amt < 500 ? 50 : 0;
-            let total = amt + delivery;
-
-            let orderData = {
-                id: "ORD" + Math.floor(Math.random() * 10000),
-                date: new Date().toLocaleDateString(),
-                name: name,
-                phone: phone,
-                address: addr,
-                items: items,
-                subtotal: amt,
-                delivery: delivery,
-                total: total,
-                payment: pay,
-                status: "Pending",
-                note: ""
-            };
-
-            // Save locally
-            let orders = JSON.parse(localStorage.getItem('rns_orders') || '[]');
-            orders.push(orderData);
-            localStorage.setItem('rns_orders', JSON.stringify(orders));
-
-            // Generate WhatsApp Bill
-            let waMsg = `*New Order - RNS PHARMACY* %0A-----------------------%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Address:* ${addr}%0A*Items:* ${items}%0A-----------------------%0A*Subtotal:* ₹${amt}%0A*Delivery:* ₹${delivery}%0A*Total Bill:* ₹${total}%0A*Payment:* ${pay}%0A-----------------------%0A*UPI ID:* rahul9656170@slc`;
-            
-            alert("Order Submitted! Redirecting to WhatsApp...");
-            window.open(`https://wa.me/917668273774?text=${waMsg}`, '_blank');
-            location.reload();
-        }
-
-        // Track Order
-        function checkOrderStatus() {
-            let phone = document.getElementById('trackPhone').value;
-            let orders = JSON.parse(localStorage.getItem('rns_orders') || '[]');
-            let userOrders = orders.filter(o => o.phone === phone);
-            
-            let resultDiv = document.getElementById('trackResult');
-            if(userOrders.length > 0) {
-                let latest = userOrders[userOrders.length - 1];
-                resultDiv.innerHTML = `<p style="color:green;">Order ID: ${latest.id}</p>
-                                       <p>Status: <span style="background:yellow; padding:3px;">${latest.status}</span></p>
-                                       <p>Admin Note: ${latest.note || 'None'}</p>`;
-            } else {
-                resultDiv.innerHTML = `<p style="color:red;">No active orders found for this number.</p>`;
-            }
-        }
-
-        // Load Admin Orders
-        function loadAdminOrders() {
-            let orders = JSON.parse(localStorage.getItem('rns_orders') || '[]');
-            let html = '';
-            orders.reverse().forEach((o, i) => {
-                let realIndex = orders.length - 1 - i;
-                html += `
-                <div class="card" style="border:1px solid #007b5e;">
-                    <strong>${o.name} (${o.phone})</strong><br>
-                    Items: ${o.items} <br>
-                    Total: ₹${o.total} | ${o.payment}<br>
-                    <select onchange="updateStatus(${realIndex}, this.value)" style="width:auto; padding:5px; margin-top:5px;">
-                        <option value="${o.status}" selected disabled>${o.status}</option>
-                        <option value="Accepted">Accept</option>
-                        <option value="Processing">Processing</option>
-                        <option value="In Transit">In Transit</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Rejected">Reject</option>
-                    </select>
-                    <input type="text" placeholder="Add Note for customer" id="note_${realIndex}" value="${o.note}">
-                    <button class="btn" style="background:#007bff; color:white; padding:5px 10px; font-size:12px;" onclick="saveNote(${realIndex})">Save Note</button>
-                    <button class="btn" style="background:#333; color:white; padding:5px 10px; font-size:12px;" onclick="printBill(${realIndex})">Print Bill</button>
-                </div>`;
-            });
-            document.getElementById('orderListArea').innerHTML = html || '<p>No orders yet.</p>';
-        }
-
-        function updateStatus(idx, val) {
-            let orders = JSON.parse(localStorage.getItem('rns_orders') || '[]');
-            orders[idx].status = val;
-            localStorage.setItem('rns_orders', JSON.stringify(orders));
-            alert("Status Updated to: " + val);
-        }
-
-        function saveNote(idx) {
-            let orders = JSON.parse(localStorage.getItem('rns_orders') || '[]');
-            orders[idx].note = document.getElementById(`note_${idx}`).value;
-            localStorage.setItem('rns_orders', JSON.stringify(orders));
-            alert("Note saved for customer!");
-        }
-        
-        function clearAllOrders() {
-            if(confirm("Are you sure you want to delete all order history?")) {
-                localStorage.removeItem('rns_orders');
-                loadAdminOrders();
-            }
-        }
-
-        // Print Bill Function
-        function printBill(idx) {
-            let orders = JSON.parse(localStorage.getItem('rns_orders') || '[]');
-            let o = orders[idx];
-            let printWin = window.open('', '_blank');
-            printWin.document.write(`
-                <html><head><title>Invoice - ${o.id}</title>
-                <style>body{font-family:Arial; padding:20px;} table{width:100%; border-collapse:collapse; margin-top:20px;} th,td{border:1px solid #333; padding:10px; text-align:left;}</style>
-                </head><body>
-                <h2 style="text-align:center;">RNS PHARMACY</h2>
-                <p style="text-align:center;">Kalimata Road, near Indian Petrol Pump, Sikta<br>WhatsApp: +91 7668273774</p>
-                <hr>
-                <p><strong>Order ID:</strong> ${o.id} <span style="float:right;"><strong>Date:</strong> ${o.date}</span></p>
-                <p><strong>Patient Name:</strong> ${o.name} <br><strong>Phone:</strong> ${o.phone} <br><strong>Address:</strong> ${o.address}</p>
-                <table>
-                    <tr><th>Description</th><th>Amount</th></tr>
-                    <tr><td>${o.items}</td><td>₹${o.subtotal}</td></tr>
-                    <tr><td>Delivery Charge</td><td>₹${o.delivery}</td></tr>
-                    <tr><th>Final Total</th><th>₹${o.total}</th></tr>
-                </table>
-                <p><strong>Payment Mode:</strong> ${o.payment}</p>
-                <p style="text-align:center; margin-top:30px;">Thank you for trusting RNS Pharmacy!</p>
-                <script>window.print(); setTimeout(() => window.close(), 1000);<\/script>
-                </body></html>
-            `);
-            printWin.document.close();
-        }
-    </script>
+<body class="bg-slate-50 text-slate-800 antialiased pb-24 max-w-md mx-auto shadow-2xl min-h-screen relative overflow-x-hidden">
+​<!-- HEADER SECTION -->
+<header class="pt-6 px-4 pb-4 bg-white border-b border-slate-200">
+<div class="flex flex-col space-y-2">
+<h1 class="text-[28px] font-black tracking-tight text-medical-blue leading-tight uppercase">RNS PHARMACY</h1>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-bold"><i class="fa-solid fa-circle-check mr-1.5"></i> Verified Chemist</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-[11px] font-bold"><i class="fa-regular fa-clock mr-1.5"></i> 24x7 Open</span>
+</div>
+<div class="flex items-start pt-2 text-xs text-slate-600 font-semibold leading-snug">
+<i class="fa-solid fa-location-dot mt-0.5 mr-2 text-medical-green"></i>
+<span>Kalimata Road, near Indian Petrol Pump, Sikta, Uttar Pradesh 274303</span>
+</div>
+</div>
+</header>
+​<!-- VIEW TOGGLE -->
+<div class="bg-white p-3 shadow-sm sticky top-0 z-40 border-b border-slate-200">
+<div class="flex rounded-lg bg-slate-100 p-1">
+<button id="btnCustomer" onclick="switchView('customer')" class="flex-1 py-2.5 text-sm font-bold rounded-md bg-white text-medical-green shadow-sm"><i class="fa-solid fa-store mr-1"></i> Store</button>
+<button id="btnOwner" onclick="openAdminLogin()" class="flex-1 py-2.5 text-sm font-bold rounded-md text-slate-500"><i class="fa-solid fa-lock mr-1"></i> Owner Portal</button>
+</div>
+</div>
+​<!-- ================= CUSTOMER VIEW ================= -->
+<div id="viewCustomer" class="px-4 pt-4 space-y-6">
+​<!-- Track & WhatsApp -->
+<div class="flex gap-2">
+<button onclick="document.getElementById('modalTrack').classList.remove('hidden')" class="flex-1 bg-medical-blue hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl shadow-sm text-[13px] relative z-10"><i class="fa-solid fa-box-open"></i> Track Order</button>
+<a href="https://wa.me/917668273774" target="_blank" class="flex-1 bg-[#25D366] text-white font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center gap-2 text-[13px] relative z-10"><i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Shop</a>
+</div>
+​<section class="hero-gradient text-white rounded-2xl p-5 shadow-lg relative">
+<h2 class="text-2xl font-black mb-2">Live Pharmacy Stock</h2>
+<p class="text-emerald-50 text-sm mb-4 font-medium">Check real-time stock & exact expiry dates.</p>
+<div class="bg-white/10 rounded-xl p-3 flex justify-between items-center border border-white/20">
+<div><p class="text-[10px] font-bold text-emerald-100 mb-1">DELIVERY</p><p class="font-black text-sm text-yellow-300">Free over ₹500</p></div>
+<div class="text-right"><p class="text-[10px] font-bold text-emerald-100 mb-1">CHARGE</p><p class="font-black text-sm text-white">₹50 below ₹500</p></div>
+</div>
+</section>
+​<!-- Prescription Upload -->
+<section class="bg-blue-50 border border-blue-200 rounded-2xl p-4 shadow-sm">
+<h3 class="text-lg font-black text-medical-blue mb-1"><i class="fa-solid fa-file-prescription"></i> Upload Prescription</h3>
+<div class="space-y-3 mt-3">
+<input type="tel" id="rxPhone" placeholder="Your Mobile Number" class="w-full px-3 py-2.5 rounded-lg border border-blue-200 text-sm font-semibold">
+<input type="file" id="rxFile" class="w-full bg-white border border-blue-200 px-3 py-2 rounded-lg text-sm">
+<button onclick="uploadRx()" class="w-full bg-medical-blue text-white font-black py-3 rounded-lg shadow">Upload & Notify</button>
+</div>
+</section>
+​<!-- Catalog -->
+<section class="space-y-3 pb-8">
+<h3 class="text-lg font-black text-slate-800">Live Catalog (<span id="medCount">0</span>)</h3>
+<input type="text" id="searchMeds" onkeyup="renderCustomerMeds()" placeholder="Search medicine..." class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold shadow-sm focus:border-medical-green outline-none">
+<div id="customerMedList" class="space-y-3"></div>
+</section>
+</div>
+​<!-- ================= OWNER VIEW ================= -->
+<div id="viewOwner" class="hidden px-0 pt-0 pb-12 bg-white min-h-screen">
+<div class="flex border-b border-slate-200 overflow-x-auto hide-scroll bg-slate-50 sticky top-[68px] z-30">
+<button onclick="switchAdminTab('meds')" id="tab-meds" class="flex-shrink-0 px-4 py-3 text-sm tab-active"><i class="fa-solid fa-pills mr-1"></i> Inventory</button>
+<button onclick="switchAdminTab('orders')" id="tab-orders" class="flex-shrink-0 px-4 py-3 text-sm tab-inactive"><i class="fa-solid fa-box mr-1"></i> Orders</button>
+<button onclick="switchAdminTab('promos')" id="tab-promos" class="flex-shrink-0 px-4 py-3 text-sm tab-inactive"><i class="fa-solid fa-ticket mr-1"></i> Promos</button>
+<button onclick="switchAdminTab('rx')" id="tab-rx" class="flex-shrink-0 px-4 py-3 text-sm tab-inactive"><i class="fa-solid fa-file-prescription mr-1"></i> Rx</button>
+</div>
+​<div class="p-4">
+<!-- ADMIN: MEDS -->
+<div id="admin-meds">
+<div class="bg-slate-50 rounded-xl p-4 border border-slate-200 mb-6">
+<h3 class="text-sm font-black mb-3 text-medical-green">Add / Edit Medicine</h3>
+<div class="space-y-3 text-sm">
+<input type="text" id="admMedName" placeholder="Medicine Name *" class="w-full px-3 py-2 rounded border border-slate-300 font-bold">
+<div class="grid grid-cols-2 gap-3">
+<input type="text" id="admMedBatch" placeholder="Batch" class="w-full px-3 py-2 rounded border border-slate-300">
+<input type="text" id="admMedExp" placeholder="Exp (MM/YY)" class="w-full px-3 py-2 rounded border border-slate-300">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<input type="number" id="admMedMrp" placeholder="MRP ₹" class="w-full px-3 py-2 rounded border border-slate-300">
+<input type="number" id="admMedPrice" placeholder="Offer Price ₹ *" class="w-full px-3 py-2 rounded border border-slate-300 font-bold text-medical-green">
+</div>
+<button onclick="saveMed()" class="w-full bg-medical-green text-white font-black py-2.5 rounded shadow">Save Product</button>
+</div>
+</div>
+<h3 class="text-sm font-black mb-3">Product List</h3>
+<div id="adminMedList" class="space-y-2"></div>
+</div>
+​<!-- ADMIN: ORDERS -->
+<div id="admin-orders" class="hidden">
+<div class="flex justify-between items-center mb-3">
+<h3 class="text-sm font-black">Customer Orders</h3>
+<button onclick="clearOrders()" class="text-xs bg-rose-100 text-rose-600 px-2 py-1 rounded font-bold">Clear All</button>
+</div>
+<div id="adminOrderList" class="space-y-4"></div>
+</div>
+​<!-- ADMIN: PROMOS -->
+<div id="admin-promos" class="hidden">
+<div class="bg-indigo-50 rounded-xl p-4 border border-indigo-100 mb-6">
+<h3 class="text-sm font-black mb-3 text-indigo-700">Create Promo Code</h3>
+<div class="flex gap-2 mb-2">
+<input type="text" id="admPromoCode" placeholder="CODE (e.g. NEW10)" class="uppercase flex-1 px-3 py-2 rounded border border-indigo-200 font-bold">
+<input type="number" id="admPromoDisc" placeholder="% Off" class="w-20 px-3 py-2 rounded border border-indigo-200">
+</div>
+<button onclick="savePromo()" class="w-full bg-indigo-600 text-white font-black py-2.5 rounded shadow">Add Promo</button>
+</div>
+<h3 class="text-sm font-black mb-3">Active Promos</h3>
+<div id="adminPromoList" class="space-y-2"></div>
+</div>
+​<!-- ADMIN: RX -->
+<div id="admin-rx" class="hidden">
+<h3 class="text-sm font-black mb-3">Uploaded Prescriptions</h3>
+<div id="adminRxList" class="space-y-4"></div>
+</div>
+</div>
+</div>
+​<!-- FLOATING CART -->
+<button onclick="openCart()" id="btnCart" class="fixed bottom-6 right-4 bg-slate-800 text-white px-5 py-3.5 rounded-full shadow-2xl font-black text-sm z-50 flex items-center gap-2 border-2 border-white">
+<i class="fa-solid fa-cart-shopping"></i> Cart <span id="cartBadge" class="bg-medical-green px-2 py-0.5 rounded-full text-xs">0</span>
+</button>
+​<!-- ================= MODALS ================= -->
+<!-- Admin Login Modal -->
+<div id="modalAdminLogin" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl w-full max-w-xs p-6 relative">
+<span onclick="document.getElementById('modalAdminLogin').classList.add('hidden')" class="absolute top-4 right-4 text-xl cursor-pointer">×</span>
+<h3 class="text-center text-lg font-black mb-4"><i class="fa-solid fa-lock text-slate-400"></i> Owner Portal</h3>
+<input type="password" id="adminPwd" placeholder="Password (7402)" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg text-center font-bold text-lg outline-none mb-4">
+<button onclick="verifyAdmin()" class="w-full bg-slate-800 text-white font-black py-3 rounded-lg">Login</button>
+</div>
+</div>
+​<!-- Track Modal -->
+<div id="modalTrack" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl w-full max-w-md p-6 relative">
+<span onclick="document.getElementById('modalTrack').classList.add('hidden')" class="absolute top-4 right-4 text-xl cursor-pointer">×</span>
+<h3 class="text-lg font-black mb-4">Track Order</h3>
+<div class="flex gap-2 mb-4">
+<input type="tel" id="trackInput" placeholder="Mobile Number" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg font-bold">
+<button onclick="trackOrder()" class="bg-medical-blue text-white px-4 rounded-lg font-bold">Search</button>
+</div>
+<div id="trackResult" class="space-y-3 max-h-64 overflow-y-auto"></div>
+</div>
+</div>
+​<!-- Cart Modal -->
+<div id="modalCart" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex flex-col justify-end">
+<div class="bg-white rounded-t-2xl w-full max-w-md mx-auto p-5 pb-8 max-h-[85vh] flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-black"><i class="fa-solid fa-basket-shopping text-medical-green"></i> Your Cart</h3>
+<span onclick="document.getElementById('modalCart').classList.add('hidden')" class="text-2xl cursor-pointer text-slate-500">×</span>
+</div>
+<div id="cartItems" class="flex-1 overflow-y-auto space-y-3 border-b border-slate-100 pb-4 mb-4"></div>
+​<div class="space-y-2 mb-4">
+<div class="flex gap-2">
+<input type="text" id="promoInput" placeholder="Promo Code" class="uppercase flex-1 px-3 py-2 border border-slate-300 rounded font-bold text-sm">
+<button onclick="applyPromo()" class="bg-slate-800 text-white px-4 rounded font-bold text-sm">Apply</button>
+</div>
+<p id="promoMsg" class="text-xs font-bold text-center"></p>
+​<div class="flex justify-between text-sm font-semibold text-slate-600 mt-2"><span>Subtotal:</span><span id="cSub">₹0</span></div>
+<div class="flex justify-between text-sm font-semibold text-emerald-600 hidden" id="cDiscRow"><span>Discount:</span><span id="cDisc">-₹0</span></div>
+<div class="flex justify-between text-sm font-semibold text-slate-600"><span>Delivery (<span class="text-[10px] text-rose-500">₹50 if < ₹500</span>):</span><span id="cDel" class="font-bold">₹0</span></div>
+<div class="flex justify-between text-lg font-black text-slate-900 border-t pt-2 mt-1"><span>Total:</span><span id="cTotal">₹0</span></div>
+</div>
+<button onclick="openCheckout()" class="w-full bg-medical-green text-white font-black py-3.5 rounded-xl shadow-md">Proceed Details <i class="fa-solid fa-arrow-right"></i></button>
+</div>
+</div>
+​<!-- Checkout Modal -->
+<div id="modalCheckout" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex flex-col justify-end">
+<div class="bg-white rounded-t-2xl w-full max-w-md mx-auto p-5 pb-8 max-h-[90vh] overflow-y-auto">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-black">Delivery Details</h3>
+<span onclick="document.getElementById('modalCheckout').classList.add('hidden')" class="text-2xl cursor-pointer text-slate-500">×</span>
+</div>
+<div class="space-y-4 mb-6">
+<input type="text" id="chkName" placeholder="Full Name *" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-semibold">
+<input type="tel" id="chkPhone" placeholder="Mobile Number *" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-semibold">
+<textarea id="chkAddr" placeholder="Full Address *" rows="2" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-semibold"></textarea>
+​<h4 class="font-black text-sm mt-4 mb-2">Payment Method</h4>
+<select id="chkPay" class="w-full px-3 py-3 border border-slate-300 rounded-lg font-bold outline-none">
+<option value="UPI">Pay via UPI (GPay/PhonePe)</option>
+<option value="COD">Cash on Delivery</option>
+</select>
+<p class="text-[10px] text-slate-500 font-bold text-center mt-1">UPI ID: rahul9656170@slc</p>
+</div>
+<button onclick="placeOrder()" class="w-full bg-[#25D366] text-white font-black py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-xl"></i> Confirm & Send WhatsApp</button>
+</div>
+</div>
+​<script>
+// Data State (Using LocalStorage for persistency)
+let meds = JSON.parse(localStorage.getItem('rns_meds')) || [];
+let promos = JSON.parse(localStorage.getItem('rns_promos')) || [];
+let orders = JSON.parse(localStorage.getItem('rns_orders')) || [];
+let rxs = JSON.parse(localStorage.getItem('rns_rxs')) || [];
+​let cart = [];
+let activePromo = null;
+let totals = { sub: 0, disc: 0, del: 0, fin: 0 };
+let isAdmin = false;
+​// Init Dummy Data if Empty
+if(meds.length === 0) {
+meds = [{id: 1, name: "Paracetamol 650mg", batch: "P12", exp: "12/25", mrp: 30, price: 20}];
+localStorage.setItem('rns_meds', JSON.stringify(meds));
+}
+​// ---- UI NAVIGATION ----
+function switchView(view) {
+document.getElementById('viewCustomer').classList.toggle('hidden', view !== 'customer');
+document.getElementById('viewOwner').classList.toggle('hidden', view !== 'owner');
+document.getElementById('btnCart').classList.toggle('hidden', view !== 'customer');
+​document.getElementById('btnCustomer').className = view === 'customer' ? "flex-1 py-2.5 text-sm font-bold rounded-md bg-white text-medical-green shadow-sm" : "flex-1 py-2.5 text-sm font-bold rounded-md text-slate-500";
+document.getElementById('btnOwner').className = view === 'owner' ? "flex-1 py-2.5 text-sm font-bold rounded-md bg-white text-medical-blue shadow-sm" : "flex-1 py-2.5 text-sm font-bold rounded-md text-slate-500";
+​if(view === 'customer') renderCustomerMeds();
+if(view === 'owner') switchAdminTab('meds');
+}
+​function openAdminLogin() {
+if(isAdmin) switchView('owner');
+else document.getElementById('modalAdminLogin').classList.remove('hidden');
+}
+function verifyAdmin() {
+if(document.getElementById('adminPwd').value === '7402') {
+isAdmin = true;
+document.getElementById('modalAdminLogin').classList.add('hidden');
+document.getElementById('adminPwd').value = '';
+switchView('owner');
+} else { alert("Wrong Password"); }
+}
+​function switchAdminTab(tab) {
+['meds','orders','promos','rx'].forEach(t => {
+document.getElementById(tab-${t}).className = tab === t ? "flex-shrink-0 px-4 py-3 text-sm tab-active" : "flex-shrink-0 px-4 py-3 text-sm tab-inactive";
+document.getElementById(admin-${t}).classList.toggle('hidden', tab !== t);
+});
+if(tab==='meds') renderAdminMeds();
+if(tab==='orders') renderAdminOrders();
+if(tab==='promos') renderAdminPromos();
+if(tab==='rx') renderAdminRx();
+}
+​// ---- CUSTOMER: CATALOG & CART ----
+function renderCustomerMeds() {
+let q = document.getElementById('searchMeds').value.toLowerCase();
+let filtered = meds.filter(m => m.name.toLowerCase().includes(q));
+document.getElementById('medCount').innerText = filtered.length;
+​document.getElementById('customerMedList').innerHTML = filtered.map(m => <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex justify-between items-center"> <div> <h4 class="font-black text-slate-800 text-[15px]">${m.name}</h4> <p class="text-[11px] text-slate-500 mt-1">Batch: ${m.batch} | Exp: <span class="text-medical-green font-bold">${m.exp}</span></p> <div class="mt-2"><span class="text-xs text-slate-400 line-through mr-2">₹${m.mrp}</span><span class="text-lg font-black text-slate-900">₹${m.price}</span></div> </div> <button onclick="addToCart(${m.id})" class="bg-slate-100 text-medical-green px-4 py-2 rounded-lg font-bold border border-slate-200 shadow-sm"><i class="fa-solid fa-plus"></i></button> </div>).join('') || '<p class="text-center text-slate-400 text-sm py-4">No products found</p>';
+}
+​function addToCart(id) {
+let m = meds.find(x => x.id == id);
+let exist = cart.find(c => c.id == id);
+if(exist) exist.qty++; else cart.push({...m, qty: 1});
+updateCartBadge(); alert(Added ${m.name});
+}
+function updateCartBadge() { document.getElementById('cartBadge').innerText = cart.reduce((a,b)=>a+b.qty,0); }
+​function openCart() {
+let html = ''; totals.sub = 0;
+cart.forEach((c, i) => {
+totals.sub += c.price * c.qty;
+html += <div class="flex justify-between items-center bg-slate-50 p-2 rounded border border-slate-100"> <div class="flex-1"><p class="text-xs font-bold">${c.name}</p><p class="text-[10px] text-slate-500">₹${c.price} x ${c.qty}</p></div> <div class="flex items-center gap-2"> <button onclick="modCart(${i}, -1)" class="w-6 h-6 bg-white border border-slate-200 rounded font-bold text-slate-600">-</button> <span class="text-xs font-black">${c.qty}</span> <button onclick="modCart(${i}, 1)" class="w-6 h-6 bg-white border border-slate-200 rounded font-bold text-medical-green">+</button> </div> </div>;
+});
+document.getElementById('cartItems').innerHTML = html || '<p class="text-center text-slate-400 text-sm py-4">Cart is empty</p>';
+calcTotals();
+document.getElementById('modalCart').classList.remove('hidden');
+}
+function modCart(idx, dir) {
+cart[idx].qty += dir;
+if(cart[idx].qty <= 0) cart.splice(idx, 1);
+openCart(); updateCartBadge();
+}
+​function applyPromo() {
+let code = document.getElementById('promoInput').value.toUpperCase();
+let p = promos.find(x => x.code === code);
+let msg = document.getElementById('promoMsg');
+if(p) { activePromo = p; msg.innerText = ${p.disc}% OFF Applied!; msg.className="text-xs font-bold text-center mt-1 text-emerald-600"; }
+else { activePromo = null; msg.innerText = "Invalid Code"; msg.className="text-xs font-bold text-center mt-1 text-rose-500"; }
+calcTotals();
+}
+​function calcTotals() {
+totals.disc = activePromo ? (totals.sub * activePromo.disc / 100) : 0;
+let afterDisc = totals.sub - totals.disc;
+totals.del = (totals.sub > 0 && afterDisc < 500) ? 50 : 0;
+totals.fin = afterDisc + totals.del;
+​document.getElementById('cSub').innerText = ₹${totals.sub};
+document.getElementById('cDisc').innerText = -₹${Math.round(totals.disc)};
+document.getElementById('cDiscRow').classList.toggle('hidden', totals.disc === 0);
+​let delEl = document.getElementById('cDel');
+delEl.innerText = totals.del > 0 ? +₹${totals.del} : 'FREE';
+delEl.className = totals.del > 0 ? "font-bold text-rose-500" : "font-bold text-emerald-600";
+​document.getElementById('cTotal').innerText = ₹${Math.round(totals.fin)};
+}
+​function openCheckout() {
+if(cart.length===0) return alert("Cart empty");
+document.getElementById('modalCart').classList.add('hidden');
+document.getElementById('modalCheckout').classList.remove('hidden');
+}
+​function placeOrder() {
+let n = document.getElementById('chkName').value, p = document.getElementById('chkPhone').value, a = document.getElementById('chkAddr').value, pay = document.getElementById('chkPay').value;
+if(!n || !p || !a) return alert("Fill all details");
+​let ordId = "RNS" + Date.now().toString().slice(-6);
+let order = { id: ordId, date: new Date().toLocaleString(), name: n, phone: p, addr: a, items: cart, totals: {...totals}, pay: pay, status: "Pending" };
+​orders.unshift(order); // add to top
+localStorage.setItem('rns_orders', JSON.stringify(orders));
+​let txt = *🚨 NEW ORDER (${ordId})*\n\n*Name:* ${n}\n*Phone:* ${p}\n*Address:* ${a}\n\n*ITEMS:*\n;
+cart.forEach((c,i) => txt += ${i+1}. ${c.name} (x${c.qty}) = ₹${c.qty*c.price}\n);
+txt += \n*Subtotal:* ₹${totals.sub}\n*Discount:* -₹${Math.round(totals.disc)}\n*Delivery:* +₹${totals.del}\n*TOTAL:* ₹${Math.round(totals.fin)}\n*Pay Mode:* ${pay};
+​cart = []; activePromo = null; updateCartBadge();
+document.getElementById('modalCheckout').classList.add('hidden');
+alert("Order Placed! Redirecting to WhatsApp.");
+window.location.href = https://wa.me/917668273774?text=${encodeURIComponent(txt)};
+}
+​function trackOrder() {
+let p = document.getElementById('trackInput').value;
+let res = orders.filter(o => o.phone === p);
+let div = document.getElementById('trackResult');
+if(res.length===0) div.innerHTML = "<p class='text-xs text-rose-500 text-center font-bold'>No orders found.</p>";
+else {
+div.innerHTML = res.map(o => <div class="border border-slate-200 p-3 rounded bg-slate-50 text-sm"> <div class="flex justify-between mb-1"><span class="font-bold text-slate-800">${o.id}</span> <span class="text-[10px] text-slate-500">${o.date.split(',')[0]}</span></div> <p class="text-xs mb-1">${o.items.map(i=>i.name).join(', ')}</p> <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200"> <span class="font-black text-medical-green">₹${Math.round(o.totals.fin)}</span> <span class="px-2 py-1 rounded text-[10px] font-black uppercase bg-amber-100 text-amber-700">${o.status}</span> </div> </div>).join('');
+}
+}
+​function uploadRx() {
+let p = document.getElementById('rxPhone').value;
+let f = document.getElementById('rxFile').files[0];
+if(!p || !f) return alert("Enter phone and select image");
+rxs.push({ phone: p, date: new Date().toLocaleString(), status: "Pending" });
+localStorage.setItem('rns_rxs', JSON.stringify(rxs));
+alert("Uploaded! We will contact you.");
+window.location.href = https://wa.me/917668273774?text=${encodeURIComponent('Hello, I uploaded a prescription. My number is ' + p)};
+}
+​// ---- ADMIN: CRUD & LOGIC ----
+function saveMed() {
+let n = document.getElementById('admMedName').value, b = document.getElementById('admMedBatch').value, e = document.getElementById('admMedExp').value, m = document.getElementById('admMedMrp').value, p = document.getElementById('admMedPrice').value;
+if(!n || !p) return alert("Name & Price required");
+meds.unshift({ id: Date.now(), name: n, batch: b, exp: e, mrp: m||p, price: p });
+localStorage.setItem('rns_meds', JSON.stringify(meds));
+document.querySelectorAll('#admin-meds input').forEach(i=>i.value='');
+renderAdminMeds(); alert("Product Added");
+}
+function delMed(id) { meds = meds.filter(m=>m.id!=id); localStorage.setItem('rns_meds', JSON.stringify(meds)); renderAdminMeds(); }
+​function renderAdminMeds() {
+document.getElementById('adminMedList').innerHTML = meds.map(m =>  <div class="bg-white border border-slate-200 p-3 rounded-lg flex justify-between items-center shadow-sm"> <div><p class="font-bold text-sm text-slate-800">${m.name}</p><p class="text-[10px] text-slate-500">MRP: ₹${m.mrp} | Offer: ₹${m.price}</p></div> <button onclick="delMed(${m.id})" class="text-rose-500"><i class="fa-solid fa-trash"></i></button> </div>).join('');
+}
+​function savePromo() {
+let c = document.getElementById('admPromoCode').value.toUpperCase(), d = document.getElementById('admPromoDisc').value;
+if(!c || !d) return alert("Fill fields");
+promos.push({ code: c, disc: d }); localStorage.setItem('rns_promos', JSON.stringify(promos));
+document.getElementById('admPromoCode').value=''; document.getElementById('admPromoDisc').value='';
+renderAdminPromos(); alert("Promo Added");
+}
+function delPromo(c) { promos = promos.filter(p=>p.code!=c); localStorage.setItem('rns_promos', JSON.stringify(promos)); renderAdminPromos(); }
+​function renderAdminPromos() {
+document.getElementById('adminPromoList').innerHTML = promos.map(p =>  <div class="bg-indigo-50 border border-indigo-100 p-3 rounded-lg flex justify-between items-center shadow-sm"> <div><p class="font-black text-indigo-800 text-sm">${p.code}</p><p class="text-[10px] text-indigo-600">${p.disc}% OFF</p></div> <button onclick="delPromo('${p.code}')" class="text-rose-500"><i class="fa-solid fa-trash"></i></button> </div>).join('');
+}
+​function renderAdminOrders() {
+document.getElementById('adminOrderList').innerHTML = orders.map((o, i) => `
+<div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm relative">
+<span class="absolute top-0 right-0 bg-slate-100 text-slate-600 text-[10px] px-2 py-1 font-bold rounded-bl-lg">{o.pay}</span>
+<p class="font-black text-sm text-slate-800">{o.name} <span class="text-[10px] font-normal text-slate-500">({o.phone})</span></p>
+<p class="text-[11px] text-slate-500 mb-2">{o.addr}</p>
+<div class="text-[11px] text-slate-600 mb-2 border-l-2 border-medical-green pl-2">{o.items.map(x=>x.name+' x'+x.qty).join('<br>')}</div>
+<div class="flex justify-between items-center mb-3"><span class="font-black text-medical-green">₹{Math.round(o.totals.fin)}</span></div>
+​<div class="flex gap-2">
+<select onchange="updateOrdStatus(${i}, this.value)" class="flex-1 p-2 border border-slate-300 rounded text-xs font-bold bg-slate-50">
+<option value="Pending" ${o.status=='Pending'?'selected':''}>Pending</option>
+<option value="Accepted" ${o.status=='Accepted'?'selected':''}>Accepted</option>
+<option value="Delivered" ${o.status=='Delivered'?'selected':''}>Delivered</option>
+<option value="Rejected" ${o.status=='Rejected'?'selected':''}>Rejected</option>
+</select>
+<button onclick="printBill(${i})" class="bg-slate-800 text-white px-3 py-2 rounded text-xs font-bold"><i class="fa-solid fa-print"></i> Bill</button>
+</div>
+</div>`).join('') || '<p class="text-sm text-slate-400 text-center">No orders</p>';
+}
+function updateOrdStatus(i, s) { orders[i].status = s; localStorage.setItem('rns_orders', JSON.stringify(orders)); alert("Status Updated"); }
+function clearOrders() { if(confirm("Delete all orders?")){ orders=[]; localStorage.setItem('rns_orders','[]'); renderAdminOrders(); } }
+​function renderAdminRx() {
+document.getElementById('adminRxList').innerHTML = rxs.map((r,i) =>  <div class="bg-white border border-blue-200 p-3 rounded shadow-sm flex justify-between"> <div><p class="text-sm font-bold text-slate-800">${r.phone}</p><p class="text-[10px] text-slate-400">${r.date}</p></div> <button onclick="rxs.splice(${i},1); localStorage.setItem('rns_rxs', JSON.stringify(rxs)); renderAdminRx();" class="text-rose-500"><i class="fa-solid fa-trash"></i></button> </div>).join('') || '<p class="text-sm text-slate-400 text-center">No Prescriptions</p>';
+}
+​// PRINT BILL LOGIC
+function printBill(idx) {
+let o = orders[idx];
+let itemsHtml = o.items.map((x,i) => <tr><td style="padding:8px;border-bottom:1px solid #ddd;">${i+1}</td><td style="padding:8px;border-bottom:1px solid #ddd;">${x.name}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:center;">${x.qty}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;">₹${x.price}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;font-weight:bold;">₹${x.qty*x.price}</td></tr>).join('');
+​let html = <html><head><title>Invoice - ${o.id}</title></head><body style="font-family:sans-serif; padding:20px; max-width:800px; margin:auto;" onload="window.print()"> <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;"> <h1 style="margin:0;">RNS PHARMACY</h1> <p style="margin:5px 0 0; font-size:12px;">Kalimata Road, Sikta, UP 274303 | Phone: +91 7668273774</p> <h3 style="margin:10px 0 0; border:1px solid #000; display:inline-block; padding:3px 10px;">TAX INVOICE</h3> </div> <div style="display:flex; justify-content:space-between; margin-bottom:20px;"> <div><p style="margin:0; font-size:12px; color:#666;">Billed To:</p><p style="margin:0; font-weight:bold;">${o.name}</p><p style="margin:0; font-size:12px;">${o.phone}<br>${o.addr}</p></div> <div style="text-align:right;"><p style="margin:0; font-size:12px;"><strong>Order ID:</strong> ${o.id}</p><p style="margin:0; font-size:12px;"><strong>Date:</strong> ${o.date}</p><p style="margin:0; font-size:12px;"><strong>Pay Mode:</strong> ${o.pay}</p></div> </div> <table style="width:100%; border-collapse:collapse; margin-bottom:20px;"> <tr style="background:#f3f4f6;"><th style="padding:8px;text-align:left;">#</th><th style="padding:8px;text-align:left;">Item</th><th style="padding:8px;text-align:center;">Qty</th><th style="padding:8px;text-align:right;">Rate</th><th style="padding:8px;text-align:right;">Amount</th></tr> ${itemsHtml} </table> <div style="float:right; width:300px;"> <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:14px;"><span>Subtotal:</span><span>₹${o.totals.sub}</span></div> ${o.totals.disc > 0 ? <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:14px; color:red;"><span>Discount:</span><span>-₹${Math.round(o.totals.disc)}</span></div> : ''} <div style="display:flex; justify-content:space-between; padding:5px 0; font-size:14px;"><span>Delivery:</span><span>+₹${o.totals.del}</span></div> <div style="display:flex; justify-content:space-between; padding:10px 0; font-size:18px; font-weight:bold; border-top:2px solid #000;"><span>Total:</span><span>₹${Math.round(o.totals.fin)}</span></div> </div> <div style="clear:both; text-align:center; margin-top:50px; font-size:12px; color:#666; border-top:1px dashed #ccc; padding-top:10px;">Thank you for shopping with RNS Pharmacy!</div> </body></html>;
+​let win = window.open('', '_blank');
+win.document.write(html); win.document.close();
+}
+​// Init
+renderCustomerMeds();
+</script>
 </body>
 </html>
