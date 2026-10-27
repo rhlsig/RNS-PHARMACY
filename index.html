@@ -85,8 +85,8 @@
 
         /* Print Invoice Styles */
         .invoice-box { border: 2px solid #0f172a; padding: 16px; border-radius: 8px; background: #ffffff; color: #000000; }
-        .inv-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-        .inv-table th, .inv-table td { border: 1px solid #334155; padding: 7px; text-align: left; }
+        .inv-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+        .inv-table th, .inv-table td { border: 1px solid #334155; padding: 6px; text-align: left; }
         .inv-table th { background: #f1f5f9; }
 
         @media print {
@@ -170,11 +170,11 @@
 
         <!-- ==================== OWNER PORTAL VIEW ==================== -->
         <div id="viewAdmin" style="display:none;">
-            <!-- Login Box -->
+            <!-- Login Box (Password Hint Removed) -->
             <div id="adminLoginCard" class="card">
                 <div class="card-title">🔒 Owner Portal Login</div>
                 <p style="font-size:13px; color:#64748b; margin-bottom:10px;">एडमिन डैशबोर्ड खोलने के लिए अपना पासवर्ड डालें:</p>
-                <input type="password" id="adminPassInput" placeholder="Enter Password (7402)">
+                <input type="password" id="adminPassInput" placeholder="Enter Admin Password" autocomplete="off">
                 <button type="button" class="btn-primary" onclick="loginAdmin()">Unlock Dashboard</button>
             </div>
 
@@ -326,11 +326,12 @@
 
         function formatOrderStatusLabel(st) {
             if (st === "In Transit") return "In Transit (रास्ते में है)";
+            if (st === "Out for Delivery") return "Out for Delivery";
             return st;
         }
 
         var defaultStock = [
-            { id: "m1", name: "Paracetamol 650mg (15 Tabs)", exp: "11/2027", cat: "Fever / Pain", mrp: 35, price: 28 },
+            { id: "m1", name: "Paracetamol 650mg (15 Tabs)", exp: "11/2027", cat: "Fever / Pain", mrp: 35, price: 22 },
             { id: "m2", name: "Pantoprazole 40mg (10 Tabs)", exp: "08/2027", cat: "Gas / Acidity", mrp: 110, price: 85 },
             { id: "m3", name: "Cough Syrup 100ml", exp: "05/2027", cat: "Cold & Cough", mrp: 125, price: 95 },
             { id: "m4", name: "ORS Powder (1 Sachet)", exp: "10/2027", cat: "Energy / Hydration", mrp: 22, price: 20 }
@@ -414,11 +415,12 @@
             var pass = document.getElementById("adminPassInput").value.trim();
             if (pass === "7402") {
                 isAdminLoggedIn = true;
+                document.getElementById("adminPassInput").value = "";
                 document.getElementById("adminLoginCard").style.display = "none";
                 document.getElementById("adminDashboard").style.display = "block";
                 refreshAdminAll();
             } else {
-                alert("गलत पासवर्ड! कृपया सही पासवर्ड (7402) डालें।");
+                alert("गलत पासवर्ड! कृपया सही एडमिन पासवर्ड डालें।");
             }
         }
 
@@ -453,11 +455,18 @@
             } else {
                 for (var i = 0; i < filtered.length; i++) {
                     var m = filtered[i];
+                    var mrpVal = Number(m.mrp) || Number(m.price);
+                    var priceVal = Number(m.price);
+                    var savedPerUnit = mrpVal > priceVal ? (mrpVal - priceVal) : 0;
                     html += '<div class="med-item">' +
                         '<div class="med-info">' +
                             '<h4>' + m.name + '</h4>' +
                             '<div class="med-meta">Exp: ' + (m.exp || "N/A") + (m.cat ? " | " + m.cat : "") + '</div>' +
-                            '<div><span class="med-mrp">₹' + m.mrp + '</span><span class="med-price">₹' + m.price + '</span></div>' +
+                            '<div>' +
+                                '<span class="med-mrp">MRP ₹' + mrpVal + '</span>' +
+                                '<span class="med-price">₹' + priceVal + '</span>' +
+                                (savedPerUnit > 0 ? ' <span style="font-size:11px; background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:700;">Save ₹' + savedPerUnit + '</span>' : '') +
+                            '</div>' +
                         '</div>' +
                         '<button type="button" class="btn-add" onclick="addToCart(\'' + m.id + '\')">+ Add</button>' +
                     '</div>';
@@ -484,10 +493,14 @@
                     break;
                 }
             }
+            var itemMrp = Number(item.mrp) || Number(item.price);
+            var itemPrice = Number(item.price);
+            if (itemMrp < itemPrice) itemMrp = itemPrice;
+
             if (existing) {
                 existing.qty += 1;
             } else {
-                cart.push({ id: item.id, name: item.name, price: Number(item.price), qty: 1 });
+                cart.push({ id: item.id, name: item.name, mrp: itemMrp, price: itemPrice, qty: 1 });
             }
             updateCartBadge();
         }
@@ -499,7 +512,7 @@
                 alert("कृपया दवा का नाम लिखें।");
                 return;
             }
-            cart.push({ id: "cust_" + Date.now(), name: name, price: price, qty: 1 });
+            cart.push({ id: "cust_" + Date.now(), name: name, mrp: price, price: price, qty: 1 });
             document.getElementById("customMedName").value = "";
             document.getElementById("customMedPrice").value = "";
             updateCartBadge();
@@ -542,7 +555,7 @@
             if (found) {
                 activePromo = found;
                 msgEl.style.color = "#16a34a";
-                msgEl.innerText = "✅ प्रोमो कोड '" + found.code + "' लागू हो गया! (₹" + found.discount + " की छूट)";
+                msgEl.innerText = "✅ प्रोमो कोड '" + found.code + "' लागू हो गया! (₹" + found.discount + " की अतिरिक्त छूट)";
             } else {
                 activePromo = null;
                 msgEl.style.color = "#dc2626";
@@ -559,8 +572,16 @@
                 var html = "";
                 for (var i = 0; i < cart.length; i++) {
                     var c = cart[i];
+                    var cMrp = Number(c.mrp) || Number(c.price);
+                    var cPrice = Number(c.price);
                     html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #e2e8f0; font-size:14px;">' +
-                        '<div><strong>' + c.name + '</strong><br><span style="color:#64748b; font-size:12px;">₹' + c.price + ' x ' + c.qty + ' = ₹' + (c.price * c.qty) + '</span></div>' +
+                        '<div>' +
+                            '<strong>' + c.name + '</strong><br>' +
+                            '<span style="color:#64748b; font-size:12px;">' +
+                                (cMrp > cPrice ? '<span style="text-decoration:line-through; color:#94a3b8;">MRP ₹' + cMrp + '</span> ' : '') +
+                                'Rate: ₹' + cPrice + ' x ' + c.qty + ' = <b>₹' + (cPrice * c.qty) + '</b>' +
+                            '</span>' +
+                        '</div>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
                             '<button type="button" class="btn-sm" style="background:#e2e8f0;" onclick="changeQty(' + i + ', -1)">-</button>' +
                             '<strong>' + c.qty + '</strong>' +
@@ -571,21 +592,31 @@
                 container.innerHTML = html;
             }
 
+            var mrpTotal = 0;
             var subtotal = 0;
             for (var j = 0; j < cart.length; j++) {
-                subtotal += cart[j].price * cart[j].qty;
+                var itemMrp = Number(cart[j].mrp) || Number(cart[j].price);
+                var itemPrice = Number(cart[j].price);
+                if (itemMrp < itemPrice) itemMrp = itemPrice;
+                mrpTotal += itemMrp * cart[j].qty;
+                subtotal += itemPrice * cart[j].qty;
             }
-            var discount = activePromo ? Number(activePromo.discount) : 0;
-            if (discount > subtotal) discount = subtotal;
-            var afterDisc = subtotal - discount;
+            var mrpDiscount = mrpTotal - subtotal;
+            var promoDiscount = activePromo ? Number(activePromo.discount) : 0;
+            if (promoDiscount > subtotal) promoDiscount = subtotal;
+            var afterDisc = subtotal - promoDiscount;
             var delivery = (subtotal > 0 && afterDisc < 500) ? 50 : 0;
             var total = afterDisc + delivery;
+            var totalSavings = mrpDiscount + promoDiscount;
 
             document.getElementById("cartBillSummary").innerHTML =
-                '<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Subtotal:</span><strong>₹' + subtotal + '</strong></div>' +
-                '<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#16a34a;"><span>Promo Discount:</span><strong>- ₹' + discount + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Total MRP Value:</span><strong>₹' + mrpTotal + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#16a34a;"><span>Pharmacy Discount (MRP छूट):</span><strong>- ₹' + mrpDiscount + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Offer Price Subtotal:</span><strong>₹' + subtotal + '</strong></div>' +
+                '<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#16a34a;"><span>Promo Code Discount' + (activePromo ? ' (' + activePromo.code + ')' : '') + ':</span><strong>- ₹' + promoDiscount + '</strong></div>' +
                 '<div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Delivery Charge:</span><strong>₹' + delivery + '</strong></div>' +
-                '<div style="display:flex; justify-content:space-between; font-size:16px; border-top:1px solid #cbd5e1; padding-top:6px; color:#0255a5;"><strong>Total Payable:</strong><strong>₹' + total + '</strong></div>';
+                '<div style="display:flex; justify-content:space-between; font-size:16px; border-top:1px solid #cbd5e1; padding-top:6px; color:#0255a5;"><strong>Final Payable:</strong><strong>₹' + total + '</strong></div>' +
+                (totalSavings > 0 ? '<div style="margin-top:6px; background:#dcfce7; color:#15803d; padding:5px 8px; border-radius:6px; text-align:center; font-weight:700; font-size:12px;">🎉 आपकी कुल बचत (Total Savings): ₹' + totalSavings + '</div>' : '');
         }
 
         function placeFinalOrder() {
@@ -604,15 +635,22 @@
                 return;
             }
 
+            var mrpTotal = 0;
             var subtotal = 0;
             var itemNames = [];
             for (var i = 0; i < cart.length; i++) {
-                subtotal += cart[i].price * cart[i].qty;
-                itemNames.push(cart[i].name + " (x" + cart[i].qty + ")");
+                var iMrp = Number(cart[i].mrp) || Number(cart[i].price);
+                var iPrice = Number(cart[i].price);
+                if (iMrp < iPrice) iMrp = iPrice;
+                mrpTotal += iMrp * cart[i].qty;
+                subtotal += iPrice * cart[i].qty;
+                itemNames.push(cart[i].name + " (x" + cart[i].qty + " @ ₹" + iPrice + ")");
             }
-            var discount = activePromo ? Number(activePromo.discount) : 0;
-            if (discount > subtotal) discount = subtotal;
-            var afterDisc = subtotal - discount;
+            var mrpDiscount = mrpTotal - subtotal;
+            var promoDiscount = activePromo ? Number(activePromo.discount) : 0;
+            var promoCodeUsed = activePromo ? activePromo.code : "";
+            if (promoDiscount > subtotal) promoDiscount = subtotal;
+            var afterDisc = subtotal - promoDiscount;
             var delivery = (afterDisc < 500) ? 50 : 0;
             var total = afterDisc + delivery;
 
@@ -625,8 +663,11 @@
                 address: address,
                 itemsList: cart.slice(),
                 itemsText: itemNames.join(", "),
+                mrpTotal: mrpTotal,
+                mrpDiscount: mrpDiscount,
                 subtotal: subtotal,
-                discount: discount,
+                promoCode: promoCodeUsed,
+                discount: promoDiscount,
                 delivery: delivery,
                 total: total,
                 payment: payment,
@@ -644,10 +685,14 @@
                 "Phone: " + phone + "\n" +
                 "Address: " + address + "\n" +
                 "Medicines: " + newOrder.itemsText + "\n" +
-                "Subtotal: ₹" + subtotal + "\n" +
-                "Discount: ₹" + discount + "\n" +
+                "-----------------------\n" +
+                "Total MRP: ₹" + mrpTotal + "\n" +
+                "Pharmacy Discount: - ₹" + mrpDiscount + "\n" +
+                "Offer Subtotal: ₹" + subtotal + "\n" +
+                "Promo Discount" + (promoCodeUsed ? " (" + promoCodeUsed + ")" : "") + ": - ₹" + promoDiscount + "\n" +
                 "Delivery: ₹" + delivery + "\n" +
-                "*Total Bill: ₹" + total + "*\n" +
+                "*Final Payable Bill: ₹" + total + "*\n" +
+                "Total Savings: ₹" + (mrpDiscount + promoDiscount) + "\n" +
                 "Payment: " + payment;
 
             cart = [];
@@ -839,7 +884,7 @@
             for (var i = 0; i < stock.length; i++) {
                 var m = stock[i];
                 html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #e2e8f0; font-size:13px;">' +
-                    '<div><strong>' + m.name + '</strong><br><span style="color:#64748b;">Exp: ' + m.exp + ' | MRP: ₹' + m.mrp + ' | <b>Sale: ₹' + m.price + '</b></span></div>' +
+                    '<div><strong>' + m.name + '</strong><br><span style="color:#64748b;">Exp: ' + m.exp + ' | MRP: ₹' + m.mrp + ' | <b>Offer: ₹' + m.price + '</b></span></div>' +
                     '<button type="button" class="btn-sm" style="background:#fee2e2; color:#b91c1c;" onclick="deleteMedicine(\'' + m.id + '\')">Delete</button>' +
                 '</div>';
             }
@@ -869,6 +914,7 @@
                                 '<option value="Accepted"' + (o.status === "Accepted" ? " selected" : "") + '>Accepted</option>' +
                                 '<option value="Processing"' + (o.status === "Processing" ? " selected" : "") + '>Processing</option>' +
                                 '<option value="In Transit"' + (o.status === "In Transit" ? " selected" : "") + '>In Transit (रास्ते में है)</option>' +
+                                '<option value="Out for Delivery"' + (o.status === "Out for Delivery" ? " selected" : "") + '>Out for Delivery</option>' +
                                 '<option value="Delivered"' + (o.status === "Delivered" ? " selected" : "") + '>Delivered</option>' +
                                 '<option value="Rejected"' + (o.status === "Rejected" ? " selected" : "") + '>Rejected</option>' +
                             '</select>' +
@@ -1007,14 +1053,41 @@
             if (!o) return;
 
             var rows = "";
+            var calcMrpTotal = 0;
+            var calcOfferTotal = 0;
+
             if (o.itemsList && o.itemsList.length > 0) {
                 for (var j = 0; j < o.itemsList.length; j++) {
                     var it = o.itemsList[j];
-                    rows += '<tr><td>' + it.name + '</td><td>' + it.qty + '</td><td>₹' + it.price + '</td><td>₹' + (it.price * it.qty) + '</td></tr>';
+                    var itMrp = Number(it.mrp) || Number(it.price);
+                    var itPrice = Number(it.price);
+                    if (itMrp < itPrice) itMrp = itPrice;
+                    var lineMrp = itMrp * it.qty;
+                    var lineTotal = itPrice * it.qty;
+                    var lineDisc = lineMrp - lineTotal;
+                    calcMrpTotal += lineMrp;
+                    calcOfferTotal += lineTotal;
+
+                    rows += '<tr>' +
+                        '<td>' + it.name + '</td>' +
+                        '<td>' + it.qty + '</td>' +
+                        '<td>₹' + itMrp + '</td>' +
+                        '<td>₹' + itPrice + '</td>' +
+                        '<td>₹' + lineDisc + '</td>' +
+                        '<td><strong>₹' + lineTotal + '</strong></td>' +
+                    '</tr>';
                 }
             } else {
-                rows = '<tr><td>' + o.itemsText + '</td><td>1</td><td>₹' + o.subtotal + '</td><td>₹' + o.subtotal + '</td></tr>';
+                calcMrpTotal = Number(o.mrpTotal) || Number(o.subtotal);
+                calcOfferTotal = Number(o.subtotal);
+                var singleDisc = calcMrpTotal - calcOfferTotal;
+                rows = '<tr><td>' + o.itemsText + '</td><td>1</td><td>₹' + calcMrpTotal + '</td><td>₹' + calcOfferTotal + '</td><td>₹' + singleDisc + '</td><td><strong>₹' + calcOfferTotal + '</strong></td></tr>';
             }
+
+            var finalMrpTotal = Number(o.mrpTotal) || calcMrpTotal;
+            var finalMrpDisc = (o.mrpDiscount !== undefined) ? Number(o.mrpDiscount) : (finalMrpTotal - calcOfferTotal);
+            var finalPromoDisc = Number(o.discount || 0);
+            var totalSaved = finalMrpDisc + finalPromoDisc;
 
             var html = '<div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:10px;">' +
                 '<h2 style="color:#0255a5; margin:0;">RNS PHARMACY</h2>' +
@@ -1026,14 +1099,17 @@
                 '<div style="text-align:right;"><strong>Invoice:</strong> #' + o.id + '<br><strong>Date:</strong> ' + o.date + '<br><strong>Status:</strong> ' + formatOrderStatusLabel(o.status) + '</div>' +
             '</div>' +
             '<table class="inv-table">' +
-                '<thead><tr><th>Medicine</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>' +
+                '<thead><tr><th>Medicine</th><th>Qty</th><th>MRP</th><th>Offer Rate</th><th>MRP Saved</th><th>Total</th></tr></thead>' +
                 '<tbody>' + rows + '</tbody>' +
             '</table>' +
             '<div style="text-align:right; font-size:13px; line-height:1.6;">' +
-                '<div>Subtotal: ₹' + o.subtotal + '</div>' +
-                '<div>Discount: - ₹' + (o.discount || 0) + '</div>' +
+                '<div>Total MRP Value: ₹' + finalMrpTotal + '</div>' +
+                '<div style="color:#15803d;">Pharmacy Discount (MRP पर छूट): - ₹' + finalMrpDisc + '</div>' +
+                '<div><strong>Offer Subtotal: ₹' + o.subtotal + '</strong></div>' +
+                '<div style="color:#15803d;">Promo Code Discount' + (o.promoCode ? ' (' + o.promoCode + ')' : '') + ': - ₹' + finalPromoDisc + '</div>' +
                 '<div>Delivery Charge: ₹' + o.delivery + '</div>' +
-                '<div style="font-size:16px; font-weight:800; border-top:1px solid #000; padding-top:4px;">Grand Total: ₹' + o.total + '</div>' +
+                '<div style="font-size:16px; font-weight:800; border-top:1px solid #000; padding-top:4px; margin-top:4px;">Grand Total Payable: ₹' + o.total + '</div>' +
+                '<div style="font-size:12px; font-weight:700; color:#15803d;">Total Customer Savings (कुल बचत): ₹' + totalSaved + '</div>' +
                 '<div style="font-size:12px;">Payment Mode: ' + o.payment + '</div>' +
             '</div>' +
             '<p style="text-align:center; font-size:11px; margin-top:12px; border-top:1px dashed #64748b; padding-top:6px;">Get Well Soon! Thank you for choosing RNS Pharmacy, Sikta.</p>';
