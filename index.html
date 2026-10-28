@@ -148,6 +148,7 @@
     .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
     .status-Rejected { background: #fee2e2; color: #b91c1c; }
 
+    /* PAYMENT RECEIVED / NOT RECEIVED PILLS */
     .pay-pill-Received { display: inline-block; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #86efac; }
     .pay-pill-Not-Received { display: inline-block; background: #fee2e2; color: #b91c1c; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #fca5a5; }
     .pay-pill-Pending { display: inline-block; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid #fde68a; }
@@ -414,23 +415,6 @@
     </div>
   </div>
 
-  <!-- FULL-SCREEN PRESCRIPTION PHOTO VIEWER MODAL -->
-  <div class="modal-overlay" id="rxPhotoViewModal">
-    <div class="modal-box" style="max-width:620px; text-align:center;">
-      <div class="modal-header">
-        <h3 id="rxPhotoModalTitle">🖼️ Prescription Slip Photo</h3>
-        <button type="button" class="close-btn" onclick="closeModal('rxPhotoViewModal')">✕</button>
-      </div>
-      <div style="background:var(--bg); padding:10px; border-radius:12px; border:1px solid var(--border); margin-bottom:14px;">
-        <img id="rxPhotoModalImg" src="" alt="Prescription Photo" style="max-width:100%; max-height:70vh; border-radius:8px; object-fit:contain;" />
-      </div>
-      <div style="display:flex; justify-content:center; gap:10px;">
-        <button type="button" id="rxPhotoModalDownloadBtn" class="btn-primary">⬇️ Download Rx Photo (.jpg)</button>
-        <button type="button" class="btn-outline" onclick="closeModal('rxPhotoViewModal')">Close</button>
-      </div>
-    </div>
-  </div>
-
   <!-- TRACK ORDER & PRESCRIPTION STATUS MODAL -->
   <div class="modal-overlay" id="trackModal">
     <div class="modal-box">
@@ -466,7 +450,7 @@
         <h3>⚙️ RNS PHARMACY - Owner Portal & Billing Software</h3>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button type="button" class="btn-outline" onclick="manualCloudScan()">🔄 Scan & Sync Cloud</button>
-          <button type="button" class="btn-primary" onclick="pushConfigToCloud(true)">☁️ Push All Data & Photos to Cloud</button>
+          <button type="button" class="btn-primary" onclick="pushConfigToCloud(true)">☁️ Push All Data to Cloud</button>
           <button type="button" class="close-btn" onclick="closeModal('adminDashboardModal')">✕</button>
         </div>
       </div>
@@ -589,7 +573,7 @@
     </div>
   </footer>
 
-  <!-- ULTRA-SMOOTH, 4KB-SAFE & UNIVERSAL RX DOWNLOAD SCRIPT -->
+  <!-- ULTRA-SMOOTH & OLD/NEW DEVICE COMPATIBLE SCRIPT -->
   <script>
     // Polyfills for 8-10 year old mobile browsers
     if (!Array.prototype.find) {
@@ -645,7 +629,6 @@
 
     let showAllReviews = false;
     let searchDebounceTimer = null;
-    const rxChunkBuffer = {};
 
     function normalizeStockArray(arr) {
       if (!Array.isArray(arr) || arr.length === 0) return DEFAULT_STOCK;
@@ -723,9 +706,7 @@
         address: String(r.address || r.rxAddress || ""),
         notes: String(r.notes || r.note || r.rxNotes || ""),
         adminNote: String(r.adminNote || ""),
-        image: r.image || r.thumb || "",
-        thumb: r.thumb || (r.image && r.image.length < 2800 ? r.image : ""),
-        fileUrl: String(r.fileUrl || "").trim(),
+        image: r.image || "",
         status: String(r.status || "Pending")
       };
     }
@@ -764,166 +745,7 @@
       } catch (e) {}
     }
 
-    // --- HELPER: BASE64 TO BLOB & UNIVERSAL RX DOWNLOADER ---
-    function dataUrlToBlob(dataUrl) {
-      try {
-        const parts = dataUrl.split(",");
-        const mimeMatch = parts[0].match(/:(.*?);/);
-        const mime = mimeMatch ? mimeMatch[1] : "image/jpeg";
-        const bstr = atob(parts[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new Blob([u8arr], { type: mime });
-      } catch (e) {
-        return null;
-      }
-    }
-
-    async function uploadRxBlobToCloudFile(rxId, dataUrl) {
-      try {
-        const blob = dataUrlToBlob(dataUrl);
-        if (!blob) return "";
-        const res = await fetch("https://ntfy.sh/" + CLOUD_TOPIC + "_files", {
-          method: "POST",
-          body: blob
-        });
-        const json = await res.json();
-        if (json && json.attachment && json.attachment.url) {
-          return json.attachment.url;
-        }
-      } catch (e) {}
-      return "";
-    }
-
-    function createSmallThumbFromDataUrl(dataUrl) {
-      return new Promise(function(resolve) {
-        if (!dataUrl || dataUrl.indexOf("data:image") !== 0) return resolve("");
-        if (dataUrl.length <= 2100) return resolve(dataUrl);
-        const img = new Image();
-        img.onload = function() {
-          let maxDim = 115;
-          let w = img.width;
-          let h = img.height;
-          if (w > maxDim || h > maxDim) {
-            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
-            else { w = Math.round((w * maxDim) / h); h = maxDim; }
-          }
-          const canvas = document.createElement("canvas");
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          let out = canvas.toDataURL("image/jpeg", 0.35);
-          if (out.length > 2200) {
-            out = canvas.toDataURL("image/jpeg", 0.25);
-          }
-          resolve(out);
-        };
-        img.onerror = function() { resolve(""); };
-        img.src = dataUrl;
-      });
-    }
-
-    async function pushRxImageInChunks(rxId, fullBase64) {
-      if (!fullBase64 || fullBase64.indexOf("data:image") !== 0) return;
-      const CHUNK_SIZE = 2500;
-      const totalChunks = Math.ceil(fullBase64.length / CHUNK_SIZE);
-      for (let i = 0; i < totalChunks; i++) {
-        const part = fullBase64.substring(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
-        const pkt = { type: "RX_CHUNK", id: rxId, i: i, n: totalChunks, d: part };
-        try {
-          await fetch("https://ntfy.sh/" + CLOUD_TOPIC, { method: "POST", body: JSON.stringify(pkt) });
-          await new Promise(function(r) { setTimeout(r, 75); });
-        } catch (e) {}
-      }
-    }
-
-    function triggerBlobDownload(blob, filename) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.style.display = "none";
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(function() {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 1500);
-    }
-
-    async function downloadRxUniversal(rxId) {
-      let rx = rxList.find(function(r) { return r.id === rxId; });
-      if (!rx) return alert("Record not found!");
-
-      const fileName = rx.id + "_" + String(rx.name || "Prescription").replace(/\s+/g, "_") + ".jpg";
-
-      const base64Data = (rx.image && rx.image.indexOf("data:image") === 0)
-        ? rx.image
-        : (rx.thumb && rx.thumb.indexOf("data:image") === 0 ? rx.thumb : "");
-
-      if (base64Data) {
-        const blob = dataUrlToBlob(base64Data);
-        if (blob) {
-          triggerBlobDownload(blob, fileName);
-          return;
-        }
-      }
-
-      if (rx.fileUrl) {
-        const a = document.createElement("a");
-        a.href = rx.fileUrl;
-        a.download = fileName;
-        a.target = "_blank";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        return;
-      }
-
-      await syncFromCloud();
-      rx = rxList.find(function(r) { return r.id === rxId; });
-      if (rx && (rx.image || rx.thumb)) {
-        const syncedBlob = dataUrlToBlob(rx.image || rx.thumb);
-        if (syncedBlob) {
-          triggerBlobDownload(syncedBlob, fileName);
-          return;
-        }
-      }
-      if (rx && rx.fileUrl) {
-        window.open(rx.fileUrl, "_blank");
-        return;
-      }
-
-      alert("ℹ️ इस पुराने ऑर्डर की फोटो आपके मेन मोबाइल में सेव है। कृपया अपने मेन मोबाइल के Owner Portal में एक बार '☁️ Push All Data & Photos to Cloud' बटन दबाएं, फिर यहाँ तुरंत डाउनलोड हो जाएगी।");
-    }
-
-    function viewRxFullPhoto(rxId) {
-      const rx = rxList.find(function(r) { return r.id === rxId; });
-      if (!rx) return;
-      const imgSrc = rx.image || rx.thumb || rx.fileUrl || "";
-      if (!imgSrc) {
-        downloadRxUniversal(rxId);
-        return;
-      }
-      document.getElementById("rxPhotoModalTitle").textContent = "🖼️ Prescription: " + rx.id + " (" + rx.name + ")";
-      document.getElementById("rxPhotoModalImg").src = imgSrc;
-      const dlBtn = document.getElementById("rxPhotoModalDownloadBtn");
-      dlBtn.onclick = function() { downloadRxUniversal(rxId); };
-      openModal("rxPhotoViewModal");
-    }
-
-    // --- 4KB-SAFE AUTO-SPLIT CLOUD SYNC ENGINE ---
-    async function postSafePacket(obj) {
-      await fetch("https://ntfy.sh/" + CLOUD_TOPIC, {
-        method: "POST",
-        body: JSON.stringify(obj)
-      });
-    }
-
+    // --- CLOUD SCANNING & MULTI-DEVICE SYNC ENGINE (Includes Old & New Prescription Orders) ---
     async function manualCloudScan() {
       const txt = document.getElementById("syncStatusText");
       const dot = document.getElementById("syncDot");
@@ -935,87 +757,38 @@
       alert(ok ? "✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और पुराने/नए प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।" : "ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
     }
 
-    // Automatically splits Stock, Orders, and Prescriptions into <3KB packets so ntfy.sh NEVER hits the 4KB limit!
     async function pushConfigToCloud(showAlert) {
       saveLocalState();
       try {
-        // 1. Send Stock (in batches of 8 items so each packet stays < 2.2KB) + Promos + Reviews
-        const STOCK_BATCH = 8;
-        if (stockList.length <= STOCK_BATCH) {
-          await postSafePacket({
-            type: "CONFIG_SYNC",
-            ts: Date.now(),
-            stock: stockList,
-            promos: promosList,
-            reviews: reviewsList.slice(0, 12)
-          });
-        } else {
-          await postSafePacket({
-            type: "CONFIG_SYNC",
-            ts: Date.now(),
-            stock: stockList.slice(0, STOCK_BATCH),
-            promos: promosList,
-            reviews: reviewsList.slice(0, 12)
-          });
-          for (let s = STOCK_BATCH; s < stockList.length; s += STOCK_BATCH) {
-            await postSafePacket({
-              type: "STOCK_BATCH_SYNC",
-              ts: Date.now(),
-              stockBatch: stockList.slice(s, s + STOCK_BATCH)
-            });
-          }
-        }
+        const recentOrdersLite = ordersList.slice(0, 30);
+        // Include rxSnapshot (without heavy full-size images so packet never fails on old phones)
+        const recentRxLite = rxList.slice(0, 30).map(function(r) {
+          const isSmallImg = r.image && r.image.length < 3000;
+          return {
+            id: r.id,
+            date: r.date,
+            name: r.name,
+            phone: r.phone,
+            address: r.address,
+            notes: r.notes,
+            adminNote: r.adminNote || "",
+            image: isSmallImg ? r.image : "",
+            status: r.status || "Pending"
+          };
+        });
 
-        // 2. When user clicks "Push All Data & Photos to Cloud", sync orders & prescriptions in small <2.8KB packets
-        if (showAlert) {
-          for (let i = 0; i < Math.min(ordersList.length, 30); i += 3) {
-            await postSafePacket({
-              type: "ORDER_BATCH_SYNC",
-              ts: Date.now(),
-              ordersSnapshot: ordersList.slice(i, i + 3)
-            });
-          }
-
-          for (let rIdx = 0; rIdx < Math.min(rxList.length, 25); rIdx++) {
-            const r = rxList[rIdx];
-            if (r.image && (!r.thumb || r.thumb.length > 2300)) {
-              r.thumb = await createSmallThumbFromDataUrl(r.image);
-            }
-            if (r.image && !r.fileUrl) {
-              const upUrl = await uploadRxBlobToCloudFile(r.id, r.image);
-              if (upUrl) r.fileUrl = upUrl;
-            }
-            const inlineImg = (r.thumb && r.thumb.length <= 2300)
-              ? r.thumb
-              : (r.image && r.image.length <= 2300 ? r.image : "");
-
-            await postSafePacket({
-              type: "NEW_RX",
-              ts: Date.now(),
-              data: {
-                id: r.id,
-                date: r.date,
-                name: r.name,
-                phone: r.phone,
-                address: r.address,
-                notes: r.notes,
-                adminNote: r.adminNote || "",
-                image: inlineImg,
-                thumb: inlineImg,
-                fileUrl: r.fileUrl || "",
-                status: r.status || "Pending"
-              }
-            });
-
-            if (r.image && r.image.length > 2300 && rIdx < 8) {
-              await pushRxImageInChunks(r.id, r.image);
-            }
-          }
-          saveLocalState();
-        }
-
+        const payload = {
+          type: "CONFIG_SYNC",
+          ts: Date.now(),
+          stock: stockList,
+          promos: promosList,
+          reviews: reviewsList,
+          ordersSnapshot: recentOrdersLite,
+          rxSnapshot: recentRxLite
+        };
+        await fetch("https://ntfy.sh/" + CLOUD_TOPIC, { method: "POST", body: JSON.stringify(payload) });
         updateSyncIndicator(true);
-        if (showAlert) alert("☁️ सारा डेटा (Orders + Old/New Prescriptions + Photos + Stock) क्लाउड पर सिंक हो गया! अब किसी भी पुराने या नए मोबाइल/लैपटॉप में साफ दिखेगा और डाउनलोड होगा।");
+        if (showAlert) alert("☁️ सारा डेटा (Orders + Old/New Prescriptions + Stock) क्लाउड पर सिंक हो गया! अब पुराने और नए हर मोबाइल/लैपटॉप में दिखेगा।");
       } catch (err) {
         updateSyncIndicator(false);
       }
@@ -1025,7 +798,7 @@
       saveLocalState();
       try {
         const payload = { type: eventType, ts: Date.now(), data: dataObj };
-        await postSafePacket(payload);
+        await fetch("https://ntfy.sh/" + CLOUD_TOPIC, { method: "POST", body: JSON.stringify(payload) });
         updateSyncIndicator(true);
       } catch (err) {
         updateSyncIndicator(false);
@@ -1051,6 +824,7 @@
 
     async function syncFromCloud() {
       try {
+        // Pulls up to 30 days (720h) of cloud history so old prescriptions & orders always appear on old phones
         const res = await fetch("https://ntfy.sh/" + CLOUD_TOPIC + "/json?poll=1&since=720h");
         const text = await res.text();
         const lines = text.trim().split("\n");
@@ -1079,11 +853,7 @@
       if (!normRx) return;
       const idx = rxList.findIndex(function(r) { return r.id === normRx.id; });
       if (idx >= 0) {
-        const existingImg = rxList[idx].image || "";
-        const incomingImg = normRx.image || "";
-        const bestImg = (incomingImg.indexOf("data:image") === 0 && incomingImg.length >= existingImg.length)
-          ? incomingImg
-          : (existingImg || incomingImg);
+        const existingImg = rxList[idx].image;
         rxList[idx] = {
           id: normRx.id,
           date: normRx.date || rxList[idx].date,
@@ -1091,10 +861,8 @@
           phone: normRx.phone || rxList[idx].phone,
           address: normRx.address || rxList[idx].address,
           notes: normRx.notes || rxList[idx].notes,
-          adminNote: normRx.adminNote !== undefined && normRx.adminNote !== "" ? normRx.adminNote : rxList[idx].adminNote,
-          image: bestImg,
-          thumb: normRx.thumb || rxList[idx].thumb || (bestImg.length < 2800 ? bestImg : ""),
-          fileUrl: normRx.fileUrl || rxList[idx].fileUrl || "",
+          adminNote: normRx.adminNote !== undefined ? normRx.adminNote : rxList[idx].adminNote,
+          image: (normRx.image && normRx.image.length >= (existingImg ? existingImg.length : 0)) ? normRx.image : existingImg,
           status: normRx.status || rxList[idx].status
         };
       } else {
@@ -1123,22 +891,6 @@
             mergeRxIntoList(snapRx);
           });
         }
-      } else if (msg.type === "STOCK_BATCH_SYNC" && Array.isArray(msg.stockBatch)) {
-        const incomingBatch = normalizeStockArray(msg.stockBatch);
-        incomingBatch.forEach(function(med) {
-          const idx = stockList.findIndex(function(m) { return m.id === med.id; });
-          if (idx >= 0) stockList[idx] = med;
-          else stockList.push(med);
-        });
-      } else if (msg.type === "ORDER_BATCH_SYNC" && Array.isArray(msg.ordersSnapshot)) {
-        msg.ordersSnapshot.forEach(function(snapOrd) {
-          const normOrd = normalizeOrderObj(snapOrd);
-          if (normOrd) {
-            const idx = ordersList.findIndex(function(o) { return o.id === normOrd.id; });
-            if (idx >= 0) ordersList[idx] = normOrd;
-            else ordersList.push(normOrd);
-          }
-        });
       } else if (msg.type === "NEW_ORDER" && msg.data) {
         const normOrd = normalizeOrderObj(msg.data);
         if (normOrd) {
@@ -1147,38 +899,7 @@
           else ordersList.unshift(normOrd);
         }
       } else if ((msg.type === "NEW_RX" || msg.type === "RX_ORDER") && (msg.data || msg.id)) {
-        const incoming = msg.data || msg;
-        const normRx = normalizeRxObj(incoming);
-        if (normRx) {
-          const idx = rxList.findIndex(function(r) { return r.id === normRx.id; });
-          if (idx >= 0) {
-            mergeRxIntoList(normRx);
-          } else {
-            rxList.unshift(normRx);
-          }
-        }
-      } else if (msg.type === "RX_CHUNK" && msg.id && msg.d !== undefined) {
-        if (!rxChunkBuffer[msg.id]) {
-          rxChunkBuffer[msg.id] = { n: msg.n || 1, parts: {}, count: 0 };
-        }
-        const buf = rxChunkBuffer[msg.id];
-        if (msg.n) buf.n = msg.n;
-        if (buf.parts[msg.i] === undefined) {
-          buf.parts[msg.i] = msg.d;
-          buf.count += 1;
-        }
-        if (buf.count >= buf.n) {
-          let fullImg = "";
-          for (let k = 0; k < buf.n; k++) {
-            fullImg += (buf.parts[k] || "");
-          }
-          if (fullImg.indexOf("data:image") === 0) {
-            const idx = rxList.findIndex(function(r) { return r.id === msg.id; });
-            if (idx >= 0) {
-              rxList[idx].image = fullImg;
-            }
-          }
-        }
+        mergeRxIntoList(msg.data || msg);
       } else if (msg.type === "RX_IMG_SYNC" && msg.rxId && msg.image) {
         const idx = rxList.findIndex(function(r) { return r.id === msg.rxId; });
         if (idx >= 0) rxList[idx].image = msg.image;
@@ -1580,7 +1301,7 @@
       alert("✅ आपका ऑर्डर और बिल सफलतापूर्वक जनरेट हो गया! Order ID: " + orderId);
     }
 
-    // --- PRESCRIPTION UPLOAD (Generates Direct Cloud .jpg File URL + Inline Photo + Chunk Sync) ---
+    // --- PRESCRIPTION UPLOAD (Guaranteed < 3KB Preview Packet + Snapshot Sync for Old Mobiles) ---
     function compressImageFile(file, maxDim, quality) {
       return new Promise(function(resolve) {
         const reader = new FileReader();
@@ -1623,50 +1344,33 @@
 
       try {
         const file = fileInput.files[0];
+        // 110px preview (~1.2KB) so it stays under 4KB ntfy text limit and works on 10-year-old phones
+        const tinyPreview = await compressImageFile(file, 110, 0.35);
+        const clearRxImage = await compressImageFile(file, 850, 0.65);
+
         const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
         const rxDate = new Date().toLocaleString();
 
-        // 1. Clear readable image (~700px)
-        const clearRxImage = await compressImageFile(file, 700, 0.60);
-        // 2. Guaranteed <2.1KB inline preview so photo never disappears on any device
-        const tinyPreview = await createSmallThumbFromDataUrl(clearRxImage);
-        // 3. Direct downloadable .jpg URL hosted on cloud
-        const directFileUrl = await uploadRxBlobToCloudFile(rxId, clearRxImage);
-
         const rxLocalObj = normalizeRxObj({
-          id: rxId,
-          date: rxDate,
-          name: name,
-          phone: phone,
-          address: address,
-          notes: notes,
-          adminNote: "",
-          image: clearRxImage,
-          thumb: tinyPreview,
-          fileUrl: directFileUrl,
-          status: "Pending"
+          id: rxId, date: rxDate, name: name, phone: phone, address: address, notes: notes, adminNote: "", image: clearRxImage, status: "Pending"
         });
 
         rxList.unshift(rxLocalObj);
         saveLocalState();
 
         await pushOrderEventToCloud("NEW_RX", {
-          id: rxId,
-          date: rxDate,
-          name: name,
-          phone: phone,
-          address: address,
-          notes: notes,
-          adminNote: "",
-          image: tinyPreview,
-          thumb: tinyPreview,
-          fileUrl: directFileUrl,
-          status: "Pending"
+          id: rxId, date: rxDate, name: name, phone: phone, address: address, notes: notes, adminNote: "", image: tinyPreview, status: "Pending"
         });
 
-        await pushRxImageInChunks(rxId, clearRxImage);
+        // Also push CONFIG_SYNC so rxSnapshot is immediately saved for all old/new devices
+        pushConfigToCloud(false);
 
-        const waRxText = "*New Prescription (Rx) Uploaded - RNS PHARMACY*%0A*Rx ID:* " + rxId + "%0A*Patient Name:* " + encodeURIComponent(name) + "%0A*Mobile:* " + phone + "%0A*Address:* " + encodeURIComponent(address) + "%0A*Note:* " + encodeURIComponent(notes || "Please check uploaded prescription on Admin Portal") + (directFileUrl ? "%0A*Download Rx Photo:* " + encodeURIComponent(directFileUrl) : "");
+        fetch("https://ntfy.sh/" + CLOUD_TOPIC, {
+          method: "POST",
+          body: JSON.stringify({ type: "RX_IMG_SYNC", ts: Date.now(), rxId: rxId, image: clearRxImage })
+        }).catch(function() {});
+
+        const waRxText = "*New Prescription (Rx) Uploaded - RNS PHARMACY*%0A*Rx ID:* " + rxId + "%0A*Patient Name:* " + encodeURIComponent(name) + "%0A*Mobile:* " + phone + "%0A*Address:* " + encodeURIComponent(address) + "%0A*Note:* " + encodeURIComponent(notes || "Please check uploaded prescription on Admin Portal");
         window.open("https://wa.me/917668273774?text=" + waRxText, "_blank");
 
         e.target.reset();
@@ -1678,7 +1382,7 @@
       }
     }
 
-    // --- UNIVERSAL TRACKING ---
+    // --- UNIVERSAL TRACKING (Shows Payment Received / Payment Not Received Status & Admin Notes) ---
     function openTrackModalAndSync() {
       openModal("trackModal");
       syncFromCloud();
@@ -1864,11 +1568,13 @@
       document.getElementById(tabId).style.display = "block";
     }
 
+    // Update Payment Received / Payment Not Received Status
     function updateOrderPaymentStatus(orderId, newPayStatus) {
       const ord = ordersList.find(function(o) { return o.id === orderId; });
       if (!ord) return;
       ord.paymentStatus = newPayStatus;
       pushOrderEventToCloud("NEW_ORDER", ord);
+      pushConfigToCloud(false);
       renderAdminTables();
       alert("✅ Order " + orderId + " का पेमेंट स्टेटस '" + newPayStatus + "' अपडेट कर दिया गया है! अब यह बिल और कस्टमर ट्रैकिंग दोनों में दिखेगा।");
     }
@@ -1897,6 +1603,7 @@
       const currentDeliv = ord.customDeliveryCharge !== undefined ? ord.customDeliveryCharge : ord.totals.deliveryCharge;
       ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null, currentDeliv);
       pushOrderEventToCloud("NEW_ORDER", ord);
+      pushConfigToCloud(false);
       renderAdminTables();
       alert('✅ "' + targetItem.name + '" का MRP अपडेट होकर नया बिल (₹' + ord.totals.grandTotal + ') जनरेट हो गया है!');
     }
@@ -1911,6 +1618,7 @@
       ord.customDeliveryCharge = newDeliv;
       ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null, newDeliv);
       pushOrderEventToCloud("NEW_ORDER", ord);
+      pushConfigToCloud(false);
       renderAdminTables();
       alert("✅ Order " + orderId + " का डिलीवरी चार्ज ₹" + newDeliv + " अपडेट कर दिया गया है! नया कुल बिल: ₹" + ord.totals.grandTotal);
     }
@@ -1921,6 +1629,7 @@
       const noteEl = document.getElementById("ord_note_" + orderId);
       if (noteEl) ord.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_ORDER", ord);
+      pushConfigToCloud(false);
       renderAdminTables();
       alert("✅ Order " + orderId + " का नोट सेव और सिंक हो गया!");
     }
@@ -1930,20 +1639,8 @@
       if (!rx) return;
       const noteEl = document.getElementById("rx_note_" + rxId);
       if (noteEl) rx.adminNote = noteEl.value.trim();
-      const safeInlineImg = rx.thumb || (rx.image && rx.image.length <= 2300 ? rx.image : "");
-      pushOrderEventToCloud("NEW_RX", {
-        id: rx.id,
-        date: rx.date,
-        name: rx.name,
-        phone: rx.phone,
-        address: rx.address,
-        notes: rx.notes,
-        adminNote: rx.adminNote,
-        image: safeInlineImg,
-        thumb: safeInlineImg,
-        fileUrl: rx.fileUrl || "",
-        status: rx.status
-      });
+      pushOrderEventToCloud("NEW_RX", rx);
+      pushConfigToCloud(false);
       renderAdminTables();
       alert("✅ Prescription " + rxId + " का नोट सेव और सिंक हो गया!");
     }
@@ -2090,22 +1787,13 @@
         rBody.innerHTML = rxList.map(function(rawRx, idx) {
           const r = normalizeRxObj(rawRx, idx);
           const pillClass = "status-" + r.status.replace(/\s+/g, "-");
-          const dispImg = r.image || r.thumb || r.fileUrl || "";
           return `
             <tr>
               <td><strong>${r.id}</strong><br/><span style="font-size:11px;">${r.date}</span></td>
               <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
               <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
               <td>
-                <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
-                  <button type="button" class="btn-outline" style="padding:5px 10px; font-size:11.5px;" onclick="downloadRxUniversal('${r.id}')">
-                    🖼️ Download Rx
-                  </button>
-                  ${dispImg
-                    ? `<img src="${dispImg}" alt="Rx" onclick="viewRxFullPhoto('${r.id}')" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border); cursor:pointer;" title="Tap to View Full Prescription" />`
-                    : `<span style="font-size:11px; color:#047857; font-weight:600;">✔ Synced Rx Record</span>`
-                  }
-                </div>
+                ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : `<span style="font-size:11.5px; color:#047857; font-weight:600;">✔ Synced Rx Record</span>`}
               </td>
               <td>
                 <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${r.status}</span></div>
@@ -2170,6 +1858,7 @@
       const noteEl = document.getElementById("ord_note_" + orderId);
       if (noteEl) ord.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_ORDER", ord);
+      pushConfigToCloud(false);
       renderAdminTables();
     }
 
@@ -2179,20 +1868,8 @@
       rx.status = newStatus;
       const noteEl = document.getElementById("rx_note_" + rxId);
       if (noteEl) rx.adminNote = noteEl.value.trim();
-      const safeInlineImg = rx.thumb || (rx.image && rx.image.length <= 2300 ? rx.image : "");
-      pushOrderEventToCloud("NEW_RX", {
-        id: rx.id,
-        date: rx.date,
-        name: rx.name,
-        phone: rx.phone,
-        address: rx.address,
-        notes: rx.notes,
-        adminNote: rx.adminNote,
-        image: safeInlineImg,
-        thumb: safeInlineImg,
-        fileUrl: rx.fileUrl || "",
-        status: rx.status
-      });
+      pushOrderEventToCloud("NEW_RX", rx);
+      pushConfigToCloud(false);
       renderAdminTables();
     }
 
