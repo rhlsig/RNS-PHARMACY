@@ -148,6 +148,11 @@
     .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
     .status-Rejected { background: #fee2e2; color: #b91c1c; }
 
+    /* PAYMENT RECEIVED / NOT RECEIVED PILLS */
+    .pay-pill-Received { display: inline-block; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #86efac; }
+    .pay-pill-Not-Received { display: inline-block; background: #fee2e2; color: #b91c1c; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #fca5a5; }
+    .pay-pill-Pending { display: inline-block; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid #fde68a; }
+
     table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
     th, td { border: 1px solid var(--border); padding: 9px 10px; text-align: left; vertical-align: top; }
     th { background: var(--bg); font-weight: 700; }
@@ -432,7 +437,7 @@
         <h3>🔒 Owner Portal Login</h3>
         <button type="button" class="close-btn" onclick="closeModal('adminLoginModal')">✕</button>
       </div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Access (Works on Any Mobile or Laptop)</p>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Access (Works on Any Old/New Mobile or Laptop)</p>
       <input type="password" id="adminPassInput" class="input-field" placeholder="Enter Admin Password" style="margin-bottom:12px;" onkeydown="if(event.key==='Enter') verifyAdminLogin()" />
       <button type="button" class="btn-primary" style="width:100%;" onclick="verifyAdminLogin()">Login to Owner Portal</button>
     </div>
@@ -440,7 +445,7 @@
 
   <!-- OWNER / ADMIN PORTAL MODAL -->
   <div class="modal-overlay" id="adminDashboardModal">
-    <div class="modal-box" style="max-width:1100px;">
+    <div class="modal-box" style="max-width:1120px;">
       <div class="modal-header">
         <h3>⚙️ RNS PHARMACY - Owner Portal & Billing Software</h3>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -451,8 +456,8 @@
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-        <button type="button" class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (UTR / Delivery / Note / Bill)</button>
-        <button type="button" class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Processing / Note)</button>
+        <button type="button" class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (UTR / Payment Status / Bill)</button>
+        <button type="button" class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Old & New Rx)</button>
         <button type="button" class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory & Owner Stock</button>
         <button type="button" class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes (% / ₹)</button>
       </div>
@@ -462,10 +467,10 @@
           <table>
             <thead>
               <tr>
-                <th>Order ID, Date & UTR</th>
+                <th>Order ID, UTR & Payment Status</th>
                 <th>Customer</th>
                 <th>Items, MRP & Delivery Charge Edit</th>
-                <th>Status & Admin Note</th>
+                <th>Order Status & Admin Note</th>
                 <th>Official Bill</th>
               </tr>
             </thead>
@@ -570,6 +575,31 @@
 
   <!-- ULTRA-SMOOTH & OLD/NEW DEVICE COMPATIBLE SCRIPT -->
   <script>
+    // Polyfills for 8-10 year old mobile browsers
+    if (!Array.prototype.find) {
+      Array.prototype.find = function(predicate) {
+        for (var i = 0; i < this.length; i++) {
+          if (predicate(this[i], i, this)) return this[i];
+        }
+        return undefined;
+      };
+    }
+    if (!Array.prototype.findIndex) {
+      Array.prototype.findIndex = function(predicate) {
+        for (var i = 0; i < this.length; i++) {
+          if (predicate(this[i], i, this)) return i;
+        }
+        return -1;
+      };
+    }
+    if (!String.prototype.repeat) {
+      String.prototype.repeat = function(count) {
+        var s = "";
+        for (var i = 0; i < count; i++) s += this;
+        return s;
+      };
+    }
+
     const CLOUD_TOPIC = "rns_pharm_sikta_cfg_7402_v5";
     const KEYS = {
       STOCK: "rns_stock_v2",
@@ -652,6 +682,7 @@
         adminNote: String(o.adminNote || ""),
         payMethod: String(o.payMethod || "COD"),
         utr: String(o.utr || "").trim(),
+        paymentStatus: String(o.paymentStatus || "Payment Pending"),
         promoUsed: o.promoUsed || null,
         customDeliveryCharge: calcTotals.deliveryCharge,
         items: items,
@@ -671,9 +702,9 @@
         id: String(r.id || ("RX-" + (100000 + (idx || 0)))),
         date: String(r.date || ""),
         name: String(r.name || r.customer || "Patient"),
-        phone: String(r.phone || r.mobile || "").trim(),
-        address: String(r.address || ""),
-        notes: String(r.notes || r.note || ""),
+        phone: String(r.phone || r.mobile || r.rxPhone || "").trim(),
+        address: String(r.address || r.rxAddress || ""),
+        notes: String(r.notes || r.note || r.rxNotes || ""),
         adminNote: String(r.adminNote || ""),
         image: r.image || "",
         status: String(r.status || "Pending")
@@ -714,7 +745,7 @@
       } catch (e) {}
     }
 
-    // --- CLOUD SCANNING & MULTI-DEVICE SYNC ENGINE ---
+    // --- CLOUD SCANNING & MULTI-DEVICE SYNC ENGINE (Includes Old & New Prescription Orders) ---
     async function manualCloudScan() {
       const txt = document.getElementById("syncStatusText");
       const dot = document.getElementById("syncDot");
@@ -723,25 +754,41 @@
       const ok = await syncFromCloud();
       txt.textContent = ok ? "Live Cloud Synced ✓" : "Live Cloud Synced";
       dot.style.background = "#10b981";
-      alert(ok ? "✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।" : "ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
+      alert(ok ? "✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और पुराने/नए प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।" : "ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
     }
 
     async function pushConfigToCloud(showAlert) {
       saveLocalState();
       try {
-        // Also includes recent orders summary so any new laptop/mobile opening Owner Portal gets all orders immediately
-        const recentOrdersLite = ordersList.slice(0, 25);
+        const recentOrdersLite = ordersList.slice(0, 30);
+        // Include rxSnapshot (without heavy full-size images so packet never fails on old phones)
+        const recentRxLite = rxList.slice(0, 30).map(function(r) {
+          const isSmallImg = r.image && r.image.length < 3000;
+          return {
+            id: r.id,
+            date: r.date,
+            name: r.name,
+            phone: r.phone,
+            address: r.address,
+            notes: r.notes,
+            adminNote: r.adminNote || "",
+            image: isSmallImg ? r.image : "",
+            status: r.status || "Pending"
+          };
+        });
+
         const payload = {
           type: "CONFIG_SYNC",
           ts: Date.now(),
           stock: stockList,
           promos: promosList,
           reviews: reviewsList,
-          ordersSnapshot: recentOrdersLite
+          ordersSnapshot: recentOrdersLite,
+          rxSnapshot: recentRxLite
         };
         await fetch("https://ntfy.sh/" + CLOUD_TOPIC, { method: "POST", body: JSON.stringify(payload) });
         updateSyncIndicator(true);
-        if (showAlert) alert("☁️ सारा डेटा क्लाउड पर सफलतापूर्वक सिंक हो गया! अब किसी भी लैपटॉप या मोबाइल में दिखेगा।");
+        if (showAlert) alert("☁️ सारा डेटा (Orders + Old/New Prescriptions + Stock) क्लाउड पर सिंक हो गया! अब पुराने और नए हर मोबाइल/लैपटॉप में दिखेगा।");
       } catch (err) {
         updateSyncIndicator(false);
       }
@@ -777,7 +824,8 @@
 
     async function syncFromCloud() {
       try {
-        const res = await fetch("https://ntfy.sh/" + CLOUD_TOPIC + "/json?poll=1&since=72h");
+        // Pulls up to 30 days (720h) of cloud history so old prescriptions & orders always appear on old phones
+        const res = await fetch("https://ntfy.sh/" + CLOUD_TOPIC + "/json?poll=1&since=720h");
         const text = await res.text();
         const lines = text.trim().split("\n");
         for (let i = 0; i < lines.length; i++) {
@@ -800,6 +848,28 @@
       }
     }
 
+    function mergeRxIntoList(incomingRx) {
+      const normRx = normalizeRxObj(incomingRx);
+      if (!normRx) return;
+      const idx = rxList.findIndex(function(r) { return r.id === normRx.id; });
+      if (idx >= 0) {
+        const existingImg = rxList[idx].image;
+        rxList[idx] = {
+          id: normRx.id,
+          date: normRx.date || rxList[idx].date,
+          name: normRx.name || rxList[idx].name,
+          phone: normRx.phone || rxList[idx].phone,
+          address: normRx.address || rxList[idx].address,
+          notes: normRx.notes || rxList[idx].notes,
+          adminNote: normRx.adminNote !== undefined ? normRx.adminNote : rxList[idx].adminNote,
+          image: (normRx.image && normRx.image.length >= (existingImg ? existingImg.length : 0)) ? normRx.image : existingImg,
+          status: normRx.status || rxList[idx].status
+        };
+      } else {
+        rxList.push(normRx);
+      }
+    }
+
     function handleCloudPayload(msg, shouldRender) {
       if (!msg) return;
       if (msg.type === "CONFIG_SYNC" || Array.isArray(msg.stock)) {
@@ -811,8 +881,14 @@
             const normOrd = normalizeOrderObj(snapOrd);
             if (normOrd) {
               const idx = ordersList.findIndex(function(o) { return o.id === normOrd.id; });
-              if (idx === -1) ordersList.push(normOrd);
+              if (idx >= 0) ordersList[idx] = normOrd;
+              else ordersList.push(normOrd);
             }
+          });
+        }
+        if (Array.isArray(msg.rxSnapshot)) {
+          msg.rxSnapshot.forEach(function(snapRx) {
+            mergeRxIntoList(snapRx);
           });
         }
       } else if (msg.type === "NEW_ORDER" && msg.data) {
@@ -822,18 +898,8 @@
           if (idx >= 0) ordersList[idx] = normOrd;
           else ordersList.unshift(normOrd);
         }
-      } else if (msg.type === "NEW_RX" && msg.data) {
-        const normRx = normalizeRxObj(msg.data);
-        if (normRx) {
-          const idx = rxList.findIndex(function(r) { return r.id === normRx.id; });
-          if (idx >= 0) {
-            const existingImg = rxList[idx].image;
-            rxList[idx] = Object.assign({}, rxList[idx], normRx);
-            if (!normRx.image && existingImg) rxList[idx].image = existingImg;
-          } else {
-            rxList.unshift(normRx);
-          }
-        }
+      } else if ((msg.type === "NEW_RX" || msg.type === "RX_ORDER") && (msg.data || msg.id)) {
+        mergeRxIntoList(msg.data || msg);
       } else if (msg.type === "RX_IMG_SYNC" && msg.rxId && msg.image) {
         const idx = rxList.findIndex(function(r) { return r.id === msg.rxId; });
         if (idx >= 0) rxList[idx].image = msg.image;
@@ -1200,6 +1266,7 @@
         adminNote: "",
         payMethod: payMethod,
         utr: utr,
+        paymentStatus: "Payment Pending",
         promoUsed: activePromo ? JSON.parse(JSON.stringify(activePromo)) : null,
         customDeliveryCharge: totals.deliveryCharge,
         items: JSON.parse(JSON.stringify(cart)),
@@ -1234,7 +1301,7 @@
       alert("✅ आपका ऑर्डर और बिल सफलतापूर्वक जनरेट हो गया! Order ID: " + orderId);
     }
 
-    // --- PRESCRIPTION UPLOAD ---
+    // --- PRESCRIPTION UPLOAD (Guaranteed < 3KB Preview Packet + Snapshot Sync for Old Mobiles) ---
     function compressImageFile(file, maxDim, quality) {
       return new Promise(function(resolve) {
         const reader = new FileReader();
@@ -1277,7 +1344,8 @@
 
       try {
         const file = fileInput.files[0];
-        const tinyPreview = await compressImageFile(file, 180, 0.4);
+        // 110px preview (~1.2KB) so it stays under 4KB ntfy text limit and works on 10-year-old phones
+        const tinyPreview = await compressImageFile(file, 110, 0.35);
         const clearRxImage = await compressImageFile(file, 850, 0.65);
 
         const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
@@ -1293,6 +1361,9 @@
         await pushOrderEventToCloud("NEW_RX", {
           id: rxId, date: rxDate, name: name, phone: phone, address: address, notes: notes, adminNote: "", image: tinyPreview, status: "Pending"
         });
+
+        // Also push CONFIG_SYNC so rxSnapshot is immediately saved for all old/new devices
+        pushConfigToCloud(false);
 
         fetch("https://ntfy.sh/" + CLOUD_TOPIC, {
           method: "POST",
@@ -1311,18 +1382,28 @@
       }
     }
 
-    // --- UNIVERSAL TRACKING (Works on 10-Year-Old Mobiles, Supports Leading 0, +91, 4-5 Digits, or Order ID) ---
+    // --- UNIVERSAL TRACKING (Shows Payment Received / Payment Not Received Status & Admin Notes) ---
     function openTrackModalAndSync() {
       openModal("trackModal");
       syncFromCloud();
     }
 
     function cleanPhoneDigitsForMatch(str) {
-      // Remove all non-digits, then strip leading 91 or 0 so "07668" matches "7668273774"
       let d = String(str || "").replace(/\D/g, "");
       if (d.length > 10 && d.indexOf("91") === 0) d = d.substring(2);
       d = d.replace(/^0+/, "");
       return d;
+    }
+
+    function getPaymentStatusBadgeHtml(payStatus) {
+      const s = String(payStatus || "Payment Pending");
+      if (s === "Payment Received") {
+        return `<span class="pay-pill-Received">✅ Payment Received (पेमेंट प्राप्त)</span>`;
+      }
+      if (s === "Payment Not Received") {
+        return `<span class="pay-pill-Not-Received">❌ Payment Not Received (पेमेंट प्राप्त नहीं हुआ)</span>`;
+      }
+      return `<span class="pay-pill-Pending">⏳ Payment Verification Pending</span>`;
     }
 
     function searchCustomerTracking() {
@@ -1357,7 +1438,8 @@
         const pillClass = "status-" + o.status.replace(/\s+/g, "-");
         const deliv = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
         const pkg = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
-        const utrBadge = o.utr ? ` | <strong>UTR:</strong> ${o.utr}` : "";
+        const utrBadge = o.utr ? ` | <strong>UTR:</strong> ${o.utr}` : ` | <strong>UTR:</strong> Not Entered`;
+        const payStatusHtml = getPaymentStatusBadgeHtml(o.paymentStatus);
         const adminNoteHtml = o.adminNote
           ? `<div style="background:#fef3c7; color:#92400e; padding:8px 10px; border-radius:8px; font-size:12.5px; margin:6px 0; border-left:3px solid #f59e0b;">
                <strong>📢 फार्मासिस्ट नोट (Admin Remark):</strong> ${o.adminNote}
@@ -1366,12 +1448,15 @@
 
         html += `
           <div style="border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
               <strong>Order ID: ${o.id}</strong>
-              <span class="status-pill ${pillClass}">${o.status}</span>
+              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                ${payStatusHtml}
+                <span class="status-pill ${pillClass}">${o.status}</span>
+              </div>
             </div>
-            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Customer: ${o.customer} (${o.phone}) | Date: ${o.date} | Pay: ${o.payMethod}${utrBadge}</div>
-            <div style="font-size:12.5px; margin-bottom:4px;">
+            <div style="font-size:12px; color:var(--muted); margin:5px 0;">Customer: ${o.customer} (${o.phone}) | Date: ${o.date} | Pay Mode: ${o.payMethod}${utrBadge}</div>
+            <div style="font-size:12.5px; margin-bottom:6px;">
               Delivery: ₹${deliv} | Packaging: ₹${pkg} | <strong>Net Payable Bill: ₹${o.totals.grandTotal}</strong>
             </div>
             ${adminNoteHtml}
@@ -1451,12 +1536,13 @@
       const revObj = { name: name, mobile: maskedMobile, rating: Number(rating), comment: comment, date: new Date().toLocaleDateString() };
       reviewsList.unshift(revObj);
       pushOrderEventToCloud("NEW_REVIEW", revObj);
+      pushConfigToCloud(false);
       renderReviews();
       e.target.reset();
       alert("🙏 धन्यवाद! आपका वेरीफाइड रिव्यू जुड़ गया है।");
     }
 
-    // --- OWNER PORTAL LOGIN (Works Seamlessly on Any Laptop or Other Mobile + Auto Cloud Sync) ---
+    // --- OWNER PORTAL LOGIN (Works Seamlessly on Any Old/New Mobile or Laptop) ---
     function verifyAdminLogin() {
       const pass = String(document.getElementById("adminPassInput").value || "").trim();
       if (pass === "7402") {
@@ -1467,7 +1553,6 @@
           ordersList = normalizeOrdersArray(ordersList);
           rxList = normalizeRxArray(rxList);
           renderAdminTables();
-          // Automatically pull latest cloud orders & inventory when opened on a new laptop or mobile
           syncFromCloud();
         } catch (err) {}
       } else {
@@ -1481,6 +1566,17 @@
         tabs[i].style.display = "none";
       }
       document.getElementById(tabId).style.display = "block";
+    }
+
+    // Update Payment Received / Payment Not Received Status
+    function updateOrderPaymentStatus(orderId, newPayStatus) {
+      const ord = ordersList.find(function(o) { return o.id === orderId; });
+      if (!ord) return;
+      ord.paymentStatus = newPayStatus;
+      pushOrderEventToCloud("NEW_ORDER", ord);
+      pushConfigToCloud(false);
+      renderAdminTables();
+      alert("✅ Order " + orderId + " का पेमेंट स्टेटस '" + newPayStatus + "' अपडेट कर दिया गया है! अब यह बिल और कस्टमर ट्रैकिंग दोनों में दिखेगा।");
     }
 
     function editOrderItemMrp(orderId, itemIdx) {
@@ -1544,6 +1640,7 @@
       const noteEl = document.getElementById("rx_note_" + rxId);
       if (noteEl) rx.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_RX", rx);
+      pushConfigToCloud(false);
       renderAdminTables();
       alert("✅ Prescription " + rxId + " का नोट सेव और सिंक हो गया!");
     }
@@ -1606,11 +1703,11 @@
           const pillClass = "status-" + o.status.replace(/\s+/g, "-");
           const delivVal = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
           const pkgVal = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
-          const utrHtml = o.payMethod === "UPI"
-            ? (o.utr
-                ? `<div style="margin-top:4px; font-size:11px; background:#dcfce7; color:#15803d; padding:3px 6px; border-radius:5px; font-weight:700;">UTR: ${o.utr}</div>`
-                : `<div style="margin-top:4px; font-size:11px; background:#fef3c7; color:#b45309; padding:3px 6px; border-radius:5px;">UTR: Not Entered</div>`)
-            : "";
+          const utrHtml = o.utr
+            ? `<div style="margin-top:4px; font-size:11px; background:#dcfce7; color:#15803d; padding:3px 6px; border-radius:5px; font-weight:700;">UTR: ${o.utr}</div>`
+            : `<div style="margin-top:4px; font-size:11px; background:#fef3c7; color:#b45309; padding:3px 6px; border-radius:5px;">UTR: Not Entered</div>`;
+
+          const payBadge = getPaymentStatusBadgeHtml(o.paymentStatus);
 
           const itemsWithEditHtml = o.items.map(function(i, iIdx) {
             return `
@@ -1630,8 +1727,14 @@
               <td>
                 <strong>${o.id}</strong><br/>
                 <span style="font-size:11px;color:var(--muted);">${o.date}</span><br/>
-                <span style="font-size:11.5px; font-weight:700;">Pay: ${o.payMethod}</span>
+                <span style="font-size:11.5px; font-weight:700;">Pay Mode: ${o.payMethod}</span>
                 ${utrHtml}
+                <div style="margin-top:6px;">${payBadge}</div>
+                <select class="input-field" style="margin-top:5px; padding:5px 6px; font-size:11.5px; font-weight:700;" onchange="updateOrderPaymentStatus('${o.id}', this.value)">
+                  <option value="Payment Pending" ${o.paymentStatus === "Payment Pending" ? "selected" : ""}>⏳ Payment Pending</option>
+                  <option value="Payment Received" ${o.paymentStatus === "Payment Received" ? "selected" : ""}>✅ Payment Received</option>
+                  <option value="Payment Not Received" ${o.paymentStatus === "Payment Not Received" ? "selected" : ""}>❌ Payment Not Received</option>
+                </select>
               </td>
               <td>
                 <strong>${o.customer}</strong><br/>
@@ -1690,7 +1793,7 @@
               <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
               <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
               <td>
-                ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : "No Image"}
+                ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : `<span style="font-size:11.5px; color:#047857; font-weight:600;">✔ Synced Rx Record</span>`}
               </td>
               <td>
                 <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${r.status}</span></div>
@@ -1766,6 +1869,7 @@
       const noteEl = document.getElementById("rx_note_" + rxId);
       if (noteEl) rx.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_RX", rx);
+      pushConfigToCloud(false);
       renderAdminTables();
     }
 
@@ -1792,7 +1896,7 @@
       renderAdminTables();
     }
 
-    // --- OFFICIAL PRINT BILL (Includes UTR Number if Provided) ---
+    // --- OFFICIAL PRINT BILL (Includes UTR Number & Payment Received / Not Received Status) ---
     function printBill(orderId) {
       const rawOrd = ordersList.find(function(o) { return o.id === orderId; });
       if (!rawOrd) return;
@@ -1822,9 +1926,11 @@
            </div>`
         : "";
 
-      const utrLineHtml = ord.utr ? `<br/>UTR / UPI Ref No.: <strong>${ord.utr}</strong>` : "";
+      const utrLineHtml = `<br/>UTR / UPI Ref No.: <strong>${ord.utr || "Not Entered"}</strong>`;
+      const payColor = ord.paymentStatus === "Payment Received" ? "#15803d" : (ord.paymentStatus === "Payment Not Received" ? "#b91c1c" : "#b45309");
+      const payStatusLineHtml = `<br/>Payment Status: <strong style="color:${payColor};">${ord.paymentStatus}</strong>`;
 
-      const win = window.open("", "_blank", "width=850,height=720");
+      const win = window.open("", "_blank", "width=850,height=740");
       win.document.write(`
         <html>
         <head>
@@ -1852,7 +1958,7 @@
                 <strong>INVOICE / CASH MEMO</strong><br/>
                 Order ID: <strong>${ord.id}</strong><br/>
                 Date: ${ord.date}<br/>
-                Status: <strong>${ord.status}</strong> (${ord.payMethod})${utrLineHtml}
+                Order Status: <strong>${ord.status}</strong> (${ord.payMethod})${utrLineHtml}${payStatusLineHtml}
               </div>
             </div>
             <div style="font-size:13px; margin-bottom:10px;">
@@ -1882,6 +1988,7 @@
               <div>Delivery Charge: <strong>+ ₹${delivCharge.toFixed(2)}</strong></div>
               <div>Packaging Charge: <strong>+ ₹${pkgCharge.toFixed(2)}</strong></div>
               <div style="font-size:18px; margin-top:6px;"><strong>Grand Total Payable: ₹${ord.totals.grandTotal.toFixed(2)}</strong></div>
+              <div style="font-size:14px; margin-top:4px; color:${payColor};"><strong>Payment Status: ${ord.paymentStatus}</strong></div>
               ${ord.totals.totalSaved > 0 ? `<div style="color:#15803d; font-weight:bold; margin-top:4px;">Total Customer Savings on MRP: ₹${ord.totals.totalSaved.toFixed(2)}</div>` : ""}
             </div>
             <div style="margin-top:28px; display:flex; justify-content:space-between; align-items:center; font-size:12px; border-top:1px dashed #94a3b8; padding-top:12px;">
