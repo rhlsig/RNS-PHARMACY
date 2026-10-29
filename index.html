@@ -16,11 +16,10 @@
       --bg: #0b1120; --card: #1e293b; --text: #f8fafc;
       --muted: #94a3b8; --border: #334155; --primary-bg: #132a28;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; overflow-x: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
 
-    .top-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 18px; position: -webkit-sticky; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    .top-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 18px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
     .header-container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; align-items: flex-start; gap: 18px; }
     .brand-left { display: flex; align-items: flex-start; gap: 12px; flex: 1 1 auto; min-width: 0; padding-right: 6px; }
     .store-icon-box { width: 46px; height: 46px; border-radius: 12px; background: #108565; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; margin-top: 2px; box-shadow: 0 4px 10px rgba(16,133,101,0.25); }
@@ -115,28 +114,16 @@
     .btn-outline { background: transparent; color: #108565; border: 1px solid #108565; padding: 9px 14px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
 
     .reviews-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 30px; }
-    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 16px 0 12px; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 16px 0; }
     .review-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-    .review-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; padding-top: 14px; border-top: 1px dashed var(--border); margin-top: 12px; }
+    .review-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; padding-top: 14px; border-top: 1px dashed var(--border); }
     .input-field { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13.5px; }
 
-    /* COMPATIBLE WITH 10-YEAR-OLD PHONES & ALL LAPTOPS */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      width: 100%; height: 100%;
-      background: rgba(15,23,42,0.65);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      padding: 14px;
-      overflow-y: auto;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.65); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 14px; overflow-y: auto; }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 740px; max-height: 90vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); margin: auto; }
+    .modal-box { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 740px; max-height: 90vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
     .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
-    .close-btn { background: var(--danger); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: 800; cursor: pointer; flex-shrink: 0; }
+    .close-btn { background: var(--danger); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: 800; cursor: pointer; }
     .custom-med-box { background: var(--primary-bg); border: 1px dashed #108565; border-radius: 12px; padding: 14px; margin: 14px 0; }
     .custom-med-box h4 { font-size: 13.5px; color: #047857; margin-bottom: 8px; }
 
@@ -147,11 +134,6 @@
     .status-In-Transit { background: #e0e7ff; color: #4338ca; }
     .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
     .status-Rejected { background: #fee2e2; color: #b91c1c; }
-
-    /* PAYMENT RECEIVED / NOT RECEIVED PILLS */
-    .pay-pill-Received { display: inline-block; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #86efac; }
-    .pay-pill-Not-Received { display: inline-block; background: #fee2e2; color: #b91c1c; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #fca5a5; }
-    .pay-pill-Pending { display: inline-block; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid #fde68a; }
 
     table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
     th, td { border: 1px solid var(--border); padding: 9px 10px; text-align: left; vertical-align: top; }
@@ -200,15 +182,15 @@
       <div class="header-right">
         <div class="nav-row-top">
           <div class="mode-switch-group">
-            <button type="button" class="btn-tab-top active" onclick="window.scrollTo(0,0)">Customer Store</button>
-            <button type="button" class="btn-tab-top" onclick="openModal('adminLoginModal')">🔒 Owner Portal</button>
+            <button class="btn-tab-top active" onclick="window.scrollTo({top:0, behavior:'smooth'})">Customer Store</button>
+            <button class="btn-tab-top" onclick="openModal('adminLoginModal')">🔒 Owner Portal</button>
           </div>
-          <button type="button" class="btn-lang" onclick="toggleLang()" id="langBtn">🇮🇳 हिंदी</button>
+          <button class="btn-lang" onclick="toggleLang()" id="langBtn">🇮🇳 हिंदी</button>
         </div>
         <div class="nav-row-bottom">
-          <button type="button" class="btn-moon" onclick="toggleDarkMode()" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
-          <button type="button" class="btn-track-pill" onclick="openTrackModalAndSync()">📦 Track Order</button>
-          <button type="button" class="btn-cart-navy" onclick="openModal('cartModal')">
+          <button class="btn-moon" onclick="toggleDarkMode()" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
+          <button class="btn-track-pill" onclick="openModal('trackModal')">📦 Track Order</button>
+          <button class="btn-cart-navy" onclick="openModal('cartModal')">
             🛒 Cart (<span id="cartCount">0</span>) <span class="amt" id="cartHeaderAmt">₹0.00</span>
           </button>
           <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines"
@@ -264,13 +246,13 @@
           </p>
         </div>
       </div>
-      <button type="button" class="btn-upload-rx-green" onclick="openModal('rxModal')">↑ Upload Prescription</button>
+      <button class="btn-upload-rx-green" onclick="openModal('rxModal')">↑ Upload Prescription</button>
     </section>
 
     <section class="search-wrap">
       <input type="text" id="searchMed" class="search-input"
              placeholder="🔍 दवा का नाम, जेनेरिक साल्ट, कंपनी या बैच नंबर लिखकर सर्च करें..."
-             oninput="debouncedRenderCatalog()" />
+             oninput="renderCatalog()" />
       <button type="button" class="btn-direct-custom" onclick="openModal('directCustomModal')">
         ➕ दवा नहीं मिल रही? यहाँ से सीधे जोड़ें
       </button>
@@ -278,18 +260,12 @@
 
     <section class="product-grid" id="productGrid"></section>
 
-    <!-- VERIFIED CUSTOMER REVIEWS (Shows Latest 3 + View More Button) -->
     <section class="reviews-section">
       <div>
         <h3>⭐ Verified Customer Reviews (वेरीफाइड कस्टमर रिव्यू)</h3>
         <p style="font-size:12.5px; color:var(--muted);">Real feedback from our valued patients & customers in Sikta, Kushinagar</p>
       </div>
       <div class="reviews-grid" id="reviewsGrid"></div>
-      <div id="reviewsToggleWrap" style="text-align:center; margin-bottom:10px; display:none;">
-        <button type="button" id="viewMoreReviewsBtn" class="btn-outline" style="padding:7px 18px; border-radius:999px;" onclick="toggleViewMoreReviews()">
-          View More
-        </button>
-      </div>
       <form class="review-form" onsubmit="submitCustomerReview(event)">
         <input type="text" id="revName" class="input-field" placeholder="Your Name (आपका नाम) *" required />
         <input type="tel" id="revMobile" class="input-field" placeholder="Mobile Number (मोबाइल नंबर) *" pattern="[0-9]{10}" required />
@@ -309,7 +285,7 @@
     <div class="modal-box" style="max-width:480px;">
       <div class="modal-header">
         <h3>➕ अपनी दवा सीधे जोड़ें (Direct Add Medicine)</h3>
-        <button type="button" class="close-btn" onclick="closeModal('directCustomModal')">✕</button>
+        <button class="close-btn" onclick="closeModal('directCustomModal')">✕</button>
       </div>
       <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">
         यदि कोई दवा हमारी लिस्ट में नहीं है या आप सीधे अपनी दवा जोड़कर बिल बनाना चाहते हैं, तो नीचे <strong>Product Name</strong> और <strong>MRP</strong> दर्ज करें:
@@ -324,12 +300,12 @@
     </div>
   </div>
 
-  <!-- CART & CHECKOUT MODAL (Includes Optional UTR Input Under UPI QR) -->
+  <!-- CART & CHECKOUT MODAL -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-box">
       <div class="modal-header">
         <h3>🛒 Your Medicine Cart & Bill Checkout</h3>
-        <button type="button" class="close-btn" onclick="closeModal('cartModal')">✕</button>
+        <button class="close-btn" onclick="closeModal('cartModal')">✕</button>
       </div>
       <div id="cartItemsContainer"></div>
 
@@ -347,7 +323,7 @@
 
       <div style="margin-top:12px; display:flex; gap:8px;">
         <input type="text" id="promoInput" class="input-field" placeholder="Enter Promo Code (e.g. RNS10)" />
-        <button type="button" class="btn-primary" onclick="applyPromoCode()">Apply</button>
+        <button class="btn-primary" onclick="applyPromoCode()">Apply</button>
       </div>
 
       <div id="cartSummaryBox" style="margin-top:14px; padding:12px; background:var(--bg); border-radius:10px; font-size:14px;"></div>
@@ -362,32 +338,22 @@
       <input type="text" id="custNote" class="input-field" placeholder="Optional Note (Doctor name / delivery timing)" style="margin-bottom:10px;" />
 
       <div style="margin-bottom:12px;">
-        <label style="font-weight:600; font-size:13px; margin-right:16px; cursor:pointer;">
+        <label style="font-weight:600; font-size:13px; margin-right:16px;">
           <input type="radio" name="payMethod" value="UPI" checked onchange="toggleUpiBox()" /> UPI QR Scan (rahul9656170@slc)
         </label>
-        <label style="font-weight:600; font-size:13px; cursor:pointer;">
+        <label style="font-weight:600; font-size:13px;">
           <input type="radio" name="payMethod" value="COD" onchange="toggleUpiBox()" /> Cash on Delivery (COD)
         </label>
       </div>
 
-      <!-- UPI QR + UTR NUMBER INPUT (OPTIONAL - SUBMIT BUTTONS ALWAYS ENABLED) -->
-      <div id="upiQrBox" style="text-align:center; padding:14px; border:1px dashed #108565; border-radius:10px; margin-bottom:12px; background:var(--primary-bg);">
-        <p style="font-size:12.5px; font-weight:700; margin-bottom:8px; color:#047857;">Scan Dynamic UPI QR to Pay (UPI ID: rahul9656170@slc)</p>
-        <img id="upiQrImg" src="" alt="UPI QR Code" style="width:160px; height:160px; border-radius:8px; background:#fff; padding:4px; border:1px solid var(--border);" />
-        <div style="max-width:360px; margin:10px auto 0; text-align:left;">
-          <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px; color:var(--text);">
-            🔢 Enter UTR / UPI Reference No. (Optional):
-          </label>
-          <input type="text" id="custUtr" class="input-field" placeholder="Enter 12-Digit UTR Number (यदि पेमेंट कर दिया है तो डालें)" style="background:var(--card);" />
-          <span style="font-size:11px; color:var(--muted); display:block; margin-top:3px;">
-            * UTR नंबर डालना वैकल्पिक है, आप बिना UTR डाले भी नीचे ऑर्डर सबमिट कर सकते हैं।
-          </span>
-        </div>
+      <div id="upiQrBox" style="text-align:center; padding:12px; border:1px dashed #108565; border-radius:10px; margin-bottom:12px;">
+        <p style="font-size:12px; font-weight:600; margin-bottom:6px;">Scan Dynamic UPI QR to Pay (UPI ID: rahul9656170@slc)</p>
+        <img id="upiQrImg" src="" alt="UPI QR Code" style="width:160px; height:160px; border-radius:8px;" />
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:10px;">
-        <button type="button" class="btn-primary" style="flex:1;" onclick="placePortalOrder(false)">✅ Place Order & Generate Bill</button>
-        <button type="button" class="btn-primary" style="flex:1; background:#25D366;" onclick="placePortalOrder(true)">📲 Confirm & Send on WhatsApp</button>
+        <button class="btn-primary" style="flex:1;" onclick="placePortalOrder(false)">✅ Place Order & Generate Bill</button>
+        <button class="btn-primary" style="flex:1; background:#25D366;" onclick="placePortalOrder(true)">📲 Confirm & Send on WhatsApp</button>
       </div>
     </div>
   </div>
@@ -397,7 +363,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3>📄 Upload Doctor's Prescription Slip</h3>
-        <button type="button" class="close-btn" onclick="closeModal('rxModal')">✕</button>
+        <button class="close-btn" onclick="closeModal('rxModal')">✕</button>
       </div>
       <form onsubmit="submitPrescription(event)">
         <div style="display:grid; gap:10px;">
@@ -420,11 +386,11 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3>📦 Track Order & Prescription Status</h3>
-        <button type="button" class="close-btn" onclick="closeModal('trackModal')">✕</button>
+        <button class="close-btn" onclick="closeModal('trackModal')">✕</button>
       </div>
       <div style="display:flex; gap:8px; margin-bottom:14px;">
-        <input type="text" id="trackInput" class="input-field" placeholder="मोबाइल नंबर (4-10 अंक या 0 लगा कर) या Order/Rx ID डालें..." onkeydown="if(event.key==='Enter') searchCustomerTracking()" />
-        <button type="button" class="btn-primary" onclick="searchCustomerTracking()">Search Status</button>
+        <input type="text" id="trackInput" class="input-field" placeholder="Enter 10-Digit Mobile Number or Order/Rx ID..." />
+        <button class="btn-primary" onclick="searchCustomerTracking()">Search Status</button>
       </div>
       <div id="trackResultsContainer"></div>
     </div>
@@ -435,31 +401,31 @@
     <div class="modal-box" style="max-width:400px;">
       <div class="modal-header">
         <h3>🔒 Owner Portal Login</h3>
-        <button type="button" class="close-btn" onclick="closeModal('adminLoginModal')">✕</button>
+        <button class="close-btn" onclick="closeModal('adminLoginModal')">✕</button>
       </div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Access (Works on Any Old/New Mobile or Laptop)</p>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Access Only</p>
       <input type="password" id="adminPassInput" class="input-field" placeholder="Enter Admin Password" style="margin-bottom:12px;" onkeydown="if(event.key==='Enter') verifyAdminLogin()" />
-      <button type="button" class="btn-primary" style="width:100%;" onclick="verifyAdminLogin()">Login to Owner Portal</button>
+      <button class="btn-primary" style="width:100%;" onclick="verifyAdminLogin()">Login to Owner Portal</button>
     </div>
   </div>
 
   <!-- OWNER / ADMIN PORTAL MODAL -->
   <div class="modal-overlay" id="adminDashboardModal">
-    <div class="modal-box" style="max-width:1120px;">
+    <div class="modal-box" style="max-width:1100px;">
       <div class="modal-header">
         <h3>⚙️ RNS PHARMACY - Owner Portal & Billing Software</h3>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button type="button" class="btn-outline" onclick="manualCloudScan()">🔄 Scan & Sync Cloud</button>
-          <button type="button" class="btn-primary" onclick="pushConfigToCloud(true)">☁️ Push All Data to Cloud</button>
-          <button type="button" class="close-btn" onclick="closeModal('adminDashboardModal')">✕</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-outline" onclick="manualCloudScan()">🔄 Scan & Sync Cloud</button>
+          <button class="btn-primary" onclick="pushConfigToCloud(true)">☁️ Push Inventory to Cloud</button>
+          <button class="close-btn" onclick="closeModal('adminDashboardModal')">✕</button>
         </div>
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
-        <button type="button" class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (UTR / Payment Status / Bill)</button>
-        <button type="button" class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Old & New Rx)</button>
-        <button type="button" class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory & Owner Stock</button>
-        <button type="button" class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes (% / ₹)</button>
+        <button class="btn-outline" onclick="switchAdminTab('ordersTab')">📦 Orders (Delivery Charge / Note / Status / Bill)</button>
+        <button class="btn-outline" onclick="switchAdminTab('rxTab')">📄 Prescriptions (Accept / Processing / Note)</button>
+        <button class="btn-outline" onclick="switchAdminTab('stockTab')">💊 Inventory & Owner Stock</button>
+        <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes (% / ₹)</button>
       </div>
 
       <div id="ordersTab" class="admin-tab-content">
@@ -467,10 +433,10 @@
           <table>
             <thead>
               <tr>
-                <th>Order ID, UTR & Payment Status</th>
+                <th>Order ID & Date</th>
                 <th>Customer</th>
                 <th>Items, MRP & Delivery Charge Edit</th>
-                <th>Order Status & Admin Note</th>
+                <th>Status & Admin Note</th>
                 <th>Official Bill</th>
               </tr>
             </thead>
@@ -539,7 +505,7 @@
             <option value="FLAT">Rupees (₹)</option>
           </select>
           <input type="number" step="0.01" id="newPromoDisc" class="input-field" placeholder="Enter % (e.g. 10)" />
-          <button type="button" class="btn-primary" onclick="addPromoCode()">+ Add Promo</button>
+          <button class="btn-primary" onclick="addPromoCode()">+ Add Promo</button>
         </div>
         <div id="adminPromoList"></div>
       </div>
@@ -564,7 +530,7 @@
       <div>
         <h3>Quick Services</h3>
         <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines" target="_blank" rel="noopener noreferrer">💬 Order Directly on WhatsApp Shop</a>
-        <a href="javascript:void(0)" onclick="openTrackModalAndSync()">📦 Track Your Order / Prescription</a>
+        <a href="javascript:void(0)" onclick="openModal('trackModal')">📦 Track Your Order / Prescription</a>
         <a href="javascript:void(0)" onclick="openModal('rxModal')">📄 Upload Doctor Prescription</a>
       </div>
     </div>
@@ -573,33 +539,8 @@
     </div>
   </footer>
 
-  <!-- ULTRA-SMOOTH & OLD/NEW DEVICE COMPATIBLE SCRIPT -->
+  <!-- SMOOTH APPLICATION & CLOUD SYNC SCRIPT -->
   <script>
-    // Polyfills for 8-10 year old mobile browsers
-    if (!Array.prototype.find) {
-      Array.prototype.find = function(predicate) {
-        for (var i = 0; i < this.length; i++) {
-          if (predicate(this[i], i, this)) return this[i];
-        }
-        return undefined;
-      };
-    }
-    if (!Array.prototype.findIndex) {
-      Array.prototype.findIndex = function(predicate) {
-        for (var i = 0; i < this.length; i++) {
-          if (predicate(this[i], i, this)) return i;
-        }
-        return -1;
-      };
-    }
-    if (!String.prototype.repeat) {
-      String.prototype.repeat = function(count) {
-        var s = "";
-        for (var i = 0; i < count; i++) s += this;
-        return s;
-      };
-    }
-
     const CLOUD_TOPIC = "rns_pharm_sikta_cfg_7402_v5";
     const KEYS = {
       STOCK: "rns_stock_v2",
@@ -623,48 +564,41 @@
 
     const DEFAULT_REVIEWS = [
       { name: "Amit Singh", mobile: "98******12", rating: 5, comment: "100% original medicines with proper batch & expiry bill. Fast delivery in Sikta!", date: "Oct 2026" },
-      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Genuine discount on MRP and 24×7 Helpline & Order Booking.", date: "Oct 2026" },
-      { name: "Rajesh Verma", mobile: "91******88", rating: 5, comment: "Very smooth online ordering and instant WhatsApp bill support.", date: "Oct 2026" }
+      { name: "Sandeep Kushwaha", mobile: "76******45", rating: 5, comment: "Genuine discount on MRP and 24×7 Helpline & Order Booking.", date: "Oct 2026" }
     ];
-
-    let showAllReviews = false;
-    let searchDebounceTimer = null;
 
     function normalizeStockArray(arr) {
       if (!Array.isArray(arr) || arr.length === 0) return DEFAULT_STOCK;
-      return arr.map(function(item, idx) {
-        return {
-          id: String(item.id || ("M_" + idx)),
-          name: String(item.name || "Medicine"),
-          generic: (item.generic && item.generic !== "undefined") ? String(item.generic) : "Standard Generic Formula",
-          company: (item.company && item.company !== "undefined") ? String(item.company) : "Standard Marketing Co.",
-          pack: (item.pack && item.pack !== "undefined") ? String(item.pack) : (item.size || "Standard Pack"),
-          batch: (item.batch && item.batch !== "undefined") ? String(item.batch) : "Verified",
-          exp: (item.exp && item.exp !== "undefined") ? String(item.exp) : "12/2028",
-          mrp: parseFloat(item.mrp) || parseFloat(item.price) || 0,
-          price: parseFloat(item.price) || parseFloat(item.mrp) || 0,
-          stock: (item.stock !== undefined && item.stock !== null && item.stock !== "" && !isNaN(parseInt(item.stock, 10))) ? parseInt(item.stock, 10) : 40
-        };
-      });
+      return arr.map((item, idx) => ({
+        id: String(item.id || ("M_" + idx)),
+        name: String(item.name || "Medicine"),
+        generic: (item.generic && item.generic !== "undefined") ? String(item.generic) : "Standard Generic Formula",
+        company: (item.company && item.company !== "undefined") ? String(item.company) : "Standard Marketing Co.",
+        pack: (item.pack && item.pack !== "undefined") ? String(item.pack) : (item.size || "Standard Pack"),
+        batch: (item.batch && item.batch !== "undefined") ? String(item.batch) : "Verified",
+        exp: (item.exp && item.exp !== "undefined") ? String(item.exp) : "12/2028",
+        mrp: parseFloat(item.mrp) || parseFloat(item.price) || 0,
+        price: parseFloat(item.price) || parseFloat(item.mrp) || 0,
+        stock: (item.stock !== undefined && item.stock !== null && item.stock !== "" && !isNaN(parseInt(item.stock, 10))) ? parseInt(item.stock, 10) : 40
+      }));
     }
 
-    function normalizeOrderObj(o, idx) {
+    // Normalizes legacy orders so Owner Portal & Mobile Tracking NEVER crash on any device
+    function normalizeOrderObj(o, idx = 0) {
       if (!o || typeof o !== "object") return null;
-      const items = Array.isArray(o.items) ? o.items.map(function(i) {
-        return {
-          id: i.id || "ITEM",
-          name: i.name || "Medicine",
-          generic: i.generic || "",
-          company: i.company || "",
-          pack: i.pack || "Standard",
-          batch: i.batch || "Verified",
-          exp: i.exp || "Fresh",
-          mrp: parseFloat(i.mrp) || parseFloat(i.price) || 0,
-          price: parseFloat(i.price) || parseFloat(i.mrp) || 0,
-          qty: parseInt(i.qty, 10) || 1,
-          isCustom: Boolean(i.isCustom)
-        };
-      }) : [];
+      const items = Array.isArray(o.items) ? o.items.map(i => ({
+        id: i.id || "ITEM",
+        name: i.name || "Medicine",
+        generic: i.generic || "",
+        company: i.company || "",
+        pack: i.pack || "Standard",
+        batch: i.batch || "Verified",
+        exp: i.exp || "Fresh",
+        mrp: parseFloat(i.mrp) || parseFloat(i.price) || 0,
+        price: parseFloat(i.price) || parseFloat(i.mrp) || 0,
+        qty: parseInt(i.qty, 10) || 1,
+        isCustom: Boolean(i.isCustom)
+      })) : [];
 
       const rawPhone = String(o.phone || o.mobile || o.custPhone || "").trim();
       const customDeliv = (o.customDeliveryCharge !== undefined && o.customDeliveryCharge !== null)
@@ -673,7 +607,7 @@
 
       const calcTotals = calculateTotalsFromItems(items, o.promoUsed || null, customDeliv);
       return {
-        id: String(o.id || ("RNS-" + (100000 + (idx || 0)))),
+        id: String(o.id || ("RNS-" + (100000 + idx))),
         date: String(o.date || ""),
         customer: String(o.customer || o.name || "Customer"),
         phone: rawPhone,
@@ -681,8 +615,6 @@
         note: String(o.note || ""),
         adminNote: String(o.adminNote || ""),
         payMethod: String(o.payMethod || "COD"),
-        utr: String(o.utr || "").trim(),
-        paymentStatus: String(o.paymentStatus || "Payment Pending"),
         promoUsed: o.promoUsed || null,
         customDeliveryCharge: calcTotals.deliveryCharge,
         items: items,
@@ -693,18 +625,18 @@
 
     function normalizeOrdersArray(arr) {
       if (!Array.isArray(arr)) return [];
-      return arr.map(function(o, idx) { return normalizeOrderObj(o, idx); }).filter(Boolean);
+      return arr.map((o, idx) => normalizeOrderObj(o, idx)).filter(Boolean);
     }
 
-    function normalizeRxObj(r, idx) {
+    function normalizeRxObj(r, idx = 0) {
       if (!r || typeof r !== "object") return null;
       return {
-        id: String(r.id || ("RX-" + (100000 + (idx || 0)))),
+        id: String(r.id || ("RX-" + (100000 + idx))),
         date: String(r.date || ""),
         name: String(r.name || r.customer || "Patient"),
-        phone: String(r.phone || r.mobile || r.rxPhone || "").trim(),
-        address: String(r.address || r.rxAddress || ""),
-        notes: String(r.notes || r.note || r.rxNotes || ""),
+        phone: String(r.phone || r.mobile || "").trim(),
+        address: String(r.address || ""),
+        notes: String(r.notes || r.note || ""),
         adminNote: String(r.adminNote || ""),
         image: r.image || "",
         status: String(r.status || "Pending")
@@ -713,7 +645,7 @@
 
     function normalizeRxArray(arr) {
       if (!Array.isArray(arr)) return [];
-      return arr.map(function(r, idx) { return normalizeRxObj(r, idx); }).filter(Boolean);
+      return arr.map((r, idx) => normalizeRxObj(r, idx)).filter(Boolean);
     }
 
     function safeParseJSON(key, fallback) {
@@ -745,7 +677,7 @@
       } catch (e) {}
     }
 
-    // --- CLOUD SCANNING & MULTI-DEVICE SYNC ENGINE (Includes Old & New Prescription Orders) ---
+    // --- SMOOTH CLOUD SCANNING & SYNC ENGINE ---
     async function manualCloudScan() {
       const txt = document.getElementById("syncStatusText");
       const dot = document.getElementById("syncDot");
@@ -754,41 +686,16 @@
       const ok = await syncFromCloud();
       txt.textContent = ok ? "Live Cloud Synced ✓" : "Live Cloud Synced";
       dot.style.background = "#10b981";
-      alert(ok ? "✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और पुराने/नए प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।" : "ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
+      alert(ok ? "✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।" : "ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
     }
 
-    async function pushConfigToCloud(showAlert) {
+    async function pushConfigToCloud(showAlert = false) {
       saveLocalState();
       try {
-        const recentOrdersLite = ordersList.slice(0, 30);
-        // Include rxSnapshot (without heavy full-size images so packet never fails on old phones)
-        const recentRxLite = rxList.slice(0, 30).map(function(r) {
-          const isSmallImg = r.image && r.image.length < 3000;
-          return {
-            id: r.id,
-            date: r.date,
-            name: r.name,
-            phone: r.phone,
-            address: r.address,
-            notes: r.notes,
-            adminNote: r.adminNote || "",
-            image: isSmallImg ? r.image : "",
-            status: r.status || "Pending"
-          };
-        });
-
-        const payload = {
-          type: "CONFIG_SYNC",
-          ts: Date.now(),
-          stock: stockList,
-          promos: promosList,
-          reviews: reviewsList,
-          ordersSnapshot: recentOrdersLite,
-          rxSnapshot: recentRxLite
-        };
-        await fetch("https://ntfy.sh/" + CLOUD_TOPIC, { method: "POST", body: JSON.stringify(payload) });
+        const payload = { type: "CONFIG_SYNC", ts: Date.now(), stock: stockList, promos: promosList, reviews: reviewsList };
+        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, { method: "POST", body: JSON.stringify(payload) });
         updateSyncIndicator(true);
-        if (showAlert) alert("☁️ सारा डेटा (Orders + Old/New Prescriptions + Stock) क्लाउड पर सिंक हो गया! अब पुराने और नए हर मोबाइल/लैपटॉप में दिखेगा।");
+        if (showAlert) alert("☁️ इन्वेंटरी क्लाउड पर सफलतापूर्वक सिंक हो गई!");
       } catch (err) {
         updateSyncIndicator(false);
       }
@@ -798,14 +705,14 @@
       saveLocalState();
       try {
         const payload = { type: eventType, ts: Date.now(), data: dataObj };
-        await fetch("https://ntfy.sh/" + CLOUD_TOPIC, { method: "POST", body: JSON.stringify(payload) });
+        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, { method: "POST", body: JSON.stringify(payload) });
         updateSyncIndicator(true);
       } catch (err) {
         updateSyncIndicator(false);
       }
     }
 
-    async function processNtfyWrapper(wrapper, shouldRender) {
+    async function processNtfyWrapper(wrapper, shouldRender = true) {
       if (!wrapper) return;
       if (wrapper.attachment && wrapper.attachment.url) {
         try {
@@ -822,14 +729,16 @@
       }
     }
 
+    // Batch syncs all cloud lines in memory first, then renders UI ONCE for zero lag
     async function syncFromCloud() {
       try {
-        // Pulls up to 30 days (720h) of cloud history so old prescriptions & orders always appear on old phones
-        const res = await fetch("https://ntfy.sh/" + CLOUD_TOPIC + "/json?poll=1&since=720h");
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 9000);
+        const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=24h`, { signal: controller.signal });
+        clearTimeout(timer);
         const text = await res.text();
         const lines = text.trim().split("\n");
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
+        for (const line of lines) {
           if (!line) continue;
           try {
             const wrapper = JSON.parse(line);
@@ -848,67 +757,40 @@
       }
     }
 
-    function mergeRxIntoList(incomingRx) {
-      const normRx = normalizeRxObj(incomingRx);
-      if (!normRx) return;
-      const idx = rxList.findIndex(function(r) { return r.id === normRx.id; });
-      if (idx >= 0) {
-        const existingImg = rxList[idx].image;
-        rxList[idx] = {
-          id: normRx.id,
-          date: normRx.date || rxList[idx].date,
-          name: normRx.name || rxList[idx].name,
-          phone: normRx.phone || rxList[idx].phone,
-          address: normRx.address || rxList[idx].address,
-          notes: normRx.notes || rxList[idx].notes,
-          adminNote: normRx.adminNote !== undefined ? normRx.adminNote : rxList[idx].adminNote,
-          image: (normRx.image && normRx.image.length >= (existingImg ? existingImg.length : 0)) ? normRx.image : existingImg,
-          status: normRx.status || rxList[idx].status
-        };
-      } else {
-        rxList.push(normRx);
-      }
-    }
-
-    function handleCloudPayload(msg, shouldRender) {
+    function handleCloudPayload(msg, shouldRender = true) {
       if (!msg) return;
       if (msg.type === "CONFIG_SYNC" || Array.isArray(msg.stock)) {
         if (Array.isArray(msg.stock) && msg.stock.length > 0) stockList = normalizeStockArray(msg.stock);
         if (Array.isArray(msg.promos)) promosList = msg.promos;
         if (Array.isArray(msg.reviews)) reviewsList = msg.reviews;
-        if (Array.isArray(msg.ordersSnapshot)) {
-          msg.ordersSnapshot.forEach(function(snapOrd) {
-            const normOrd = normalizeOrderObj(snapOrd);
-            if (normOrd) {
-              const idx = ordersList.findIndex(function(o) { return o.id === normOrd.id; });
-              if (idx >= 0) ordersList[idx] = normOrd;
-              else ordersList.push(normOrd);
-            }
-          });
-        }
-        if (Array.isArray(msg.rxSnapshot)) {
-          msg.rxSnapshot.forEach(function(snapRx) {
-            mergeRxIntoList(snapRx);
-          });
-        }
       } else if (msg.type === "NEW_ORDER" && msg.data) {
         const normOrd = normalizeOrderObj(msg.data);
         if (normOrd) {
-          const idx = ordersList.findIndex(function(o) { return o.id === normOrd.id; });
+          const idx = ordersList.findIndex(o => o.id === normOrd.id);
           if (idx >= 0) ordersList[idx] = normOrd;
           else ordersList.unshift(normOrd);
         }
-      } else if ((msg.type === "NEW_RX" || msg.type === "RX_ORDER") && (msg.data || msg.id)) {
-        mergeRxIntoList(msg.data || msg);
+      } else if (msg.type === "NEW_RX" && msg.data) {
+        const normRx = normalizeRxObj(msg.data);
+        if (normRx) {
+          const idx = rxList.findIndex(r => r.id === normRx.id);
+          if (idx >= 0) {
+            const existingImg = rxList[idx].image;
+            rxList[idx] = { ...rxList[idx], ...normRx };
+            if (!normRx.image && existingImg) rxList[idx].image = existingImg;
+          } else {
+            rxList.unshift(normRx);
+          }
+        }
       } else if (msg.type === "RX_IMG_SYNC" && msg.rxId && msg.image) {
-        const idx = rxList.findIndex(function(r) { return r.id === msg.rxId; });
+        const idx = rxList.findIndex(r => r.id === msg.rxId);
         if (idx >= 0) rxList[idx].image = msg.image;
       } else if (msg.type === "NEW_REVIEW" && msg.data) {
-        const exists = reviewsList.some(function(rv) { return rv.name === msg.data.name && rv.comment === msg.data.comment; });
+        const exists = reviewsList.some(rv => rv.name === msg.data.name && rv.comment === msg.data.comment);
         if (!exists) reviewsList.unshift(msg.data);
       }
 
-      if (shouldRender !== false) {
+      if (shouldRender) {
         saveLocalState();
         renderCatalog();
         renderReviews();
@@ -918,15 +800,13 @@
 
     function startLiveStream() {
       try {
-        if (typeof EventSource !== "undefined") {
-          const es = new EventSource("https://ntfy.sh/" + CLOUD_TOPIC + "/sse");
-          es.onmessage = function(event) {
-            try {
-              const wrapper = JSON.parse(event.data);
-              processNtfyWrapper(wrapper, true);
-            } catch (e) {}
-          };
-        }
+        const es = new EventSource(`https://ntfy.sh/${CLOUD_TOPIC}/sse`);
+        es.onmessage = (event) => {
+          try {
+            const wrapper = JSON.parse(event.data);
+            processNtfyWrapper(wrapper, true);
+          } catch (e) {}
+        };
       } catch (e) {}
     }
 
@@ -942,25 +822,18 @@
       }
     }
 
-    // --- SMOOTH DEBOUNCED SEARCH & RENDER MEDICINE CATALOG ---
-    function debouncedRenderCatalog() {
-      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = setTimeout(function() {
-        renderCatalog();
-      }, 80);
-    }
-
+    // --- RENDER MEDICINE CATALOG ---
     function renderCatalog() {
       const grid = document.getElementById("productGrid");
       const query = (document.getElementById("searchMed").value || "").toLowerCase();
 
-      const filtered = stockList.filter(function(item) {
+      const filtered = stockList.filter(item => {
         return (
-          String(item.name || "").toLowerCase().indexOf(query) !== -1 ||
-          String(item.generic || "").toLowerCase().indexOf(query) !== -1 ||
-          String(item.company || "").toLowerCase().indexOf(query) !== -1 ||
-          String(item.batch || "").toLowerCase().indexOf(query) !== -1 ||
-          String(item.pack || "").toLowerCase().indexOf(query) !== -1
+          (item.name || "").toLowerCase().includes(query) ||
+          (item.generic || "").toLowerCase().includes(query) ||
+          (item.company || "").toLowerCase().includes(query) ||
+          (item.batch || "").toLowerCase().includes(query) ||
+          (item.pack || "").toLowerCase().includes(query)
         );
       });
 
@@ -975,7 +848,7 @@
         return;
       }
 
-      grid.innerHTML = filtered.map(function(item) {
+      grid.innerHTML = filtered.map(item => {
         const mrpVal = Number(item.mrp) || Number(item.price) || 0;
         const priceVal = Number(item.price) || mrpVal;
         const discPercent = mrpVal > priceVal ? Math.round(((mrpVal - priceVal) / mrpVal) * 100) : 0;
@@ -985,7 +858,7 @@
         const batchClean = (item.batch && item.batch !== "undefined") ? item.batch : "Verified";
         const expClean = (item.exp && item.exp !== "undefined") ? item.exp : "12/2028";
 
-        const waMsg = encodeURIComponent("Hello RNS PHARMACY, I want to order *" + item.name + "* (" + genericClean + " | Marketing By: " + companyClean + ") at Offer Price ₹" + priceVal + " (MRP ₹" + mrpVal + ").");
+        const waMsg = encodeURIComponent(`Hello RNS PHARMACY, I want to order *${item.name}* (${genericClean} | Marketing By: ${companyClean}) at Offer Price ₹${priceVal} (MRP ₹${mrpVal}).`);
 
         return `
           <div class="product-card">
@@ -1008,7 +881,7 @@
                 ${mrpVal > priceVal ? `<span class="mrp-strike">MRP ₹${mrpVal}</span>` : ""}
               </div>
               <div class="card-btns">
-                <button type="button" class="btn-primary" style="flex:1;" onclick="addToCart('${item.id}')">+ Add to Cart</button>
+                <button class="btn-primary" style="flex:1;" onclick="addToCart('${item.id}')">+ Add to Cart</button>
                 <a class="btn-outline" href="https://wa.me/917668273774?text=${waMsg}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
               </div>
             </div>
@@ -1019,9 +892,9 @@
 
     // --- CART & BILLABLE CUSTOM MEDICINE ADDITION ---
     function addToCart(medId) {
-      const med = stockList.find(function(m) { return m.id === medId; });
+      const med = stockList.find(m => m.id === medId);
       if (!med) return;
-      const existing = cart.find(function(c) { return c.id === medId; });
+      const existing = cart.find(c => c.id === medId);
       if (existing) {
         existing.qty += 1;
       } else {
@@ -1103,7 +976,7 @@
     }
 
     function changeCartQty(medId, delta) {
-      const idx = cart.findIndex(function(c) { return c.id === medId; });
+      const idx = cart.findIndex(c => c.id === medId);
       if (idx === -1) return;
       cart[idx].qty += delta;
       if (cart[idx].qty <= 0) cart.splice(idx, 1);
@@ -1119,10 +992,10 @@
 
     function applyPromoCode() {
       const code = (document.getElementById("promoInput").value || "").trim().toUpperCase();
-      const found = promosList.find(function(p) { return String(p.code || "").toUpperCase() === code; });
+      const found = promosList.find(p => String(p.code || "").toUpperCase() === code);
       if (found) {
         activePromo = found;
-        alert(found.type === "FLAT" ? "🎉 Promo " + found.code + " applied! Flat ₹" + found.discount + " OFF." : "🎉 Promo " + found.code + " applied! Extra " + found.discount + "% OFF.");
+        alert(found.type === "FLAT" ? `🎉 Promo ${found.code} applied! Flat ₹${found.discount} OFF.` : `🎉 Promo ${found.code} applied! Extra ${found.discount}% OFF.`);
       } else {
         activePromo = null;
         alert("Invalid Promo Code.");
@@ -1130,13 +1003,13 @@
       updateCartUI();
     }
 
-    function calculateTotalsFromItems(itemsArr, promoObj, customDeliveryOverride) {
+    function calculateTotalsFromItems(itemsArr, promoObj, customDeliveryOverride = null) {
       if (!itemsArr || itemsArr.length === 0) {
         return { totalMrp: 0, subtotalOffer: 0, mrpSavings: 0, promoDiscount: 0, deliveryCharge: 0, packagingCharge: 0, grandTotal: 0, totalSaved: 0 };
       }
       let totalMrp = 0;
       let subtotalOffer = 0;
-      itemsArr.forEach(function(item) {
+      itemsArr.forEach(item => {
         const q = Number(item.qty) || 1;
         totalMrp += (Number(item.mrp) || 0) * q;
         subtotalOffer += (Number(item.price) || 0) * q;
@@ -1162,7 +1035,7 @@
       const packagingCharge = 6;
       const grandTotal = netMedicineAmount + deliveryCharge + packagingCharge;
       const totalSaved = mrpSavings + promoDiscount;
-      return { totalMrp: totalMrp, subtotalOffer: subtotalOffer, mrpSavings: mrpSavings, promoDiscount: promoDiscount, deliveryCharge: deliveryCharge, packagingCharge: packagingCharge, grandTotal: grandTotal, totalSaved: totalSaved };
+      return { totalMrp, subtotalOffer, mrpSavings, promoDiscount, deliveryCharge, packagingCharge, grandTotal, totalSaved };
     }
 
     function calculateTotals() {
@@ -1170,11 +1043,11 @@
     }
 
     function updateCartUI() {
-      const totalItems = cart.reduce(function(s, i) { return s + i.qty; }, 0);
+      const totalItems = cart.reduce((s, i) => s + i.qty, 0);
       const t = calculateTotals();
 
       document.getElementById("cartCount").textContent = totalItems;
-      document.getElementById("cartHeaderAmt").textContent = "₹" + t.grandTotal.toFixed(2);
+      document.getElementById("cartHeaderAmt").textContent = `₹${t.grandTotal.toFixed(2)}`;
 
       const container = document.getElementById("cartItemsContainer");
       const summary = document.getElementById("cartSummaryBox");
@@ -1186,28 +1059,26 @@
         return;
       }
 
-      container.innerHTML = cart.map(function(item) {
-        return `
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
-            <div>
-              <strong>${item.name}</strong>
-              ${item.isCustom ? `<span style="font-size:11px; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:700;">Custom MRP</span>` : `<span style="font-size:12px; color:var(--muted);">(${item.pack})</span>`}<br/>
-              ${item.isCustom
-                ? `<span style="font-size:12px;">MRP: <strong>₹${item.mrp}</strong></span>`
-                : `<span style="font-size:12px;">Offer: <strong>₹${item.price}</strong> <s style="color:var(--muted);">MRP ₹${item.mrp}</s></span>`
-              }
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <button type="button" class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', -1)">-</button>
-              <strong>${item.qty}</strong>
-              <button type="button" class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', 1)">+</button>
-            </div>
+      container.innerHTML = cart.map(item => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
+          <div>
+            <strong>${item.name}</strong>
+            ${item.isCustom ? `<span style="font-size:11px; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:700;">Custom MRP</span>` : `<span style="font-size:12px; color:var(--muted);">(${item.pack})</span>`}<br/>
+            ${item.isCustom
+              ? `<span style="font-size:12px;">MRP: <strong>₹${item.mrp}</strong></span>`
+              : `<span style="font-size:12px;">Offer: <strong>₹${item.price}</strong> <s style="color:var(--muted);">MRP ₹${item.mrp}</s></span>`
+            }
           </div>
-        `;
-      }).join("");
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', -1)">-</button>
+            <strong>${item.qty}</strong>
+            <button class="btn-outline" style="padding:3px 9px;" onclick="changeCartQty('${item.id}', 1)">+</button>
+          </div>
+        </div>
+      `).join("");
 
       const promoLabel = activePromo
-        ? (activePromo.type === "FLAT" ? activePromo.code + " - ₹" + activePromo.discount : activePromo.code + " - " + activePromo.discount + "%")
+        ? (activePromo.type === "FLAT" ? `${activePromo.code} - ₹${activePromo.discount}` : `${activePromo.code} - ${activePromo.discount}%`)
         : "";
 
       summary.innerHTML = `
@@ -1231,8 +1102,8 @@
     }
 
     function updateUpiQr(amount) {
-      const upiUrl = "upi://pay?pa=rahul9656170@slc&pn=RNS%20PHARMACY&am=" + amount.toFixed(2) + "&cu=INR";
-      document.getElementById("upiQrImg").src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(upiUrl);
+      const upiUrl = `upi://pay?pa=rahul9656170@slc&pn=RNS%20PHARMACY&am=${amount.toFixed(2)}&cu=INR`;
+      document.getElementById("upiQrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`;
     }
 
     function toggleUpiBox() {
@@ -1247,8 +1118,6 @@
       const address = document.getElementById("custAddress").value.trim();
       const note = document.getElementById("custNote").value.trim();
       const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
-      const utrInput = document.getElementById("custUtr");
-      const utr = (payMethod === "UPI" && utrInput) ? utrInput.value.trim() : "";
 
       if (!name || !phone || !address) {
         return alert("कृपया अपना नाम, मोबाइल नंबर और पता भरें।");
@@ -1260,23 +1129,21 @@
         id: orderId,
         date: new Date().toLocaleString(),
         customer: name,
-        phone: phone,
-        address: address,
-        note: note,
+        phone,
+        address,
+        note,
         adminNote: "",
-        payMethod: payMethod,
-        utr: utr,
-        paymentStatus: "Payment Pending",
+        payMethod,
         promoUsed: activePromo ? JSON.parse(JSON.stringify(activePromo)) : null,
         customDeliveryCharge: totals.deliveryCharge,
         items: JSON.parse(JSON.stringify(cart)),
-        totals: totals,
+        totals,
         status: "Pending"
       });
 
-      cart.forEach(function(c) {
+      cart.forEach(c => {
         if (!c.isCustom) {
-          const med = stockList.find(function(m) { return m.id === c.id; });
+          const med = stockList.find(m => m.id === c.id);
           if (med) med.stock = Math.max(0, (parseInt(med.stock, 10) || 0) - c.qty);
         }
       });
@@ -1286,24 +1153,22 @@
       pushConfigToCloud(false);
 
       if (openWhatsApp) {
-        const itemsTxt = newOrder.items.map(function(i) { return "• " + i.name + " x" + i.qty + " (MRP ₹" + i.mrp + " | Rate: ₹" + (i.price * i.qty) + ")"; }).join("%0A");
-        const utrLine = (payMethod === "UPI") ? ("%0A*UTR / Ref No:* " + encodeURIComponent(utr || "Not Entered (Will Verify on Chat)")) : "";
-        const waUrl = "https://wa.me/917668273774?text=*New%20Order%20-%20RNS%20PHARMACY*%0A*Order%20ID:*%20" + orderId + "%0A*Customer:*%20" + encodeURIComponent(name) + "%20(" + phone + ")%0A*Address:*%20" + encodeURIComponent(address) + "%0A*Items:*%0A" + itemsTxt + "%0A*Delivery%20Charge:*%20₹" + totals.deliveryCharge + "%0A*Packaging%20Charge:*%20₹" + totals.packagingCharge + "%0A*Net%20Payable%20Bill:*%20₹" + totals.grandTotal + "%20(" + payMethod + ")" + utrLine;
+        const itemsTxt = newOrder.items.map(i => `• ${i.name} x${i.qty} (MRP ₹${i.mrp} | Rate: ₹${i.price * i.qty})`).join("%0A");
+        const waUrl = `https://wa.me/917668273774?text=*New%20Order%20-%20RNS%20PHARMACY*%0A*Order%20ID:*%20${orderId}%0A*Customer:*%20${encodeURIComponent(name)}%20(${phone})%0A*Address:*%20${encodeURIComponent(address)}%0A*Items:*%0A${itemsTxt}%0A*Delivery%20Charge:*%20₹${totals.deliveryCharge}%0A*Packaging%20Charge:*%20₹${totals.packagingCharge}%0A*Net%20Payable%20Bill:*%20₹${totals.grandTotal}%20(${payMethod})`;
         window.open(waUrl, "_blank");
       }
 
       cart = [];
       activePromo = null;
-      if (utrInput) utrInput.value = "";
       updateCartUI();
       renderAdminTables();
       closeModal("cartModal");
-      alert("✅ आपका ऑर्डर और बिल सफलतापूर्वक जनरेट हो गया! Order ID: " + orderId);
+      alert(`✅ आपका ऑर्डर और बिल सफलतापूर्वक जनरेट हो गया! Order ID: ${orderId}`);
     }
 
-    // --- PRESCRIPTION UPLOAD (Guaranteed < 3KB Preview Packet + Snapshot Sync for Old Mobiles) ---
+    // --- PRESCRIPTION UPLOAD ---
     function compressImageFile(file, maxDim, quality) {
-      return new Promise(function(resolve) {
+      return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = function(evt) {
           const img = new Image();
@@ -1321,7 +1186,7 @@
             ctx.drawImage(img, 0, 0, w, h);
             resolve(canvas.toDataURL("image/jpeg", quality));
           };
-          img.onerror = function() { resolve(evt.target.result); };
+          img.onerror = () => resolve(evt.target.result);
           img.src = evt.target.result;
         };
         reader.readAsDataURL(file);
@@ -1344,102 +1209,73 @@
 
       try {
         const file = fileInput.files[0];
-        // 110px preview (~1.2KB) so it stays under 4KB ntfy text limit and works on 10-year-old phones
-        const tinyPreview = await compressImageFile(file, 110, 0.35);
+        const tinyPreview = await compressImageFile(file, 180, 0.4);
         const clearRxImage = await compressImageFile(file, 850, 0.65);
 
         const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
         const rxDate = new Date().toLocaleString();
 
         const rxLocalObj = normalizeRxObj({
-          id: rxId, date: rxDate, name: name, phone: phone, address: address, notes: notes, adminNote: "", image: clearRxImage, status: "Pending"
+          id: rxId, date: rxDate, name, phone, address, notes, adminNote: "", image: clearRxImage, status: "Pending"
         });
 
         rxList.unshift(rxLocalObj);
         saveLocalState();
 
         await pushOrderEventToCloud("NEW_RX", {
-          id: rxId, date: rxDate, name: name, phone: phone, address: address, notes: notes, adminNote: "", image: tinyPreview, status: "Pending"
+          id: rxId, date: rxDate, name, phone, address, notes, adminNote: "", image: tinyPreview, status: "Pending"
         });
 
-        // Also push CONFIG_SYNC so rxSnapshot is immediately saved for all old/new devices
-        pushConfigToCloud(false);
-
-        fetch("https://ntfy.sh/" + CLOUD_TOPIC, {
+        fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
           method: "POST",
           body: JSON.stringify({ type: "RX_IMG_SYNC", ts: Date.now(), rxId: rxId, image: clearRxImage })
-        }).catch(function() {});
+        }).catch(() => {});
 
-        const waRxText = "*New Prescription (Rx) Uploaded - RNS PHARMACY*%0A*Rx ID:* " + rxId + "%0A*Patient Name:* " + encodeURIComponent(name) + "%0A*Mobile:* " + phone + "%0A*Address:* " + encodeURIComponent(address) + "%0A*Note:* " + encodeURIComponent(notes || "Please check uploaded prescription on Admin Portal");
-        window.open("https://wa.me/917668273774?text=" + waRxText, "_blank");
+        const waRxText = `*New Prescription (Rx) Uploaded - RNS PHARMACY*%0A*Rx ID:* ${rxId}%0A*Patient Name:* ${encodeURIComponent(name)}%0A*Mobile:* ${phone}%0A*Address:* ${encodeURIComponent(address)}%0A*Note:* ${encodeURIComponent(notes || "Please check uploaded prescription on Admin Portal")}`;
+        window.open(`https://wa.me/917668273774?text=${waRxText}`, "_blank");
 
         e.target.reset();
         closeModal("rxModal");
-        alert("✅ पर्चा एडमिन पोर्टल पर अपलोड हो गया है और WhatsApp पर भी भेज दिया गया है! आपका Rx ID है: " + rxId);
+        alert(`✅ पर्चा एडमिन पोर्टल पर अपलोड हो गया है और WhatsApp पर भी भेज दिया गया है! आपका Rx ID है: ${rxId}`);
       } finally {
         submitBtn.textContent = "📤 Submit to Admin Portal & Send on WhatsApp";
         submitBtn.disabled = false;
       }
     }
 
-    // --- UNIVERSAL TRACKING (Shows Payment Received / Payment Not Received Status & Admin Notes) ---
-    function openTrackModalAndSync() {
-      openModal("trackModal");
-      syncFromCloud();
-    }
-
-    function cleanPhoneDigitsForMatch(str) {
-      let d = String(str || "").replace(/\D/g, "");
-      if (d.length > 10 && d.indexOf("91") === 0) d = d.substring(2);
-      d = d.replace(/^0+/, "");
-      return d;
-    }
-
-    function getPaymentStatusBadgeHtml(payStatus) {
-      const s = String(payStatus || "Payment Pending");
-      if (s === "Payment Received") {
-        return `<span class="pay-pill-Received">✅ Payment Received (पेमेंट प्राप्त)</span>`;
-      }
-      if (s === "Payment Not Received") {
-        return `<span class="pay-pill-Not-Received">❌ Payment Not Received (पेमेंट प्राप्त नहीं हुआ)</span>`;
-      }
-      return `<span class="pay-pill-Pending">⏳ Payment Verification Pending</span>`;
-    }
-
+    // --- 100% RELIABLE MOBILE NUMBER & ORDER ID TRACKING ---
     function searchCustomerTracking() {
-      const rawQ = String(document.getElementById("trackInput").value || "").trim();
+      const rawQ = (document.getElementById("trackInput").value || "").trim();
       const box = document.getElementById("trackResultsContainer");
-      if (!rawQ) return alert("कृपया मोबाइल नंबर (या 4-5 अंक) या Order/Rx ID डालें।");
+      if (!rawQ) return alert("कृपया मोबाइल नंबर या Order/Rx ID डालें।");
 
       const qLower = rawQ.toLowerCase();
-      const qCleanDigits = cleanPhoneDigitsForMatch(rawQ);
+      const qDigits = rawQ.replace(/\D/g, "");
+      const qLast10 = qDigits.length >= 10 ? qDigits.slice(-10) : qDigits;
 
-      const matchRecord = function(recPhone, recId) {
+      const matchRecord = (recPhone, recId) => {
         const idStr = String(recId || "").toLowerCase();
         const phoneStr = String(recPhone || "").toLowerCase();
-        const recCleanDigits = cleanPhoneDigitsForMatch(recPhone);
-
-        if (idStr.indexOf(qLower) !== -1 || phoneStr.indexOf(qLower) !== -1) return true;
-        if (qCleanDigits.length >= 3 && recCleanDigits.indexOf(qCleanDigits) !== -1) return true;
+        const phoneDigits = phoneStr.replace(/\D/g, "");
+        if (idStr.includes(qLower) || phoneStr.includes(qLower)) return true;
+        if (qLast10 && qLast10.length >= 4 && phoneDigits.includes(qLast10)) return true;
         return false;
       };
 
-      const myOrders = ordersList.filter(function(o) { return o && matchRecord(o.phone || o.mobile || o.custPhone, o.id); });
-      const myRx = rxList.filter(function(r) { return r && matchRecord(r.phone || r.mobile, r.id); });
+      const myOrders = ordersList.filter(o => o && matchRecord(o.phone || o.mobile, o.id));
+      const myRx = rxList.filter(r => r && matchRecord(r.phone || r.mobile, r.id));
 
       if (myOrders.length === 0 && myRx.length === 0) {
-        box.innerHTML = `<p style="color:var(--danger); padding:10px;">कोई रिकॉर्ड नहीं मिला। कृपया एक बार ऊपर 'Live Cloud Synced' पर टैप करके दोबारा सर्च करें।</p>`;
+        box.innerHTML = `<p style="color:var(--danger); padding:10px;">कोई रिकॉर्ड नहीं मिला। कृपया ऊपर 'Live Cloud Synced' पर टैप करके दोबारा सर्च करें।</p>`;
         return;
       }
 
       let html = "";
-      myOrders.forEach(function(rawOrd) {
+      myOrders.forEach(rawOrd => {
         const o = normalizeOrderObj(rawOrd);
         const pillClass = "status-" + o.status.replace(/\s+/g, "-");
         const deliv = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
         const pkg = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
-        const utrBadge = o.utr ? ` | <strong>UTR:</strong> ${o.utr}` : ` | <strong>UTR:</strong> Not Entered`;
-        const payStatusHtml = getPaymentStatusBadgeHtml(o.paymentStatus);
         const adminNoteHtml = o.adminNote
           ? `<div style="background:#fef3c7; color:#92400e; padding:8px 10px; border-radius:8px; font-size:12.5px; margin:6px 0; border-left:3px solid #f59e0b;">
                <strong>📢 फार्मासिस्ट नोट (Admin Remark):</strong> ${o.adminNote}
@@ -1448,24 +1284,21 @@
 
         html += `
           <div style="border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
               <strong>Order ID: ${o.id}</strong>
-              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-                ${payStatusHtml}
-                <span class="status-pill ${pillClass}">${o.status}</span>
-              </div>
+              <span class="status-pill ${pillClass}">${o.status}</span>
             </div>
-            <div style="font-size:12px; color:var(--muted); margin:5px 0;">Customer: ${o.customer} (${o.phone}) | Date: ${o.date} | Pay Mode: ${o.payMethod}${utrBadge}</div>
-            <div style="font-size:12.5px; margin-bottom:6px;">
+            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Customer: ${o.customer} (${o.phone}) | Date: ${o.date}</div>
+            <div style="font-size:12.5px; margin-bottom:4px;">
               Delivery: ₹${deliv} | Packaging: ₹${pkg} | <strong>Net Payable Bill: ₹${o.totals.grandTotal}</strong>
             </div>
             ${adminNoteHtml}
-            <button type="button" class="btn-outline" onclick="printBill('${o.id}')">🖨️ View / Print Official Bill</button>
+            <button class="btn-outline" onclick="printBill('${o.id}')">🖨️ View / Print Official Bill</button>
           </div>
         `;
       });
 
-      myRx.forEach(function(rawRx) {
+      myRx.forEach(rawRx => {
         const r = normalizeRxObj(rawRx);
         const pillClass = "status-" + r.status.replace(/\s+/g, "-");
         const adminNoteHtml = r.adminNote
@@ -1490,39 +1323,20 @@
       box.innerHTML = html;
     }
 
-    // --- VERIFIED REVIEWS (Shows Latest 3 + "View More" Toggle) ---
-    function toggleViewMoreReviews() {
-      showAllReviews = !showAllReviews;
-      renderReviews();
-    }
-
+    // --- VERIFIED REVIEWS ---
     function renderReviews() {
       const grid = document.getElementById("reviewsGrid");
-      const wrap = document.getElementById("reviewsToggleWrap");
-      const btn = document.getElementById("viewMoreReviewsBtn");
-
-      const visibleReviews = showAllReviews ? reviewsList : reviewsList.slice(0, 3);
-
-      grid.innerHTML = visibleReviews.map(function(r) {
-        return `
-          <div class="review-card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <strong>${r.name}</strong>
-              <span style="color:#15803d; font-size:11px; font-weight:700;">✔ Verified Buyer</span>
-            </div>
-            <div style="color:#f59e0b; font-size:13px; margin-bottom:6px;">${"⭐".repeat(Number(r.rating) || 5)}</div>
-            <p style="font-size:13px;">"${r.comment}"</p>
-            <div style="font-size:11px; color:var(--muted); margin-top:6px;">📱 ${r.mobile} | ${r.date || "2026"}</div>
+      grid.innerHTML = reviewsList.slice(0, 6).map(r => `
+        <div class="review-card">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <strong>${r.name}</strong>
+            <span style="color:#15803d; font-size:11px; font-weight:700;">✔ Verified Buyer</span>
           </div>
-        `;
-      }).join("");
-
-      if (reviewsList.length > 3) {
-        wrap.style.display = "block";
-        btn.textContent = showAllReviews ? "Show Less" : "View More (" + (reviewsList.length - 3) + " More)";
-      } else {
-        wrap.style.display = "none";
-      }
+          <div style="color:#f59e0b; font-size:13px; margin-bottom:6px;">${"⭐".repeat(Number(r.rating) || 5)}</div>
+          <p style="font-size:13px;">"${r.comment}"</p>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px;">📱 ${r.mobile} | ${r.date || "2026"}</div>
+        </div>
+      `).join("");
     }
 
     function submitCustomerReview(e) {
@@ -1533,18 +1347,17 @@
       const comment = document.getElementById("revComment").value.trim();
 
       const maskedMobile = mobileRaw.slice(0, 2) + "******" + mobileRaw.slice(-2);
-      const revObj = { name: name, mobile: maskedMobile, rating: Number(rating), comment: comment, date: new Date().toLocaleDateString() };
+      const revObj = { name, mobile: maskedMobile, rating: Number(rating), comment, date: new Date().toLocaleDateString() };
       reviewsList.unshift(revObj);
       pushOrderEventToCloud("NEW_REVIEW", revObj);
-      pushConfigToCloud(false);
       renderReviews();
       e.target.reset();
       alert("🙏 धन्यवाद! आपका वेरीफाइड रिव्यू जुड़ गया है।");
     }
 
-    // --- OWNER PORTAL LOGIN (Works Seamlessly on Any Old/New Mobile or Laptop) ---
+    // --- ERROR-SHIELDED OWNER PORTAL LOGIN (Guaranteed to Open on All Mobiles & Laptops) ---
     function verifyAdminLogin() {
-      const pass = String(document.getElementById("adminPassInput").value || "").trim();
+      const pass = (document.getElementById("adminPassInput").value || "").trim();
       if (pass === "7402") {
         document.getElementById("adminPassInput").value = "";
         closeModal("adminLoginModal");
@@ -1553,38 +1366,25 @@
           ordersList = normalizeOrdersArray(ordersList);
           rxList = normalizeRxArray(rxList);
           renderAdminTables();
-          syncFromCloud();
-        } catch (err) {}
+        } catch (err) {
+          console.error("Admin render recovery:", err);
+        }
       } else {
         alert("❌ गलत पासवर्ड!");
       }
     }
 
     function switchAdminTab(tabId) {
-      const tabs = document.querySelectorAll(".admin-tab-content");
-      for (let i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = "none";
-      }
+      document.querySelectorAll(".admin-tab-content").forEach(el => el.style.display = "none");
       document.getElementById(tabId).style.display = "block";
     }
 
-    // Update Payment Received / Payment Not Received Status
-    function updateOrderPaymentStatus(orderId, newPayStatus) {
-      const ord = ordersList.find(function(o) { return o.id === orderId; });
-      if (!ord) return;
-      ord.paymentStatus = newPayStatus;
-      pushOrderEventToCloud("NEW_ORDER", ord);
-      pushConfigToCloud(false);
-      renderAdminTables();
-      alert("✅ Order " + orderId + " का पेमेंट स्टेटस '" + newPayStatus + "' अपडेट कर दिया गया है! अब यह बिल और कस्टमर ट्रैकिंग दोनों में दिखेगा।");
-    }
-
     function editOrderItemMrp(orderId, itemIdx) {
-      const ord = ordersList.find(function(o) { return o.id === orderId; });
+      const ord = ordersList.find(o => o.id === orderId);
       if (!ord || !ord.items[itemIdx]) return;
       const targetItem = ord.items[itemIdx];
 
-      const newMrpStr = prompt('"' + targetItem.name + '" का नया सही MRP (₹) दर्ज करें:', targetItem.mrp);
+      const newMrpStr = prompt(`"${targetItem.name}" का नया सही MRP (₹) दर्ज करें:`, targetItem.mrp);
       if (newMrpStr === null) return;
       const newMrp = parseFloat(newMrpStr);
       if (isNaN(newMrp) || newMrp <= 0) return alert("कृपया सही MRP दर्ज करें!");
@@ -1594,7 +1394,7 @@
         targetItem.price = newMrp;
       } else {
         targetItem.mrp = newMrp;
-        const newRateStr = prompt('"' + targetItem.name + '" का बिल रेट / Offer Price (₹) दर्ज करें (या MRP पर बिल करने के लिए ₹' + newMrp + ' रहने दें):', targetItem.price);
+        const newRateStr = prompt(`"${targetItem.name}" का बिल रेट / Offer Price (₹) दर्ज करें (या MRP पर बिल करने के लिए ₹${newMrp} रहने दें):`, targetItem.price);
         if (newRateStr !== null && !isNaN(parseFloat(newRateStr)) && parseFloat(newRateStr) > 0) {
           targetItem.price = parseFloat(newRateStr);
         }
@@ -1603,13 +1403,12 @@
       const currentDeliv = ord.customDeliveryCharge !== undefined ? ord.customDeliveryCharge : ord.totals.deliveryCharge;
       ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null, currentDeliv);
       pushOrderEventToCloud("NEW_ORDER", ord);
-      pushConfigToCloud(false);
       renderAdminTables();
-      alert('✅ "' + targetItem.name + '" का MRP अपडेट होकर नया बिल (₹' + ord.totals.grandTotal + ') जनरेट हो गया है!');
+      alert(`✅ "${targetItem.name}" का MRP अपडेट होकर नया बिल (₹${ord.totals.grandTotal}) जनरेट हो गया है!`);
     }
 
-    function updateOrderDeliveryCharge(orderId, forceZero) {
-      const ord = ordersList.find(function(o) { return o.id === orderId; });
+    function updateOrderDeliveryCharge(orderId, forceZero = false) {
+      const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
       const inp = document.getElementById("deliv_inp_" + orderId);
       let newDeliv = forceZero ? 0 : parseFloat(inp ? inp.value : 0);
@@ -1618,31 +1417,28 @@
       ord.customDeliveryCharge = newDeliv;
       ord.totals = calculateTotalsFromItems(ord.items, ord.promoUsed || null, newDeliv);
       pushOrderEventToCloud("NEW_ORDER", ord);
-      pushConfigToCloud(false);
       renderAdminTables();
-      alert("✅ Order " + orderId + " का डिलीवरी चार्ज ₹" + newDeliv + " अपडेट कर दिया गया है! नया कुल बिल: ₹" + ord.totals.grandTotal);
+      alert(`✅ Order ${orderId} का डिलीवरी चार्ज ₹${newDeliv} अपडेट कर दिया गया है! नया कुल बिल: ₹${ord.totals.grandTotal}`);
     }
 
     function saveOrderAdminNote(orderId) {
-      const ord = ordersList.find(function(o) { return o.id === orderId; });
+      const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
       const noteEl = document.getElementById("ord_note_" + orderId);
       if (noteEl) ord.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_ORDER", ord);
-      pushConfigToCloud(false);
       renderAdminTables();
-      alert("✅ Order " + orderId + " का नोट सेव और सिंक हो गया!");
+      alert(`✅ Order ${orderId} का नोट सेव और सिंक हो गया!`);
     }
 
     function saveRxAdminNote(rxId) {
-      const rx = rxList.find(function(r) { return r.id === rxId; });
+      const rx = rxList.find(r => r.id === rxId);
       if (!rx) return;
       const noteEl = document.getElementById("rx_note_" + rxId);
       if (noteEl) rx.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_RX", rx);
-      pushConfigToCloud(false);
       renderAdminTables();
-      alert("✅ Prescription " + rxId + " का नोट सेव और सिंक हो गया!");
+      alert(`✅ Prescription ${rxId} का नोट सेव और सिंक हो गया!`);
     }
 
     function addMedicine(e) {
@@ -1659,9 +1455,9 @@
       const stockVal = parseInt(document.getElementById("medStock").value, 10);
       const stock = isNaN(stockVal) ? 40 : Math.max(0, stockVal);
 
-      const medObj = { id: editId || ("M_" + Date.now()), name: name, generic: generic, company: company, pack: pack, batch: batch, exp: exp, mrp: mrp, price: price, stock: stock };
+      const medObj = { id: editId || ("M_" + Date.now()), name, generic, company, pack, batch, exp, mrp, price, stock };
 
-      const existingIdx = stockList.findIndex(function(m) { return m.id === medObj.id; });
+      const existingIdx = stockList.findIndex(m => m.id === medObj.id);
       if (existingIdx >= 0) stockList[existingIdx] = medObj;
       else stockList.unshift(medObj);
 
@@ -1673,7 +1469,7 @@
     }
 
     function editStockItem(medId) {
-      const m = stockList.find(function(x) { return x.id === medId; });
+      const m = stockList.find(x => x.id === medId);
       if (!m) return;
       document.getElementById("editMedId").value = m.id;
       document.getElementById("medName").value = m.name;
@@ -1689,7 +1485,7 @@
     }
 
     function deleteStockItem(medId) {
-      stockList = stockList.filter(function(m) { return m.id !== medId; });
+      stockList = stockList.filter(m => m.id !== medId);
       pushConfigToCloud(false);
       renderCatalog();
       renderAdminTables();
@@ -1698,43 +1494,29 @@
     function renderAdminTables() {
       const oBody = document.getElementById("adminOrdersTable");
       if (oBody) {
-        oBody.innerHTML = ordersList.map(function(rawOrd, idx) {
+        oBody.innerHTML = ordersList.map((rawOrd, idx) => {
           const o = normalizeOrderObj(rawOrd, idx);
           const pillClass = "status-" + o.status.replace(/\s+/g, "-");
           const delivVal = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
           const pkgVal = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
-          const utrHtml = o.utr
-            ? `<div style="margin-top:4px; font-size:11px; background:#dcfce7; color:#15803d; padding:3px 6px; border-radius:5px; font-weight:700;">UTR: ${o.utr}</div>`
-            : `<div style="margin-top:4px; font-size:11px; background:#fef3c7; color:#b45309; padding:3px 6px; border-radius:5px;">UTR: Not Entered</div>`;
 
-          const payBadge = getPaymentStatusBadgeHtml(o.paymentStatus);
-
-          const itemsWithEditHtml = o.items.map(function(i, iIdx) {
-            return `
-              <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; padding:4px 0; border-bottom:1px dashed var(--border);">
-                <span>
-                  <strong>${i.name}</strong> x${i.qty}
-                  ${i.isCustom ? `<span style="background:#fef3c7; color:#b45309; font-size:10px; padding:1px 5px; border-radius:4px;">Custom</span>` : ""}
-                  <br/><small>MRP: ₹${i.mrp} | Rate: ₹${i.price}</small>
-                </span>
-                <button type="button" class="btn-outline" style="padding:3px 8px; font-size:11px;" onclick="editOrderItemMrp('${o.id}', ${iIdx})">✏️ Edit MRP</button>
-              </div>
-            `;
-          }).join("");
+          const itemsWithEditHtml = o.items.map((i, iIdx) => `
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; padding:4px 0; border-bottom:1px dashed var(--border);">
+              <span>
+                <strong>${i.name}</strong> x${i.qty}
+                ${i.isCustom ? `<span style="background:#fef3c7; color:#b45309; font-size:10px; padding:1px 5px; border-radius:4px;">Custom</span>` : ""}
+                <br/><small>MRP: ₹${i.mrp} | Rate: ₹${i.price}</small>
+              </span>
+              <button type="button" class="btn-outline" style="padding:3px 8px; font-size:11px;" onclick="editOrderItemMrp('${o.id}', ${iIdx})">✏️ Edit MRP</button>
+            </div>
+          `).join("");
 
           return `
             <tr>
               <td>
                 <strong>${o.id}</strong><br/>
                 <span style="font-size:11px;color:var(--muted);">${o.date}</span><br/>
-                <span style="font-size:11.5px; font-weight:700;">Pay Mode: ${o.payMethod}</span>
-                ${utrHtml}
-                <div style="margin-top:6px;">${payBadge}</div>
-                <select class="input-field" style="margin-top:5px; padding:5px 6px; font-size:11.5px; font-weight:700;" onchange="updateOrderPaymentStatus('${o.id}', this.value)">
-                  <option value="Payment Pending" ${o.paymentStatus === "Payment Pending" ? "selected" : ""}>⏳ Payment Pending</option>
-                  <option value="Payment Received" ${o.paymentStatus === "Payment Received" ? "selected" : ""}>✅ Payment Received</option>
-                  <option value="Payment Not Received" ${o.paymentStatus === "Payment Not Received" ? "selected" : ""}>❌ Payment Not Received</option>
-                </select>
+                <span style="font-size:11.5px; font-weight:700;">Pay: ${o.payMethod}</span>
               </td>
               <td>
                 <strong>${o.customer}</strong><br/>
@@ -1775,7 +1557,7 @@
                 </div>
               </td>
               <td>
-                <button type="button" class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
+                <button class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
               </td>
             </tr>
           `;
@@ -1784,7 +1566,7 @@
 
       const rBody = document.getElementById("adminRxTable");
       if (rBody) {
-        rBody.innerHTML = rxList.map(function(rawRx, idx) {
+        rBody.innerHTML = rxList.map((rawRx, idx) => {
           const r = normalizeRxObj(rawRx, idx);
           const pillClass = "status-" + r.status.replace(/\s+/g, "-");
           return `
@@ -1793,7 +1575,7 @@
               <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
               <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
               <td>
-                ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : `<span style="font-size:11.5px; color:#047857; font-weight:600;">✔ Synced Rx Record</span>`}
+                ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : "No Image"}
               </td>
               <td>
                 <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${r.status}</span></div>
@@ -1817,7 +1599,7 @@
 
       const sBody = document.getElementById("adminStockTable");
       if (sBody) {
-        sBody.innerHTML = stockList.map(function(m) {
+        sBody.innerHTML = stockList.map(m => {
           const pcs = m.stock !== undefined ? m.stock : 40;
           const lowStockStyle = pcs <= 5 ? "color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:6px;" : "color:#0f766e; background:#ecfdf5; padding:3px 8px; border-radius:6px;";
           return `
@@ -1829,8 +1611,8 @@
               <td>MRP: ₹${m.mrp} | <strong style="color:#0f766e;">Offer: ₹${m.price}</strong></td>
               <td><strong style="${lowStockStyle}">${pcs} Pcs</strong></td>
               <td>
-                <button type="button" class="btn-outline" style="padding:4px 8px;" onclick="editStockItem('${m.id}')">✏️ Edit</button>
-                <button type="button" class="btn-outline" style="padding:4px 8px; color:var(--danger); border-color:var(--danger);" onclick="deleteStockItem('${m.id}')">🗑️</button>
+                <button class="btn-outline" style="padding:4px 8px;" onclick="editStockItem('${m.id}')">✏️ Edit</button>
+                <button class="btn-outline" style="padding:4px 8px; color:var(--danger); border-color:var(--danger);" onclick="deleteStockItem('${m.id}')">🗑️</button>
               </td>
             </tr>
           `;
@@ -1839,12 +1621,12 @@
 
       const pList = document.getElementById("adminPromoList");
       if (pList) {
-        pList.innerHTML = promosList.map(function(p) {
-          const badgeText = p.type === "FLAT" ? "₹" + p.discount + " OFF" : p.discount + "% OFF";
+        pList.innerHTML = promosList.map(p => {
+          const badgeText = p.type === "FLAT" ? `₹${p.discount} OFF` : `${p.discount}% OFF`;
           return `
             <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px; margin-bottom:8px;">
               <strong>${p.code}</strong> (${badgeText})
-              <button type="button" onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
+              <button onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
             </span>
           `;
         }).join("");
@@ -1852,24 +1634,22 @@
     }
 
     function updateOrderStatus(orderId, newStatus) {
-      const ord = ordersList.find(function(o) { return o.id === orderId; });
+      const ord = ordersList.find(o => o.id === orderId);
       if (!ord) return;
       ord.status = newStatus;
       const noteEl = document.getElementById("ord_note_" + orderId);
       if (noteEl) ord.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_ORDER", ord);
-      pushConfigToCloud(false);
       renderAdminTables();
     }
 
     function updateRxStatus(rxId, newStatus) {
-      const rx = rxList.find(function(r) { return r.id === rxId; });
+      const rx = rxList.find(r => r.id === rxId);
       if (!rx) return;
       rx.status = newStatus;
       const noteEl = document.getElementById("rx_note_" + rxId);
       if (noteEl) rx.adminNote = noteEl.value.trim();
       pushOrderEventToCloud("NEW_RX", rx);
-      pushConfigToCloud(false);
       renderAdminTables();
     }
 
@@ -1880,9 +1660,9 @@
       if (!code || isNaN(disc) || disc <= 0) {
         return alert("कृपया प्रोमो कोड और उसकी वैल्यू (% या ₹) सही से दर्ज करें!");
       }
-      const existingIdx = promosList.findIndex(function(p) { return String(p.code || "").toUpperCase() === code; });
-      if (existingIdx >= 0) promosList[existingIdx] = { code: code, type: type, discount: disc };
-      else promosList.push({ code: code, type: type, discount: disc });
+      const existingIdx = promosList.findIndex(p => String(p.code || "").toUpperCase() === code);
+      if (existingIdx >= 0) promosList[existingIdx] = { code, type, discount: disc };
+      else promosList.push({ code, type, discount: disc });
 
       document.getElementById("newPromoCode").value = "";
       document.getElementById("newPromoDisc").value = "";
@@ -1891,34 +1671,32 @@
     }
 
     function removePromo(code) {
-      promosList = promosList.filter(function(p) { return p.code !== code; });
+      promosList = promosList.filter(p => p.code !== code);
       pushConfigToCloud(false);
       renderAdminTables();
     }
 
-    // --- OFFICIAL PRINT BILL (Includes UTR Number & Payment Received / Not Received Status) ---
+    // --- OFFICIAL PRINT BILL ---
     function printBill(orderId) {
-      const rawOrd = ordersList.find(function(o) { return o.id === orderId; });
+      const rawOrd = ordersList.find(o => o.id === orderId);
       if (!rawOrd) return;
       const ord = normalizeOrderObj(rawOrd);
 
       const delivCharge = Number(ord.totals.deliveryCharge) || 0;
       const pkgCharge = Number(ord.totals.packagingCharge) || 6;
 
-      const rowsHtml = ord.items.map(function(item, i) {
-        return `
-          <tr>
-            <td>${i + 1}</td>
-            <td><strong>${item.name}</strong><br/><small>${item.generic || ""} | ${item.pack || "Standard"}</small></td>
-            <td>${item.batch || "Verified"}</td>
-            <td>${item.exp || "Fresh"}</td>
-            <td>${item.qty}</td>
-            <td>₹${Number(item.mrp).toFixed(2)}</td>
-            <td>₹${Number(item.price).toFixed(2)}</td>
-            <td><strong>₹${(item.price * item.qty).toFixed(2)}</strong></td>
-          </tr>
-        `;
-      }).join("");
+      const rowsHtml = ord.items.map((item, i) => `
+        <tr>
+          <td>${i + 1}</td>
+          <td><strong>${item.name}</strong><br/><small>${item.generic || ""} | ${item.pack || "Standard"}</small></td>
+          <td>${item.batch || "Verified"}</td>
+          <td>${item.exp || "Fresh"}</td>
+          <td>${item.qty}</td>
+          <td>₹${Number(item.mrp).toFixed(2)}</td>
+          <td>₹${Number(item.price).toFixed(2)}</td>
+          <td><strong>₹${(item.price * item.qty).toFixed(2)}</strong></td>
+        </tr>
+      `).join("");
 
       const adminNoteHtml = ord.adminNote
         ? `<div style="margin-top:10px; padding:8px 12px; background:#fef3c7; border-left:4px solid #f59e0b; font-size:12.5px;">
@@ -1926,11 +1704,7 @@
            </div>`
         : "";
 
-      const utrLineHtml = `<br/>UTR / UPI Ref No.: <strong>${ord.utr || "Not Entered"}</strong>`;
-      const payColor = ord.paymentStatus === "Payment Received" ? "#15803d" : (ord.paymentStatus === "Payment Not Received" ? "#b91c1c" : "#b45309");
-      const payStatusLineHtml = `<br/>Payment Status: <strong style="color:${payColor};">${ord.paymentStatus}</strong>`;
-
-      const win = window.open("", "_blank", "width=850,height=740");
+      const win = window.open("", "_blank", "width=850,height=720");
       win.document.write(`
         <html>
         <head>
@@ -1958,7 +1732,7 @@
                 <strong>INVOICE / CASH MEMO</strong><br/>
                 Order ID: <strong>${ord.id}</strong><br/>
                 Date: ${ord.date}<br/>
-                Order Status: <strong>${ord.status}</strong> (${ord.payMethod})${utrLineHtml}${payStatusLineHtml}
+                Status: <strong>${ord.status}</strong> (${ord.payMethod})
               </div>
             </div>
             <div style="font-size:13px; margin-bottom:10px;">
@@ -1988,7 +1762,6 @@
               <div>Delivery Charge: <strong>+ ₹${delivCharge.toFixed(2)}</strong></div>
               <div>Packaging Charge: <strong>+ ₹${pkgCharge.toFixed(2)}</strong></div>
               <div style="font-size:18px; margin-top:6px;"><strong>Grand Total Payable: ₹${ord.totals.grandTotal.toFixed(2)}</strong></div>
-              <div style="font-size:14px; margin-top:4px; color:${payColor};"><strong>Payment Status: ${ord.paymentStatus}</strong></div>
               ${ord.totals.totalSaved > 0 ? `<div style="color:#15803d; font-weight:bold; margin-top:4px;">Total Customer Savings on MRP: ₹${ord.totals.totalSaved.toFixed(2)}</div>` : ""}
             </div>
             <div style="margin-top:28px; display:flex; justify-content:space-between; align-items:center; font-size:12px; border-top:1px dashed #94a3b8; padding-top:12px;">
@@ -2030,7 +1803,7 @@
       }
     }
 
-    window.addEventListener("DOMContentLoaded", function() {
+    window.addEventListener("DOMContentLoaded", () => {
       renderCatalog();
       renderReviews();
       updateCartUI();
