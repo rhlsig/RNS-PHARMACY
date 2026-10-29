@@ -7,127 +7,844 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #0f766e; --primary-light: #10b981; --primary-bg: #ecfdf5;
-      --hero-start: #0f514c; --hero-end: #117868; --dark-navy: #0f172a;
-      --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b;
-      --border: #e2e8f0; --danger: #ef4444; --warning: #f59e0b;
+      --primary: #0f766e;
+      --primary-light: #10b981;
+      --primary-bg: #ecfdf5;
+      --hero-start: #0f514c;
+      --hero-end: #117868;
+      --dark-navy: #0f172a;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --danger: #ef4444;
+      --warning: #f59e0b;
     }
+
     body.dark-mode {
-      --bg: #0b1120; --card: #1e293b; --text: #f8fafc;
-      --muted: #94a3b8; --border: #334155; --primary-bg: #132a28;
+      --bg: #0b1120;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #334155;
+      --primary-bg: #132a28;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
 
-    .top-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 18px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-    .header-container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; align-items: flex-start; gap: 18px; }
-    .brand-left { display: flex; align-items: flex-start; gap: 12px; flex: 1 1 auto; min-width: 0; padding-right: 6px; }
-    .store-icon-box { width: 46px; height: 46px; border-radius: 12px; background: #108565; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; margin-top: 2px; box-shadow: 0 4px 10px rgba(16,133,101,0.25); }
-    .brand-title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 7px; }
-    .brand-title-row h1 { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.2px; white-space: nowrap; }
-    .verified-pill { display: inline-flex; align-items: center; gap: 4px; background: #d1fae5; color: #047857; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
-    .info-pills-row { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-bottom: 7px; }
-    .pill-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; padding: 4px 11px; border-radius: 999px; }
-    .pill-24h { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-weight: 700; letter-spacing: 0.2px; box-shadow: 0 3px 8px rgba(2,132,199,0.28); border: 1px solid #38bdf8; }
-    .pulse-24 { width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; animation: pulseGlow 1.6s infinite; display: inline-block; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* TOP CERTIFIED HEADER */
+    .top-header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    .header-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 1 1 auto;
+      min-width: 0;
+      padding-right: 6px;
+    }
+
+    .store-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: #108565;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 4px 10px rgba(16, 133, 101, 0.25);
+    }
+
+    .brand-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .brand-title-row h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #d1fae5;
+      color: #047857;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .info-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 7px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 999px;
+    }
+
+    /* STYLISH 24x7 HELPLINE & ORDER BOOKING BADGE */
+    .pill-24h {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: 0 3px 8px rgba(2, 132, 199, 0.28);
+      border: 1px solid #38bdf8;
+    }
+
+    .pulse-24 {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.8);
+      animation: pulseGlow 1.6s infinite;
+      display: inline-block;
+    }
+
     @keyframes pulseGlow {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56,189,248,0.8); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(56,189,248,0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56,189,248,0); }
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.8); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
     }
-    .pill-helpline { background: #fee2e2; color: #dc2626; text-decoration: none; }
-    .pill-cloud { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; cursor: pointer; transition: transform 0.15s, background 0.15s; }
-    .pill-cloud:hover { background: #d1fae5; transform: scale(1.02); }
-    .dot-green { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; }
-    .dot-red { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: inline-block; }
-    .address-row { font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px; }
-    .map-link { color: #0d9488; font-weight: 700; text-decoration: underline; }
 
-    .header-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start; gap: 8px; flex-shrink: 0; margin-left: 8px; }
-    .nav-row-top, .nav-row-bottom { display: flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; gap: 7px; }
-    .mode-switch-group { background: #f1f5f9; padding: 3px; border-radius: 10px; display: inline-flex; gap: 3px; border: 1px solid var(--border); }
-    body.dark-mode .mode-switch-group { background: #0f172a; }
-    .btn-tab-top { border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
-    .btn-tab-top.active { background: var(--card); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .btn-lang { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-    .btn-moon { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-    .btn-cart-navy { background: #0f172a; color: #fff; border: none; padding: 8px 13px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-    .btn-cart-navy span.amt { color: #34d399; }
-    .btn-wa-green { background: #108565; color: #fff; text-decoration: none; padding: 8px 13px; border-radius: 999px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
-    .btn-track-pill { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 7px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .pill-helpline {
+      background: #fee2e2;
+      color: #dc2626;
+      text-decoration: none;
+    }
 
+    .pill-cloud {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .pill-cloud:hover {
+      background: #d1fae5;
+      transform: scale(1.02);
+    }
+
+    .dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+    }
+
+    .dot-red {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      display: inline-block;
+    }
+
+    .address-row {
+      font-size: 12.5px;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .map-link {
+      color: #0d9488;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* RIGHT NAVIGATION CONTROLS */
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    .nav-row-top, .nav-row-bottom {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+    }
+
+    .mode-switch-group {
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 10px;
+      display: inline-flex;
+      gap: 3px;
+      border: 1px solid var(--border);
+    }
+
+    body.dark-mode .mode-switch-group {
+      background: #0f172a;
+    }
+
+    .btn-tab-top {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-tab-top.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .btn-lang {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-moon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .btn-cart-navy {
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-cart-navy span.amt {
+      color: #34d399;
+    }
+
+    .btn-wa-green {
+      background: #108565;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .btn-track-pill {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    /* MOBILE CHROME FIX */
     @media (max-width: 768px) {
-      .top-header { padding: 12px 10px; }
-      .header-container { gap: 10px; align-items: flex-start; }
-      .brand-left { gap: 8px; max-width: 53%; padding-right: 4px; }
-      .store-icon-box { width: 32px; height: 32px; font-size: 15px; border-radius: 8px; }
-      .brand-title-row { gap: 4px; margin-bottom: 5px; }
-      .brand-title-row h1 { font-size: 14px; letter-spacing: -0.3px; }
-      .verified-pill { font-size: 9px; padding: 2px 6px; }
-      .pill-badge { font-size: 9px; padding: 3px 7px; }
-      .address-row { font-size: 10px; line-height: 1.35; }
-      .header-right { max-width: 45%; margin-left: 6px; gap: 6px; }
-      .mode-switch-group { padding: 2px; gap: 2px; }
-      .btn-tab-top { font-size: 9.5px; padding: 4px 6px; }
-      .btn-lang { font-size: 9.5px; padding: 4px 7px; }
-      .btn-moon { width: 26px; height: 26px; font-size: 11px; }
-      .btn-cart-navy, .btn-wa-green, .btn-track-pill { font-size: 10px; padding: 5px 8px; }
-      .nav-row-top, .nav-row-bottom { flex-wrap: wrap; gap: 4px; }
+      .top-header {
+        padding: 12px 10px;
+      }
+      .header-container {
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .brand-left {
+        gap: 8px;
+        max-width: 53%;
+        padding-right: 4px;
+      }
+      .store-icon-box {
+        width: 32px;
+        height: 32px;
+        font-size: 15px;
+        border-radius: 8px;
+      }
+      .brand-title-row {
+        gap: 4px;
+        margin-bottom: 5px;
+      }
+      .brand-title-row h1 {
+        font-size: 14px;
+        letter-spacing: -0.3px;
+      }
+      .verified-pill {
+        font-size: 9px;
+        padding: 2px 6px;
+      }
+      .pill-badge {
+        font-size: 9px;
+        padding: 3px 7px;
+      }
+      .address-row {
+        font-size: 10px;
+        line-height: 1.35;
+      }
+      .header-right {
+        max-width: 45%;
+        margin-left: 6px;
+        gap: 6px;
+      }
+      .mode-switch-group {
+        padding: 2px;
+        gap: 2px;
+      }
+      .btn-tab-top {
+        font-size: 9.5px;
+        padding: 4px 6px;
+      }
+      .btn-lang {
+        font-size: 9.5px;
+        padding: 4px 7px;
+      }
+      .btn-moon {
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
+      }
+      .btn-cart-navy, .btn-wa-green, .btn-track-pill {
+        font-size: 10px;
+        padding: 5px 8px;
+      }
+      .nav-row-top, .nav-row-bottom {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
     }
 
-    .container { max-width: 1180px; margin: 22px auto; padding: 0 16px; }
-    .hero-card { background: linear-gradient(135deg, var(--hero-start), var(--hero-end)); color: #fff; border-radius: 20px; padding: 28px 26px; margin-bottom: 20px; box-shadow: 0 12px 28px rgba(15,118,110,0.2); }
-    .hero-live-pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.22); padding: 5px 13px; border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 14px; }
-    .hero-title { font-size: 31px; font-weight: 800; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.4px; }
-    .hero-sub { font-size: 15px; color: #d1fae5; max-width: 740px; margin-bottom: 24px; }
-    .hero-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
-    .hero-feature-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); border-radius: 12px; padding: 13px 16px; display: flex; align-items: center; gap: 12px; }
-    .hero-feature-icon { font-size: 20px; width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .hero-feature-text strong { display: block; font-size: 14px; font-weight: 700; }
-    .hero-feature-text span { font-size: 12px; color: #cbd5e1; }
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1180px;
+      margin: 22px auto;
+      padding: 0 16px;
+    }
 
-    .rx-banner { background: var(--primary-bg); border: 1px solid #a7f3d0; border-radius: 16px; padding: 18px 22px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
-    .rx-banner-left { display: flex; align-items: center; gap: 16px; max-width: 760px; }
-    .rx-icon-circle { width: 48px; height: 48px; border-radius: 50%; background: #108565; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-    .rx-banner-left h3 { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
-    .rx-banner-left p { font-size: 13.5px; color: var(--muted); }
-    .btn-upload-rx-green { background: #108565; color: #fff; border: none; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(16,133,101,0.25); }
+    /* GREEN HERO CARD */
+    .hero-card {
+      background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 28px 26px;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 28px rgba(15, 118, 110, 0.2);
+    }
 
-    .search-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; align-items: stretch; }
-    .search-input { flex: 1 1 280px; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
-    .btn-direct-custom { background: linear-gradient(135deg, #0f766e, #108565); color: #fff; border: none; padding: 12px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(15,118,110,0.22); white-space: nowrap; }
+    .hero-live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 5px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
 
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; margin-bottom: 32px; }
-    .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-    .card-top-badges { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .verified-med-tag { font-size: 11px; font-weight: 700; background: #ecfdf5; color: #047857; padding: 3px 9px; border-radius: 6px; }
-    .disc-badge { font-size: 11px; font-weight: 800; background: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 6px; }
-    .med-name { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
-    .med-generic { font-size: 12.5px; font-weight: 600; color: #0f766e; margin-bottom: 4px; }
-    .med-company { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-    .med-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; padding-top: 6px; border-top: 1px dashed var(--border); }
-    .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; }
-    .offer-price { font-size: 21px; font-weight: 800; color: #0f766e; }
-    .mrp-strike { font-size: 13px; color: var(--muted); text-decoration: line-through; }
-    .card-btns { display: flex; gap: 8px; }
-    .btn-primary { background: #108565; color: #fff; border: none; padding: 10px 14px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
-    .btn-outline { background: transparent; color: #108565; border: 1px solid #108565; padding: 9px 14px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+    .hero-title {
+      font-size: 31px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+    }
 
-    .reviews-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 30px; }
-    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 16px 0; }
-    .review-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-    .review-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; padding-top: 14px; border-top: 1px dashed var(--border); }
-    .input-field { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13.5px; }
+    .hero-sub {
+      font-size: 15px;
+      color: #d1fae5;
+      max-width: 740px;
+      margin-bottom: 24px;
+    }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.65); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 14px; overflow-y: auto; }
-    .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 740px; max-height: 90vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
-    .close-btn { background: var(--danger); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: 800; cursor: pointer; }
-    .custom-med-box { background: var(--primary-bg); border: 1px dashed #108565; border-radius: 12px; padding: 14px; margin: 14px 0; }
-    .custom-med-box h4 { font-size: 13.5px; color: #047857; margin-bottom: 8px; }
+    .hero-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
 
-    .status-pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .hero-feature-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-feature-icon {
+      font-size: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hero-feature-text strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero-feature-text span {
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    /* PRESCRIPTION SLIP BANNER */
+    .rx-banner {
+      background: var(--primary-bg);
+      border: 1px solid #a7f3d0;
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .rx-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 760px;
+    }
+
+    .rx-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #108565;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .rx-banner-left h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .rx-banner-left p {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .btn-upload-rx-green {
+      background: #108565;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 133, 101, 0.25);
+    }
+
+    /* SEARCH BAR + DIRECT CUSTOM MEDICINE ADD OPTION BESIDE IT */
+    .search-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+      align-items: stretch;
+    }
+
+    .search-input {
+      flex: 1 1 280px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .btn-direct-custom {
+      background: linear-gradient(135deg, #0f766e, #108565);
+      color: #ffffff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.22);
+      white-space: nowrap;
+      transition: transform 0.15s;
+    }
+
+    .btn-direct-custom:hover {
+      transform: translateY(-1px);
+    }
+
+    /* PRODUCT CATALOG GRID */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      transition: transform 0.15s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-top-badges {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .verified-med-tag {
+      font-size: 11px;
+      font-weight: 700;
+      background: #ecfdf5;
+      color: #047857;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+
+    .disc-badge {
+      font-size: 11px;
+      font-weight: 800;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .med-name {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .med-generic {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0f766e;
+      margin-bottom: 4px;
+    }
+
+    .med-company {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .med-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .offer-price {
+      font-size: 21px;
+      font-weight: 800;
+      color: #0f766e;
+    }
+
+    .mrp-strike {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .card-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: #108565;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #108565;
+      border: 1px solid #108565;
+      padding: 9px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    /* REVIEWS SECTION */
+    .reviews-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 30px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .review-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .review-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13.5px;
+    }
+
+    /* MODALS */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 14px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 740px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .close-btn {
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* CUSTOM MEDICINE BOX IN CART */
+    .custom-med-box {
+      background: var(--primary-bg);
+      border: 1px dashed #108565;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 14px 0;
+    }
+
+    .custom-med-box h4 {
+      font-size: 13.5px;
+      color: #047857;
+      margin-bottom: 8px;
+    }
+
+    /* STATUS PILLS (INCLUDING PROCESSING) */
+    .status-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
     .status-Pending { background: #fef3c7; color: #b45309; }
     .status-Accepted { background: #dbeafe; color: #1d4ed8; }
     .status-Processing { background: #f3e8ff; color: #7e22ce; }
@@ -135,15 +852,65 @@
     .status-Delivered, .status-Completed { background: #dcfce7; color: #15803d; }
     .status-Rejected { background: #fee2e2; color: #b91c1c; }
 
-    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
-    th, td { border: 1px solid var(--border); padding: 9px 10px; text-align: left; vertical-align: top; }
-    th { background: var(--bg); font-weight: 700; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
 
-    .footer { background: #0f172a; color: #f8fafc; padding: 34px 16px 22px; margin-top: 40px; }
-    .footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; padding-bottom: 20px; border-bottom: 1px solid #334155; }
-    .footer h3 { color: #34d399; font-size: 17px; margin-bottom: 10px; }
-    .footer p, .footer a { font-size: 13px; color: #cbd5e1; text-decoration: none; margin-bottom: 6px; display: block; }
-    .footer-bottom { max-width: 1180px; margin: 16px auto 0; text-align: center; font-size: 13px; font-weight: 600; color: #94a3b8; }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--bg);
+      font-weight: 700;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 34px 16px 22px;
+      margin-top: 40px;
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .footer h3 {
+      color: #34d399;
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .footer p, .footer a {
+      font-size: 13px;
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .footer-bottom {
+      max-width: 1180px;
+      margin: 16px auto 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
   </style>
 </head>
 <body>
@@ -151,6 +918,7 @@
   <!-- CERTIFIED TOP HEADER -->
   <header class="top-header">
     <div class="header-container">
+      <!-- Left Brand & Info -->
       <div class="brand-left">
         <div class="store-icon-box">🏪</div>
         <div>
@@ -158,6 +926,7 @@
             <h1 id="txt-store-name">RNS PHARMACY</h1>
             <span class="verified-pill">✔ Verified Chemist</span>
           </div>
+
           <div class="info-pills-row">
             <span class="pill-badge pill-24h">
               <span class="pulse-24"></span> ⚡ 24×7 Helpline & Order Booking
@@ -166,19 +935,24 @@
               <span class="dot-red"></span> Helpline No. & WhatsApp: +917668273774
             </a>
           </div>
+
           <div class="info-pills-row">
             <button type="button" class="pill-badge pill-cloud" onclick="manualCloudScan()" title="Click to Scan & Sync Live Cloud Data">
               <span class="dot-green" id="syncDot"></span>
               <span id="syncStatusText">Live Cloud Synced</span>
             </button>
           </div>
+
           <div class="address-row">
             <span>📍 Kali Mata Road, Sikta, Padrauna, Kushinagar (274303)</span>
-            <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer" class="map-link">View on Map ↗</a>
+            <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer" class="map-link">
+              View on Map ↗
+            </a>
           </div>
         </div>
       </div>
 
+      <!-- Right Navigation & Action Buttons -->
       <div class="header-right">
         <div class="nav-row-top">
           <div class="mode-switch-group">
@@ -187,6 +961,7 @@
           </div>
           <button class="btn-lang" onclick="toggleLang()" id="langBtn">🇮🇳 हिंदी</button>
         </div>
+
         <div class="nav-row-bottom">
           <button class="btn-moon" onclick="toggleDarkMode()" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
           <button class="btn-track-pill" onclick="openModal('trackModal')">📦 Track Order</button>
@@ -194,7 +969,9 @@
             🛒 Cart (<span id="cartCount">0</span>) <span class="amt" id="cartHeaderAmt">₹0.00</span>
           </button>
           <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines"
-             target="_blank" rel="noopener noreferrer" class="btn-wa-green">💬 WhatsApp Shop</a>
+             target="_blank" rel="noopener noreferrer" class="btn-wa-green">
+            💬 WhatsApp Shop
+          </a>
         </div>
       </div>
     </div>
@@ -202,15 +979,18 @@
 
   <!-- MAIN CONTENT -->
   <main class="container">
+    <!-- GREEN HERO BANNER (Updated with Standard & Monopolic Generic Medicine. and 100% Standard & Generic) -->
     <section class="hero-card">
       <div class="hero-live-pill">
         <span class="dot-green"></span>
         <span id="txt-hero-pill">Live Real-Time Pharmacy Inventory</span>
       </div>
+
       <h2 class="hero-title" id="txt-hero-title">Standard & Monopolic Generic Medicine.</h2>
       <p class="hero-sub" id="txt-hero-sub">
         Check live batch numbers, marketing & expiry dates, and instant discounts. Order directly on WhatsApp for home delivery or counter pickup.
       </p>
+
       <div class="hero-features-grid">
         <div class="hero-feature-box">
           <div class="hero-feature-icon">🛡️</div>
@@ -236,6 +1016,7 @@
       </div>
     </section>
 
+    <!-- DOCTOR'S PRESCRIPTION SLIP BANNER -->
     <section class="rx-banner">
       <div class="rx-banner-left">
         <div class="rx-icon-circle">📄</div>
@@ -246,9 +1027,12 @@
           </p>
         </div>
       </div>
-      <button class="btn-upload-rx-green" onclick="openModal('rxModal')">↑ Upload Prescription</button>
+      <button class="btn-upload-rx-green" onclick="openModal('rxModal')">
+        ↑ Upload Prescription
+      </button>
     </section>
 
+    <!-- SEARCH BAR + DIRECT BUTTON BESIDE IT FOR UNLISTED MEDICINE -->
     <section class="search-wrap">
       <input type="text" id="searchMed" class="search-input"
              placeholder="🔍 दवा का नाम, जेनेरिक साल्ट, कंपनी या बैच नंबर लिखकर सर्च करें..."
@@ -258,14 +1042,18 @@
       </button>
     </section>
 
+    <!-- LIVE MEDICINE CATALOG -->
     <section class="product-grid" id="productGrid"></section>
 
+    <!-- VERIFIED CUSTOMER REVIEWS -->
     <section class="reviews-section">
       <div>
         <h3>⭐ Verified Customer Reviews (वेरीफाइड कस्टमर रिव्यू)</h3>
         <p style="font-size:12.5px; color:var(--muted);">Real feedback from our valued patients & customers in Sikta, Kushinagar</p>
       </div>
+
       <div class="reviews-grid" id="reviewsGrid"></div>
+
       <form class="review-form" onsubmit="submitCustomerReview(event)">
         <input type="text" id="revName" class="input-field" placeholder="Your Name (आपका नाम) *" required />
         <input type="tel" id="revMobile" class="input-field" placeholder="Mobile Number (मोबाइल नंबर) *" pattern="[0-9]{10}" required />
@@ -280,7 +1068,7 @@
     </section>
   </main>
 
-  <!-- DIRECT ADD UNLISTED MEDICINE MODAL -->
+  <!-- DIRECT ADD UNLISTED MEDICINE MODAL (OPENED FROM NEXT TO SEARCH BAR) -->
   <div class="modal-overlay" id="directCustomModal">
     <div class="modal-box" style="max-width:480px;">
       <div class="modal-header">
@@ -307,8 +1095,10 @@
         <h3>🛒 Your Medicine Cart & Bill Checkout</h3>
         <button class="close-btn" onclick="closeModal('cartModal')">✕</button>
       </div>
+
       <div id="cartItemsContainer"></div>
 
+      <!-- ADD UNLISTED MEDICINE IN CART (ONLY PRODUCT NAME & MRP) -->
       <div class="custom-med-box">
         <h4>➕ कोई अन्य दवा जोड़ें जो इन्वेंटरी में नहीं है (Product Name व MRP डालें):</h4>
         <div style="display:grid; grid-template-columns: 2fr 1.2fr auto; gap:8px;">
@@ -352,8 +1142,12 @@
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:10px;">
-        <button class="btn-primary" style="flex:1;" onclick="placePortalOrder(false)">✅ Place Order & Generate Bill</button>
-        <button class="btn-primary" style="flex:1; background:#25D366;" onclick="placePortalOrder(true)">📲 Confirm & Send on WhatsApp</button>
+        <button class="btn-primary" style="flex:1;" onclick="placePortalOrder(false)">
+          ✅ Place Order & Generate Bill
+        </button>
+        <button class="btn-primary" style="flex:1; background:#25D366;" onclick="placePortalOrder(true)">
+          📲 Confirm & Send on WhatsApp
+        </button>
       </div>
     </div>
   </div>
@@ -389,7 +1183,7 @@
         <button class="close-btn" onclick="closeModal('trackModal')">✕</button>
       </div>
       <div style="display:flex; gap:8px; margin-bottom:14px;">
-        <input type="text" id="trackInput" class="input-field" placeholder="Enter 10-Digit Mobile Number or Order/Rx ID..." />
+        <input type="text" id="trackInput" class="input-field" placeholder="Enter Registered Mobile Number or Order/Rx ID..." />
         <button class="btn-primary" onclick="searchCustomerTracking()">Search Status</button>
       </div>
       <div id="trackResultsContainer"></div>
@@ -404,7 +1198,7 @@
         <button class="close-btn" onclick="closeModal('adminLoginModal')">✕</button>
       </div>
       <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Authorized Access Only</p>
-      <input type="password" id="adminPassInput" class="input-field" placeholder="Enter Admin Password" style="margin-bottom:12px;" onkeydown="if(event.key==='Enter') verifyAdminLogin()" />
+      <input type="password" id="adminPassInput" class="input-field" placeholder="Enter Admin Password" style="margin-bottom:12px;" />
       <button class="btn-primary" style="width:100%;" onclick="verifyAdminLogin()">Login to Owner Portal</button>
     </div>
   </div>
@@ -428,6 +1222,7 @@
         <button class="btn-outline" onclick="switchAdminTab('promoTab')">🏷️ Promo Codes (% / ₹)</button>
       </div>
 
+      <!-- Tab 1: Orders -->
       <div id="ordersTab" class="admin-tab-content">
         <div style="overflow-x:auto;">
           <table>
@@ -445,6 +1240,7 @@
         </div>
       </div>
 
+      <!-- Tab 2: Prescriptions -->
       <div id="rxTab" class="admin-tab-content" style="display:none;">
         <div style="overflow-x:auto;">
           <table>
@@ -462,6 +1258,7 @@
         </div>
       </div>
 
+      <!-- Tab 3: Inventory Update (Marketing By + Owner-Only Stock Pcs Added) -->
       <div id="stockTab" class="admin-tab-content" style="display:none;">
         <h4 style="margin-bottom:10px;">Add / Update Medicine (प्रोडक्ट नेम, जेनेरिक नेम, Marketing By और आपके लिए स्टॉक पीस)</h4>
         <form onsubmit="addMedicine(event)" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(175px, 1fr)); gap:8px; margin-bottom:16px;">
@@ -496,6 +1293,7 @@
         </div>
       </div>
 
+      <!-- Tab 4: Promo Codes -->
       <div id="promoTab" class="admin-tab-content" style="display:none;">
         <h4 style="margin-bottom:10px;">Create Promo Code (परसेंटेज % या रुपया ₹ में डिस्काउंट सेट करें)</h4>
         <div style="display:grid; grid-template-columns: 1.5fr 1.2fr 1.2fr auto; gap:8px; margin-bottom:14px;">
@@ -521,25 +1319,32 @@
         <p>Standard & Monopolic Generic Medicine.</p>
         <p>Verified by authorized registered pharmacist.</p>
       </div>
+
       <div>
         <h3>Contact & Location</h3>
         <p>📍 <strong>Address:</strong> Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303</p>
         <p>📞 <strong>Helpline No. & WhatsApp:</strong> +91 7668273774</p>
-        <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer">🗺️ View RNS PHARMACY on Google Maps</a>
+        <a href="https://maps.app.goo.gl/C3Zsou5YPP6oWjti9" target="_blank" rel="noopener noreferrer">
+          🗺️ View RNS PHARMACY on Google Maps
+        </a>
       </div>
+
       <div>
         <h3>Quick Services</h3>
-        <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines" target="_blank" rel="noopener noreferrer">💬 Order Directly on WhatsApp Shop</a>
+        <a href="https://wa.me/917668273774?text=Hello%20RNS%20PHARMACY,%20I%20need%20some%20help%20with%20medicines" target="_blank" rel="noopener noreferrer">
+          💬 Order Directly on WhatsApp Shop
+        </a>
         <a href="javascript:void(0)" onclick="openModal('trackModal')">📦 Track Your Order / Prescription</a>
         <a href="javascript:void(0)" onclick="openModal('rxModal')">📄 Upload Doctor Prescription</a>
       </div>
     </div>
+
     <div class="footer-bottom">
       © 2026 RNS PHARMACY - Verified Retail Chemist & 100% Standard/Generic Batch-Verified Medicines
     </div>
   </footer>
 
-  <!-- SMOOTH APPLICATION & CLOUD SYNC SCRIPT -->
+  <!-- APPLICATION & CLOUD SYNC SCRIPT -->
   <script>
     const CLOUD_TOPIC = "rns_pharm_sikta_cfg_7402_v5";
     const KEYS = {
@@ -570,130 +1375,69 @@
     function normalizeStockArray(arr) {
       if (!Array.isArray(arr) || arr.length === 0) return DEFAULT_STOCK;
       return arr.map((item, idx) => ({
-        id: String(item.id || ("M_" + idx)),
-        name: String(item.name || "Medicine"),
-        generic: (item.generic && item.generic !== "undefined") ? String(item.generic) : "Standard Generic Formula",
-        company: (item.company && item.company !== "undefined") ? String(item.company) : "Standard Marketing Co.",
-        pack: (item.pack && item.pack !== "undefined") ? String(item.pack) : (item.size || "Standard Pack"),
-        batch: (item.batch && item.batch !== "undefined") ? String(item.batch) : "Verified",
-        exp: (item.exp && item.exp !== "undefined") ? String(item.exp) : "12/2028",
+        id: item.id || ("M_" + idx),
+        name: item.name || "Medicine",
+        generic: (item.generic && item.generic !== "undefined") ? item.generic : "Standard Generic Formula",
+        company: (item.company && item.company !== "undefined") ? item.company : "Standard Marketing Co.",
+        pack: (item.pack && item.pack !== "undefined") ? item.pack : (item.size || "Standard Pack"),
+        batch: (item.batch && item.batch !== "undefined") ? item.batch : "Verified",
+        exp: (item.exp && item.exp !== "undefined") ? item.exp : "12/2028",
         mrp: parseFloat(item.mrp) || parseFloat(item.price) || 0,
         price: parseFloat(item.price) || parseFloat(item.mrp) || 0,
         stock: (item.stock !== undefined && item.stock !== null && item.stock !== "" && !isNaN(parseInt(item.stock, 10))) ? parseInt(item.stock, 10) : 40
       }));
     }
 
-    // Normalizes legacy orders so Owner Portal & Mobile Tracking NEVER crash on any device
-    function normalizeOrderObj(o, idx = 0) {
-      if (!o || typeof o !== "object") return null;
-      const items = Array.isArray(o.items) ? o.items.map(i => ({
-        id: i.id || "ITEM",
-        name: i.name || "Medicine",
-        generic: i.generic || "",
-        company: i.company || "",
-        pack: i.pack || "Standard",
-        batch: i.batch || "Verified",
-        exp: i.exp || "Fresh",
-        mrp: parseFloat(i.mrp) || parseFloat(i.price) || 0,
-        price: parseFloat(i.price) || parseFloat(i.mrp) || 0,
-        qty: parseInt(i.qty, 10) || 1,
-        isCustom: Boolean(i.isCustom)
-      })) : [];
-
-      const rawPhone = String(o.phone || o.mobile || o.custPhone || "").trim();
-      const customDeliv = (o.customDeliveryCharge !== undefined && o.customDeliveryCharge !== null)
-        ? Number(o.customDeliveryCharge)
-        : (o.totals && o.totals.deliveryCharge !== undefined ? Number(o.totals.deliveryCharge) : null);
-
-      const calcTotals = calculateTotalsFromItems(items, o.promoUsed || null, customDeliv);
-      return {
-        id: String(o.id || ("RNS-" + (100000 + idx))),
-        date: String(o.date || ""),
-        customer: String(o.customer || o.name || "Customer"),
-        phone: rawPhone,
-        address: String(o.address || ""),
-        note: String(o.note || ""),
-        adminNote: String(o.adminNote || ""),
-        payMethod: String(o.payMethod || "COD"),
-        promoUsed: o.promoUsed || null,
-        customDeliveryCharge: calcTotals.deliveryCharge,
-        items: items,
-        totals: calcTotals,
-        status: String(o.status || "Pending")
-      };
-    }
-
-    function normalizeOrdersArray(arr) {
-      if (!Array.isArray(arr)) return [];
-      return arr.map((o, idx) => normalizeOrderObj(o, idx)).filter(Boolean);
-    }
-
-    function normalizeRxObj(r, idx = 0) {
-      if (!r || typeof r !== "object") return null;
-      return {
-        id: String(r.id || ("RX-" + (100000 + idx))),
-        date: String(r.date || ""),
-        name: String(r.name || r.customer || "Patient"),
-        phone: String(r.phone || r.mobile || "").trim(),
-        address: String(r.address || ""),
-        notes: String(r.notes || r.note || ""),
-        adminNote: String(r.adminNote || ""),
-        image: r.image || "",
-        status: String(r.status || "Pending")
-      };
-    }
-
-    function normalizeRxArray(arr) {
-      if (!Array.isArray(arr)) return [];
-      return arr.map((r, idx) => normalizeRxObj(r, idx)).filter(Boolean);
-    }
-
-    function safeParseJSON(key, fallback) {
-      try {
-        const val = localStorage.getItem(key);
-        return val ? JSON.parse(val) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    }
-
-    let stockList = normalizeStockArray(safeParseJSON(KEYS.STOCK, DEFAULT_STOCK));
-    let ordersList = normalizeOrdersArray(safeParseJSON(KEYS.ORDERS, []));
-    let rxList = normalizeRxArray(safeParseJSON(KEYS.RX, []));
-    let promosList = safeParseJSON(KEYS.PROMOS, DEFAULT_PROMOS);
-    let reviewsList = safeParseJSON(KEYS.REVIEWS, DEFAULT_REVIEWS);
+    let stockList = normalizeStockArray(JSON.parse(localStorage.getItem(KEYS.STOCK)));
+    let ordersList = JSON.parse(localStorage.getItem(KEYS.ORDERS)) || [];
+    let rxList = JSON.parse(localStorage.getItem(KEYS.RX)) || [];
+    let promosList = JSON.parse(localStorage.getItem(KEYS.PROMOS)) || DEFAULT_PROMOS;
+    let reviewsList = JSON.parse(localStorage.getItem(KEYS.REVIEWS)) || DEFAULT_REVIEWS;
 
     let cart = [];
     let activePromo = null;
     let currentLang = "EN";
 
     function saveLocalState() {
-      try {
-        localStorage.setItem(KEYS.STOCK, JSON.stringify(stockList));
-        localStorage.setItem(KEYS.ORDERS, JSON.stringify(ordersList));
-        localStorage.setItem(KEYS.RX, JSON.stringify(rxList));
-        localStorage.setItem(KEYS.PROMOS, JSON.stringify(promosList));
-        localStorage.setItem(KEYS.REVIEWS, JSON.stringify(reviewsList));
-      } catch (e) {}
+      localStorage.setItem(KEYS.STOCK, JSON.stringify(stockList));
+      localStorage.setItem(KEYS.ORDERS, JSON.stringify(ordersList));
+      localStorage.setItem(KEYS.RX, JSON.stringify(rxList));
+      localStorage.setItem(KEYS.PROMOS, JSON.stringify(promosList));
+      localStorage.setItem(KEYS.REVIEWS, JSON.stringify(reviewsList));
     }
 
-    // --- SMOOTH CLOUD SCANNING & SYNC ENGINE ---
+    // --- CLOUD SCANNING & SYNC ENGINE ---
     async function manualCloudScan() {
       const txt = document.getElementById("syncStatusText");
       const dot = document.getElementById("syncDot");
       txt.textContent = "🔄 Scanning Cloud...";
       dot.style.background = "#f59e0b";
       const ok = await syncFromCloud();
-      txt.textContent = ok ? "Live Cloud Synced ✓" : "Live Cloud Synced";
-      dot.style.background = "#10b981";
-      alert(ok ? "✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।" : "ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
+      if (ok) {
+        txt.textContent = "Live Cloud Synced ✓";
+        dot.style.background = "#10b981";
+        alert("✅ क्लाउड स्कैनिंग सफल! सभी दवाइयां, ऑर्डर और प्रिस्क्रिप्शन लाइव अपडेट हो गए हैं।");
+      } else {
+        txt.textContent = "Live Cloud Synced";
+        dot.style.background = "#10b981";
+        alert("ℹ️ लोकल और क्लाउड डेटा पहले से अप-टू-डेट है।");
+      }
     }
 
     async function pushConfigToCloud(showAlert = false) {
       saveLocalState();
       try {
-        const payload = { type: "CONFIG_SYNC", ts: Date.now(), stock: stockList, promos: promosList, reviews: reviewsList };
-        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, { method: "POST", body: JSON.stringify(payload) });
+        const payload = {
+          type: "CONFIG_SYNC",
+          ts: Date.now(),
+          stock: stockList,
+          promos: promosList,
+          reviews: reviewsList
+        };
+        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
         updateSyncIndicator(true);
         if (showAlert) alert("☁️ इन्वेंटरी क्लाउड पर सफलतापूर्वक सिंक हो गई!");
       } catch (err) {
@@ -704,45 +1448,48 @@
     async function pushOrderEventToCloud(eventType, dataObj) {
       saveLocalState();
       try {
-        const payload = { type: eventType, ts: Date.now(), data: dataObj };
-        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, { method: "POST", body: JSON.stringify(payload) });
+        const payload = {
+          type: eventType,
+          ts: Date.now(),
+          data: dataObj
+        };
+        await fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
         updateSyncIndicator(true);
       } catch (err) {
         updateSyncIndicator(false);
       }
     }
 
-    async function processNtfyWrapper(wrapper, shouldRender = true) {
+    async function processNtfyWrapper(wrapper) {
       if (!wrapper) return;
       if (wrapper.attachment && wrapper.attachment.url) {
         try {
           const attRes = await fetch(wrapper.attachment.url);
           const attJson = await attRes.json();
-          handleCloudPayload(attJson, shouldRender);
+          handleCloudPayload(attJson);
           return;
         } catch (e) {}
       }
       if (wrapper.message) {
         try {
-          handleCloudPayload(JSON.parse(wrapper.message), shouldRender);
+          handleCloudPayload(JSON.parse(wrapper.message));
         } catch (e) {}
       }
     }
 
-    // Batch syncs all cloud lines in memory first, then renders UI ONCE for zero lag
     async function syncFromCloud() {
       try {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 9000);
-        const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=24h`, { signal: controller.signal });
-        clearTimeout(timer);
+        const res = await fetch(`https://ntfy.sh/${CLOUD_TOPIC}/json?poll=1&since=48h`);
         const text = await res.text();
         const lines = text.trim().split("\n");
         for (const line of lines) {
           if (!line) continue;
           try {
             const wrapper = JSON.parse(line);
-            await processNtfyWrapper(wrapper, false);
+            await processNtfyWrapper(wrapper);
           } catch (e) {}
         }
         saveLocalState();
@@ -757,45 +1504,40 @@
       }
     }
 
-    function handleCloudPayload(msg, shouldRender = true) {
+    function handleCloudPayload(msg) {
       if (!msg) return;
       if (msg.type === "CONFIG_SYNC" || Array.isArray(msg.stock)) {
-        if (Array.isArray(msg.stock) && msg.stock.length > 0) stockList = normalizeStockArray(msg.stock);
+        if (Array.isArray(msg.stock) && msg.stock.length > 0) {
+          stockList = normalizeStockArray(msg.stock);
+        }
         if (Array.isArray(msg.promos)) promosList = msg.promos;
         if (Array.isArray(msg.reviews)) reviewsList = msg.reviews;
       } else if (msg.type === "NEW_ORDER" && msg.data) {
-        const normOrd = normalizeOrderObj(msg.data);
-        if (normOrd) {
-          const idx = ordersList.findIndex(o => o.id === normOrd.id);
-          if (idx >= 0) ordersList[idx] = normOrd;
-          else ordersList.unshift(normOrd);
-        }
+        const idx = ordersList.findIndex(o => o.id === msg.data.id);
+        if (idx >= 0) ordersList[idx] = msg.data;
+        else ordersList.unshift(msg.data);
       } else if (msg.type === "NEW_RX" && msg.data) {
-        const normRx = normalizeRxObj(msg.data);
-        if (normRx) {
-          const idx = rxList.findIndex(r => r.id === normRx.id);
-          if (idx >= 0) {
-            const existingImg = rxList[idx].image;
-            rxList[idx] = { ...rxList[idx], ...normRx };
-            if (!normRx.image && existingImg) rxList[idx].image = existingImg;
-          } else {
-            rxList.unshift(normRx);
-          }
+        const idx = rxList.findIndex(r => r.id === msg.data.id);
+        if (idx >= 0) {
+          const existingImg = rxList[idx].image;
+          rxList[idx] = { ...rxList[idx], ...msg.data };
+          if (!msg.data.image && existingImg) rxList[idx].image = existingImg;
+        } else {
+          rxList.unshift(msg.data);
         }
       } else if (msg.type === "RX_IMG_SYNC" && msg.rxId && msg.image) {
         const idx = rxList.findIndex(r => r.id === msg.rxId);
-        if (idx >= 0) rxList[idx].image = msg.image;
+        if (idx >= 0) {
+          rxList[idx].image = msg.image;
+        }
       } else if (msg.type === "NEW_REVIEW" && msg.data) {
         const exists = reviewsList.some(rv => rv.name === msg.data.name && rv.comment === msg.data.comment);
         if (!exists) reviewsList.unshift(msg.data);
       }
-
-      if (shouldRender) {
-        saveLocalState();
-        renderCatalog();
-        renderReviews();
-        renderAdminTables();
-      }
+      saveLocalState();
+      renderCatalog();
+      renderReviews();
+      renderAdminTables();
     }
 
     function startLiveStream() {
@@ -804,7 +1546,7 @@
         es.onmessage = (event) => {
           try {
             const wrapper = JSON.parse(event.data);
-            processNtfyWrapper(wrapper, true);
+            processNtfyWrapper(wrapper);
           } catch (e) {}
         };
       } catch (e) {}
@@ -822,7 +1564,7 @@
       }
     }
 
-    // --- RENDER MEDICINE CATALOG ---
+    // --- RENDER MEDICINE CATALOG (Shows Marketing By; Hides Stock from Customers) ---
     function renderCatalog() {
       const grid = document.getElementById("productGrid");
       const query = (document.getElementById("searchMed").value || "").toLowerCase();
@@ -881,8 +1623,12 @@
                 ${mrpVal > priceVal ? `<span class="mrp-strike">MRP ₹${mrpVal}</span>` : ""}
               </div>
               <div class="card-btns">
-                <button class="btn-primary" style="flex:1;" onclick="addToCart('${item.id}')">+ Add to Cart</button>
-                <a class="btn-outline" href="https://wa.me/917668273774?text=${waMsg}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
+                <button class="btn-primary" style="flex:1;" onclick="addToCart('${item.id}')">
+                  + Add to Cart
+                </button>
+                <a class="btn-outline" href="https://wa.me/917668273774?text=${waMsg}" target="_blank" rel="noopener noreferrer">
+                  💬 WhatsApp
+                </a>
               </div>
             </div>
           </div>
@@ -918,6 +1664,7 @@
     function addCustomToCart() {
       const nameInput = document.getElementById("customMedName");
       const mrpInput = document.getElementById("customMedMrp");
+
       const name = (nameInput.value || "").trim();
       const mrp = parseFloat(mrpInput.value) || 0;
 
@@ -947,6 +1694,7 @@
     function addDirectFromSearch() {
       const nameInput = document.getElementById("frontCustomName");
       const mrpInput = document.getElementById("frontCustomMrp");
+
       const name = (nameInput.value || "").trim();
       const mrp = parseFloat(mrpInput.value) || 0;
 
@@ -983,7 +1731,7 @@
       updateCartUI();
     }
 
-    // --- PROMO CODE & TOTALS ---
+    // --- PROMO CODE & TOTALS (WITH ₹50 DELIVERY UNDER ₹500 + ₹6 PACKAGING CHARGE) ---
     function updatePromoPlaceholder() {
       const t = document.getElementById("newPromoType").value;
       const inp = document.getElementById("newPromoDisc");
@@ -992,10 +1740,14 @@
 
     function applyPromoCode() {
       const code = (document.getElementById("promoInput").value || "").trim().toUpperCase();
-      const found = promosList.find(p => String(p.code || "").toUpperCase() === code);
+      const found = promosList.find(p => p.code.toUpperCase() === code);
       if (found) {
         activePromo = found;
-        alert(found.type === "FLAT" ? `🎉 Promo ${found.code} applied! Flat ₹${found.discount} OFF.` : `🎉 Promo ${found.code} applied! Extra ${found.discount}% OFF.`);
+        if (found.type === "FLAT") {
+          alert(`🎉 Promo ${found.code} applied! Flat ₹${found.discount} OFF.`);
+        } else {
+          alert(`🎉 Promo ${found.code} applied! Extra ${found.discount}% OFF.`);
+        }
       } else {
         activePromo = null;
         alert("Invalid Promo Code.");
@@ -1010,9 +1762,8 @@
       let totalMrp = 0;
       let subtotalOffer = 0;
       itemsArr.forEach(item => {
-        const q = Number(item.qty) || 1;
-        totalMrp += (Number(item.mrp) || 0) * q;
-        subtotalOffer += (Number(item.price) || 0) * q;
+        totalMrp += Number(item.mrp) * item.qty;
+        subtotalOffer += Number(item.price) * item.qty;
       });
       const mrpSavings = Math.max(0, totalMrp - subtotalOffer);
       let promoDiscount = 0;
@@ -1033,6 +1784,7 @@
       }
 
       const packagingCharge = 6;
+
       const grandTotal = netMedicineAmount + deliveryCharge + packagingCharge;
       const totalSaved = mrpSavings + promoDiscount;
       return { totalMrp, subtotalOffer, mrpSavings, promoDiscount, deliveryCharge, packagingCharge, grandTotal, totalSaved };
@@ -1112,7 +1864,9 @@
     }
 
     function placePortalOrder(openWhatsApp) {
-      if (cart.length === 0) return alert("कृपया पहले कार्ट में दवा जोड़ें!");
+      if (cart.length === 0) {
+        return alert("कृपया पहले कार्ट में दवा जोड़ें!");
+      }
       const name = document.getElementById("custName").value.trim();
       const phone = document.getElementById("custPhone").value.trim();
       const address = document.getElementById("custAddress").value.trim();
@@ -1125,7 +1879,7 @@
 
       const totals = calculateTotals();
       const orderId = "RNS-" + Math.floor(100000 + Math.random() * 900000);
-      const newOrder = normalizeOrderObj({
+      const newOrder = {
         id: orderId,
         date: new Date().toLocaleString(),
         customer: name,
@@ -1139,12 +1893,15 @@
         items: JSON.parse(JSON.stringify(cart)),
         totals,
         status: "Pending"
-      });
+      };
 
+      // Deduct stock in Owner Portal automatically when order is placed
       cart.forEach(c => {
         if (!c.isCustom) {
           const med = stockList.find(m => m.id === c.id);
-          if (med) med.stock = Math.max(0, (parseInt(med.stock, 10) || 0) - c.qty);
+          if (med) {
+            med.stock = Math.max(0, (parseInt(med.stock, 10) || 0) - c.qty);
+          }
         }
       });
 
@@ -1176,8 +1933,13 @@
             let w = img.width;
             let h = img.height;
             if (w > maxDim || h > maxDim) {
-              if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
-              else { w = Math.round((w * maxDim) / h); h = maxDim; }
+              if (w > h) {
+                h = Math.round((h * maxDim) / w);
+                w = maxDim;
+              } else {
+                w = Math.round((w * maxDim) / h);
+                h = maxDim;
+              }
             }
             const canvas = document.createElement("canvas");
             canvas.width = w;
@@ -1215,20 +1977,41 @@
         const rxId = "RX-" + Math.floor(100000 + Math.random() * 900000);
         const rxDate = new Date().toLocaleString();
 
-        const rxLocalObj = normalizeRxObj({
-          id: rxId, date: rxDate, name, phone, address, notes, adminNote: "", image: clearRxImage, status: "Pending"
-        });
+        const rxLocalObj = {
+          id: rxId,
+          date: rxDate,
+          name,
+          phone,
+          address,
+          notes,
+          adminNote: "",
+          image: clearRxImage,
+          status: "Pending"
+        };
 
         rxList.unshift(rxLocalObj);
         saveLocalState();
 
         await pushOrderEventToCloud("NEW_RX", {
-          id: rxId, date: rxDate, name, phone, address, notes, adminNote: "", image: tinyPreview, status: "Pending"
+          id: rxId,
+          date: rxDate,
+          name,
+          phone,
+          address,
+          notes,
+          adminNote: "",
+          image: tinyPreview,
+          status: "Pending"
         });
 
         fetch(`https://ntfy.sh/${CLOUD_TOPIC}`, {
           method: "POST",
-          body: JSON.stringify({ type: "RX_IMG_SYNC", ts: Date.now(), rxId: rxId, image: clearRxImage })
+          body: JSON.stringify({
+            type: "RX_IMG_SYNC",
+            ts: Date.now(),
+            rxId: rxId,
+            image: clearRxImage
+          })
         }).catch(() => {});
 
         const waRxText = `*New Prescription (Rx) Uploaded - RNS PHARMACY*%0A*Rx ID:* ${rxId}%0A*Patient Name:* ${encodeURIComponent(name)}%0A*Mobile:* ${phone}%0A*Address:* ${encodeURIComponent(address)}%0A*Note:* ${encodeURIComponent(notes || "Please check uploaded prescription on Admin Portal")}`;
@@ -1243,36 +2026,22 @@
       }
     }
 
-    // --- 100% RELIABLE MOBILE NUMBER & ORDER ID TRACKING ---
+    // --- TRACKING ---
     function searchCustomerTracking() {
-      const rawQ = (document.getElementById("trackInput").value || "").trim();
+      const q = (document.getElementById("trackInput").value || "").trim().toLowerCase();
       const box = document.getElementById("trackResultsContainer");
-      if (!rawQ) return alert("कृपया मोबाइल नंबर या Order/Rx ID डालें।");
+      if (!q) return alert("कृपया मोबाइल नंबर या Order/Rx ID डालें।");
 
-      const qLower = rawQ.toLowerCase();
-      const qDigits = rawQ.replace(/\D/g, "");
-      const qLast10 = qDigits.length >= 10 ? qDigits.slice(-10) : qDigits;
-
-      const matchRecord = (recPhone, recId) => {
-        const idStr = String(recId || "").toLowerCase();
-        const phoneStr = String(recPhone || "").toLowerCase();
-        const phoneDigits = phoneStr.replace(/\D/g, "");
-        if (idStr.includes(qLower) || phoneStr.includes(qLower)) return true;
-        if (qLast10 && qLast10.length >= 4 && phoneDigits.includes(qLast10)) return true;
-        return false;
-      };
-
-      const myOrders = ordersList.filter(o => o && matchRecord(o.phone || o.mobile, o.id));
-      const myRx = rxList.filter(r => r && matchRecord(r.phone || r.mobile, r.id));
+      const myOrders = ordersList.filter(o => o.phone.toLowerCase().includes(q) || o.id.toLowerCase().includes(q));
+      const myRx = rxList.filter(r => r.phone.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
 
       if (myOrders.length === 0 && myRx.length === 0) {
-        box.innerHTML = `<p style="color:var(--danger); padding:10px;">कोई रिकॉर्ड नहीं मिला। कृपया ऊपर 'Live Cloud Synced' पर टैप करके दोबारा सर्च करें।</p>`;
+        box.innerHTML = `<p style="color:var(--danger); padding:10px;">कोई रिकॉर्ड नहीं मिला।</p>`;
         return;
       }
 
       let html = "";
-      myOrders.forEach(rawOrd => {
-        const o = normalizeOrderObj(rawOrd);
+      myOrders.forEach(o => {
         const pillClass = "status-" + o.status.replace(/\s+/g, "-");
         const deliv = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
         const pkg = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
@@ -1288,7 +2057,7 @@
               <strong>Order ID: ${o.id}</strong>
               <span class="status-pill ${pillClass}">${o.status}</span>
             </div>
-            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Customer: ${o.customer} (${o.phone}) | Date: ${o.date}</div>
+            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Date: ${o.date} | Payment: ${o.payMethod}</div>
             <div style="font-size:12.5px; margin-bottom:4px;">
               Delivery: ₹${deliv} | Packaging: ₹${pkg} | <strong>Net Payable Bill: ₹${o.totals.grandTotal}</strong>
             </div>
@@ -1298,8 +2067,7 @@
         `;
       });
 
-      myRx.forEach(rawRx => {
-        const r = normalizeRxObj(rawRx);
+      myRx.forEach(r => {
         const pillClass = "status-" + r.status.replace(/\s+/g, "-");
         const adminNoteHtml = r.adminNote
           ? `<div style="background:#fef3c7; color:#92400e; padding:8px 10px; border-radius:8px; font-size:12.5px; margin:6px 0; border-left:3px solid #f59e0b;">
@@ -1313,7 +2081,7 @@
               <strong>Prescription ID: ${r.id}</strong>
               <span class="status-pill ${pillClass}">${r.status}</span>
             </div>
-            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Patient: ${r.name} (${r.phone}) | Date: ${r.date}</div>
+            <div style="font-size:12px; color:var(--muted); margin:4px 0;">Patient: ${r.name} | Date: ${r.date}</div>
             <div style="font-size:13px;">Customer Note: ${r.notes || "N/A"}</div>
             ${adminNoteHtml}
           </div>
@@ -1347,7 +2115,13 @@
       const comment = document.getElementById("revComment").value.trim();
 
       const maskedMobile = mobileRaw.slice(0, 2) + "******" + mobileRaw.slice(-2);
-      const revObj = { name, mobile: maskedMobile, rating: Number(rating), comment, date: new Date().toLocaleDateString() };
+      const revObj = {
+        name,
+        mobile: maskedMobile,
+        rating: Number(rating),
+        comment,
+        date: new Date().toLocaleDateString()
+      };
       reviewsList.unshift(revObj);
       pushOrderEventToCloud("NEW_REVIEW", revObj);
       renderReviews();
@@ -1355,20 +2129,14 @@
       alert("🙏 धन्यवाद! आपका वेरीफाइड रिव्यू जुड़ गया है।");
     }
 
-    // --- ERROR-SHIELDED OWNER PORTAL LOGIN (Guaranteed to Open on All Mobiles & Laptops) ---
+    // --- OWNER PORTAL (Password = 7402, Owner-Only Stock, Marketing By, Edit MRP & Delivery Charge) ---
     function verifyAdminLogin() {
-      const pass = (document.getElementById("adminPassInput").value || "").trim();
+      const pass = document.getElementById("adminPassInput").value.trim();
       if (pass === "7402") {
         document.getElementById("adminPassInput").value = "";
         closeModal("adminLoginModal");
+        renderAdminTables();
         openModal("adminDashboardModal");
-        try {
-          ordersList = normalizeOrdersArray(ordersList);
-          rxList = normalizeRxArray(rxList);
-          renderAdminTables();
-        } catch (err) {
-          console.error("Admin render recovery:", err);
-        }
       } else {
         alert("❌ गलत पासवर्ड!");
       }
@@ -1455,7 +2223,18 @@
       const stockVal = parseInt(document.getElementById("medStock").value, 10);
       const stock = isNaN(stockVal) ? 40 : Math.max(0, stockVal);
 
-      const medObj = { id: editId || ("M_" + Date.now()), name, generic, company, pack, batch, exp, mrp, price, stock };
+      const medObj = {
+        id: editId || ("M_" + Date.now()),
+        name,
+        generic,
+        company,
+        pack,
+        batch,
+        exp,
+        mrp,
+        price,
+        stock
+      };
 
       const existingIdx = stockList.findIndex(m => m.id === medObj.id);
       if (existingIdx >= 0) stockList[existingIdx] = medObj;
@@ -1493,144 +2272,135 @@
 
     function renderAdminTables() {
       const oBody = document.getElementById("adminOrdersTable");
-      if (oBody) {
-        oBody.innerHTML = ordersList.map((rawOrd, idx) => {
-          const o = normalizeOrderObj(rawOrd, idx);
-          const pillClass = "status-" + o.status.replace(/\s+/g, "-");
-          const delivVal = o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
-          const pkgVal = o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
+      oBody.innerHTML = ordersList.map(o => {
+        const pillClass = "status-" + o.status.replace(/\s+/g, "-");
+        const delivVal = o.totals && o.totals.deliveryCharge !== undefined ? o.totals.deliveryCharge : 0;
+        const pkgVal = o.totals && o.totals.packagingCharge !== undefined ? o.totals.packagingCharge : 6;
 
-          const itemsWithEditHtml = o.items.map((i, iIdx) => `
-            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; padding:4px 0; border-bottom:1px dashed var(--border);">
-              <span>
-                <strong>${i.name}</strong> x${i.qty}
-                ${i.isCustom ? `<span style="background:#fef3c7; color:#b45309; font-size:10px; padding:1px 5px; border-radius:4px;">Custom</span>` : ""}
-                <br/><small>MRP: ₹${i.mrp} | Rate: ₹${i.price}</small>
-              </span>
-              <button type="button" class="btn-outline" style="padding:3px 8px; font-size:11px;" onclick="editOrderItemMrp('${o.id}', ${iIdx})">✏️ Edit MRP</button>
-            </div>
-          `).join("");
+        const itemsWithEditHtml = o.items.map((i, idx) => `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; padding:4px 0; border-bottom:1px dashed var(--border);">
+            <span>
+              <strong>${i.name}</strong> x${i.qty}
+              ${i.isCustom ? `<span style="background:#fef3c7; color:#b45309; font-size:10px; padding:1px 5px; border-radius:4px;">Custom</span>` : ""}
+              <br/><small>MRP: ₹${i.mrp} | Rate: ₹${i.price}</small>
+            </span>
+            <button type="button" class="btn-outline" style="padding:3px 8px; font-size:11px;" onclick="editOrderItemMrp('${o.id}', ${idx})">
+              ✏️ Edit MRP
+            </button>
+          </div>
+        `).join("");
 
-          return `
-            <tr>
-              <td>
-                <strong>${o.id}</strong><br/>
-                <span style="font-size:11px;color:var(--muted);">${o.date}</span><br/>
-                <span style="font-size:11.5px; font-weight:700;">Pay: ${o.payMethod}</span>
-              </td>
-              <td>
-                <strong>${o.customer}</strong><br/>
-                📞 ${o.phone}<br/>
-                <span style="font-size:11px;">${o.address}</span>
-                ${o.note ? `<br/><span style="font-size:11px; color:#0369a1;">Cust Note: ${o.note}</span>` : ""}
-              </td>
-              <td>
-                ${itemsWithEditHtml}
-                <div style="margin-top:8px; padding:6px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
-                  <div style="font-size:11.5px; font-weight:700; margin-bottom:4px;">
-                    🚚 Delivery Charge (₹) [Packaging: ₹${pkgVal} Fixed]:
-                  </div>
-                  <div style="display:flex; gap:5px; align-items:center;">
-                    <input type="number" id="deliv_inp_${o.id}" value="${delivVal}" class="input-field" style="padding:4px 8px; width:80px;" />
-                    <button type="button" class="btn-primary" style="padding:5px 9px; font-size:11px;" onclick="updateOrderDeliveryCharge('${o.id}', false)">💾 Update</button>
-                    <button type="button" class="btn-outline" style="padding:4px 8px; font-size:11px; color:var(--danger); border-color:var(--danger);" onclick="updateOrderDeliveryCharge('${o.id}', true)">✕ Free (₹0)</button>
-                  </div>
+        return `
+          <tr>
+            <td>
+              <strong>${o.id}</strong><br/>
+              <span style="font-size:11px;color:var(--muted);">${o.date}</span><br/>
+              <span style="font-size:11.5px; font-weight:700;">Pay: ${o.payMethod}</span>
+            </td>
+            <td>
+              <strong>${o.customer}</strong><br/>
+              📞 ${o.phone}<br/>
+              <span style="font-size:11px;">${o.address}</span>
+              ${o.note ? `<br/><span style="font-size:11px; color:#0369a1;">Cust Note: ${o.note}</span>` : ""}
+            </td>
+            <td>
+              ${itemsWithEditHtml}
+              <div style="margin-top:8px; padding:6px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+                <div style="font-size:11.5px; font-weight:700; margin-bottom:4px;">
+                  🚚 Delivery Charge (₹) [Packaging: ₹${pkgVal} Fixed]:
                 </div>
-                <div style="margin-top:6px;">
-                  <strong style="color:#0f766e; font-size:14px;">Net Bill: ₹${o.totals.grandTotal}</strong>
-                  <span style="font-size:11px; color:var(--muted);"> (MRP: ₹${o.totals.totalMrp})</span>
+                <div style="display:flex; gap:5px; align-items:center;">
+                  <input type="number" id="deliv_inp_${o.id}" value="${delivVal}" class="input-field" style="padding:4px 8px; width:80px;" />
+                  <button type="button" class="btn-primary" style="padding:5px 9px; font-size:11px;" onclick="updateOrderDeliveryCharge('${o.id}', false)">💾 Update</button>
+                  <button type="button" class="btn-outline" style="padding:4px 8px; font-size:11px; color:var(--danger); border-color:var(--danger);" onclick="updateOrderDeliveryCharge('${o.id}', true)">✕ Free (₹0)</button>
                 </div>
-              </td>
-              <td>
-                <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${o.status}</span></div>
-                <select class="input-field" style="margin-bottom:8px; padding:6px;" onchange="updateOrderStatus('${o.id}', this.value)">
-                  <option value="Pending" ${o.status === "Pending" ? "selected" : ""}>Pending</option>
-                  <option value="Accepted" ${o.status === "Accepted" ? "selected" : ""}>Accept Order</option>
-                  <option value="Processing" ${o.status === "Processing" ? "selected" : ""}>Processing (प्रोसेसिंग)</option>
-                  <option value="In Transit" ${o.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
-                  <option value="Delivered" ${o.status === "Delivered" ? "selected" : ""}>Delivered / Completed</option>
-                  <option value="Rejected" ${o.status === "Rejected" ? "selected" : ""}>Reject Order</option>
-                </select>
-                <div style="display:flex; gap:4px;">
-                  <input type="text" id="ord_note_${o.id}" value="${(o.adminNote || "").replace(/"/g, '&quot;')}" class="input-field" style="padding:6px 8px; font-size:12px;" placeholder="📝 कोई दिक्कत / नोट लिखें..." />
-                  <button type="button" class="btn-primary" style="padding:6px 10px; font-size:11.5px;" onclick="saveOrderAdminNote('${o.id}')">Submit</button>
-                </div>
-              </td>
-              <td>
-                <button class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
-              </td>
-            </tr>
-          `;
-        }).join("") || `<tr><td colspan="5" style="text-align:center;">No orders yet.</td></tr>`;
-      }
+              </div>
+              <div style="margin-top:6px;">
+                <strong style="color:#0f766e; font-size:14px;">Net Bill: ₹${o.totals.grandTotal}</strong>
+                <span style="font-size:11px; color:var(--muted);"> (MRP: ₹${o.totals.totalMrp})</span>
+              </div>
+            </td>
+            <td>
+              <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${o.status}</span></div>
+              <select class="input-field" style="margin-bottom:8px; padding:6px;" onchange="updateOrderStatus('${o.id}', this.value)">
+                <option value="Pending" ${o.status === "Pending" ? "selected" : ""}>Pending</option>
+                <option value="Accepted" ${o.status === "Accepted" ? "selected" : ""}>Accept Order</option>
+                <option value="Processing" ${o.status === "Processing" ? "selected" : ""}>Processing (प्रोसेसिंग)</option>
+                <option value="In Transit" ${o.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
+                <option value="Delivered" ${o.status === "Delivered" ? "selected" : ""}>Delivered / Completed</option>
+                <option value="Rejected" ${o.status === "Rejected" ? "selected" : ""}>Reject Order</option>
+              </select>
+              <div style="display:flex; gap:4px;">
+                <input type="text" id="ord_note_${o.id}" value="${(o.adminNote || "").replace(/"/g, '&quot;')}" class="input-field" style="padding:6px 8px; font-size:12px;" placeholder="📝 कोई दिक्कत / नोट लिखें..." />
+                <button type="button" class="btn-primary" style="padding:6px 10px; font-size:11.5px;" onclick="saveOrderAdminNote('${o.id}')">Submit</button>
+              </div>
+            </td>
+            <td>
+              <button class="btn-primary" style="width:100%;" onclick="printBill('${o.id}')">🖨️ Print Bill</button>
+            </td>
+          </tr>
+        `;
+      }).join("") || `<tr><td colspan="5" style="text-align:center;">No orders yet.</td></tr>`;
 
       const rBody = document.getElementById("adminRxTable");
-      if (rBody) {
-        rBody.innerHTML = rxList.map((rawRx, idx) => {
-          const r = normalizeRxObj(rawRx, idx);
-          const pillClass = "status-" + r.status.replace(/\s+/g, "-");
-          return `
-            <tr>
-              <td><strong>${r.id}</strong><br/><span style="font-size:11px;">${r.date}</span></td>
-              <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
-              <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
-              <td>
-                ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : "No Image"}
-              </td>
-              <td>
-                <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${r.status}</span></div>
-                <select class="input-field" style="margin-bottom:8px; padding:6px;" onchange="updateRxStatus('${r.id}', this.value)">
-                  <option value="Pending" ${r.status === "Pending" ? "selected" : ""}>Pending</option>
-                  <option value="Accepted" ${r.status === "Accepted" ? "selected" : ""}>Accept Rx</option>
-                  <option value="Processing" ${r.status === "Processing" ? "selected" : ""}>Processing (प्रोसेसिंग)</option>
-                  <option value="In Transit" ${r.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
-                  <option value="Completed" ${r.status === "Completed" ? "selected" : ""}>Completed / Delivered</option>
-                  <option value="Rejected" ${r.status === "Rejected" ? "selected" : ""}>Reject Rx</option>
-                </select>
-                <div style="display:flex; gap:4px;">
-                  <input type="text" id="rx_note_${r.id}" value="${(r.adminNote || "").replace(/"/g, '&quot;')}" class="input-field" style="padding:6px 8px; font-size:12px;" placeholder="📝 नोट लिखें..." />
-                  <button type="button" class="btn-primary" style="padding:6px 10px; font-size:11.5px;" onclick="saveRxAdminNote('${r.id}')">Submit</button>
-                </div>
-              </td>
-            </tr>
-          `;
-        }).join("") || `<tr><td colspan="5" style="text-align:center;">No prescriptions uploaded yet.</td></tr>`;
-      }
+      rBody.innerHTML = rxList.map(r => {
+        const pillClass = "status-" + r.status.replace(/\s+/g, "-");
+        return `
+          <tr>
+            <td><strong>${r.id}</strong><br/><span style="font-size:11px;">${r.date}</span></td>
+            <td><strong>${r.name}</strong><br/>📞 ${r.phone}</td>
+            <td>${r.notes || "-"}<br/><span style="font-size:11px; color:var(--muted);">${r.address}</span></td>
+            <td>
+              ${r.image ? `<a href="${r.image}" download="${r.id}.jpg" class="btn-outline" style="margin-bottom:4px;">🖼️ Download Rx</a><br/><img src="${r.image}" alt="Rx" style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" />` : "No Image"}
+            </td>
+            <td>
+              <div style="margin-bottom:6px;"><span class="status-pill ${pillClass}">${r.status}</span></div>
+              <select class="input-field" style="margin-bottom:8px; padding:6px;" onchange="updateRxStatus('${r.id}', this.value)">
+                <option value="Pending" ${r.status === "Pending" ? "selected" : ""}>Pending</option>
+                <option value="Accepted" ${r.status === "Accepted" ? "selected" : ""}>Accept Rx</option>
+                <option value="Processing" ${r.status === "Processing" ? "selected" : ""}>Processing (प्रोसेसिंग)</option>
+                <option value="In Transit" ${r.status === "In Transit" ? "selected" : ""}>In Transit (रास्ते में)</option>
+                <option value="Completed" ${r.status === "Completed" ? "selected" : ""}>Completed / Delivered</option>
+                <option value="Rejected" ${r.status === "Rejected" ? "selected" : ""}>Reject Rx</option>
+              </select>
+              <div style="display:flex; gap:4px;">
+                <input type="text" id="rx_note_${r.id}" value="${(r.adminNote || "").replace(/"/g, '&quot;')}" class="input-field" style="padding:6px 8px; font-size:12px;" placeholder="📝 नोट लिखें..." />
+                <button type="button" class="btn-primary" style="padding:6px 10px; font-size:11.5px;" onclick="saveRxAdminNote('${r.id}')">Submit</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("") || `<tr><td colspan="5" style="text-align:center;">No prescriptions uploaded yet.</td></tr>`;
 
       const sBody = document.getElementById("adminStockTable");
-      if (sBody) {
-        sBody.innerHTML = stockList.map(m => {
-          const pcs = m.stock !== undefined ? m.stock : 40;
-          const lowStockStyle = pcs <= 5 ? "color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:6px;" : "color:#0f766e; background:#ecfdf5; padding:3px 8px; border-radius:6px;";
-          return `
-            <tr>
-              <td><strong>${m.name}</strong><br/><span style="font-size:11.5px; color:#0f766e;">${m.generic || "-"}</span></td>
-              <td>${m.company || "-"}</td>
-              <td>${m.pack}</td>
-              <td>Batch: <strong>${m.batch}</strong> | Exp: ${m.exp}</td>
-              <td>MRP: ₹${m.mrp} | <strong style="color:#0f766e;">Offer: ₹${m.price}</strong></td>
-              <td><strong style="${lowStockStyle}">${pcs} Pcs</strong></td>
-              <td>
-                <button class="btn-outline" style="padding:4px 8px;" onclick="editStockItem('${m.id}')">✏️ Edit</button>
-                <button class="btn-outline" style="padding:4px 8px; color:var(--danger); border-color:var(--danger);" onclick="deleteStockItem('${m.id}')">🗑️</button>
-              </td>
-            </tr>
-          `;
-        }).join("");
-      }
+      sBody.innerHTML = stockList.map(m => {
+        const pcs = m.stock !== undefined ? m.stock : 40;
+        const lowStockStyle = pcs <= 5 ? "color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:6px;" : "color:#0f766e; background:#ecfdf5; padding:3px 8px; border-radius:6px;";
+        return `
+          <tr>
+            <td><strong>${m.name}</strong><br/><span style="font-size:11.5px; color:#0f766e;">${m.generic || "-"}</span></td>
+            <td>${m.company || "-"}</td>
+            <td>${m.pack}</td>
+            <td>Batch: <strong>${m.batch}</strong> | Exp: ${m.exp}</td>
+            <td>MRP: ₹${m.mrp} | <strong style="color:#0f766e;">Offer: ₹${m.price}</strong></td>
+            <td><strong style="${lowStockStyle}">${pcs} Pcs</strong></td>
+            <td>
+              <button class="btn-outline" style="padding:4px 8px;" onclick="editStockItem('${m.id}')">✏️ Edit</button>
+              <button class="btn-outline" style="padding:4px 8px; color:var(--danger); border-color:var(--danger);" onclick="deleteStockItem('${m.id}')">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
 
-      const pList = document.getElementById("adminPromoList");
-      if (pList) {
-        pList.innerHTML = promosList.map(p => {
-          const badgeText = p.type === "FLAT" ? `₹${p.discount} OFF` : `${p.discount}% OFF`;
-          return `
-            <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px; margin-bottom:8px;">
-              <strong>${p.code}</strong> (${badgeText})
-              <button onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
-            </span>
-          `;
-        }).join("");
-      }
+      document.getElementById("adminPromoList").innerHTML = promosList.map(p => {
+        const badgeText = p.type === "FLAT" ? `₹${p.discount} OFF` : `${p.discount}% OFF`;
+        return `
+          <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); border-radius:8px; margin-right:8px; margin-bottom:8px;">
+            <strong>${p.code}</strong> (${badgeText})
+            <button onclick="removePromo('${p.code}')" style="border:none; background:none; color:var(--danger); cursor:pointer; font-weight:700;">✕</button>
+          </span>
+        `;
+      }).join("");
     }
 
     function updateOrderStatus(orderId, newStatus) {
@@ -1660,10 +2430,12 @@
       if (!code || isNaN(disc) || disc <= 0) {
         return alert("कृपया प्रोमो कोड और उसकी वैल्यू (% या ₹) सही से दर्ज करें!");
       }
-      const existingIdx = promosList.findIndex(p => String(p.code || "").toUpperCase() === code);
-      if (existingIdx >= 0) promosList[existingIdx] = { code, type, discount: disc };
-      else promosList.push({ code, type, discount: disc });
-
+      const existingIdx = promosList.findIndex(p => p.code.toUpperCase() === code);
+      if (existingIdx >= 0) {
+        promosList[existingIdx] = { code, type, discount: disc };
+      } else {
+        promosList.push({ code, type, discount: disc });
+      }
       document.getElementById("newPromoCode").value = "";
       document.getElementById("newPromoDisc").value = "";
       pushConfigToCloud(false);
@@ -1678,17 +2450,19 @@
 
     // --- OFFICIAL PRINT BILL ---
     function printBill(orderId) {
-      const rawOrd = ordersList.find(o => o.id === orderId);
-      if (!rawOrd) return;
-      const ord = normalizeOrderObj(rawOrd);
+      const ord = ordersList.find(o => o.id === orderId);
+      if (!ord) return;
 
-      const delivCharge = Number(ord.totals.deliveryCharge) || 0;
-      const pkgCharge = Number(ord.totals.packagingCharge) || 6;
+      const delivCharge = ord.totals && ord.totals.deliveryCharge !== undefined ? Number(ord.totals.deliveryCharge) : 0;
+      const pkgCharge = ord.totals && ord.totals.packagingCharge !== undefined ? Number(ord.totals.packagingCharge) : 6;
 
       const rowsHtml = ord.items.map((item, i) => `
         <tr>
           <td>${i + 1}</td>
-          <td><strong>${item.name}</strong><br/><small>${item.generic || ""} | ${item.pack || "Standard"}</small></td>
+          <td>
+            <strong>${item.name}</strong><br/>
+            <small>${item.generic || ""} | ${item.pack || "Standard"}</small>
+          </td>
           <td>${item.batch || "Verified"}</td>
           <td>${item.exp || "Fresh"}</td>
           <td>${item.qty}</td>
@@ -1777,8 +2551,12 @@
     }
 
     // --- UI HELPERS ---
-    function openModal(id) { document.getElementById(id).classList.add("active"); }
-    function closeModal(id) { document.getElementById(id).classList.remove("active"); }
+    function openModal(id) {
+      document.getElementById(id).classList.add("active");
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+    }
 
     function toggleDarkMode() {
       document.body.classList.toggle("dark-mode");
